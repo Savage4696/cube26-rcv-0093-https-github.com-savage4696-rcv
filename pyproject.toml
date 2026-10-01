@@ -37,3 +37,7 @@ ignore = ["B905"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
+
+[tool.vercel]
+entrypoint = "receiving_manager.api:app"
+

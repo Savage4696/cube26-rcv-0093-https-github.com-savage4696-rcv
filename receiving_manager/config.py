@@ -45,7 +45,9 @@ def load_settings() -> Settings:
         anthropic_api_key=anthropic_key,
         anthropic_model=os.environ.get("RM_ANTHROPIC_MODEL", "claude-3-5-sonnet-latest"),
         confidence_threshold=float(os.environ.get("RM_CONFIDENCE_THRESHOLD", "0.7")),
-        data_dir=Path(os.environ.get("RM_DATA_DIR", "data")),
+        data_dir=Path(
+            os.environ.get("RM_DATA_DIR", "/tmp/data" if os.environ.get("VERCEL") else "data")
+        ),
         reasoning_model=os.environ.get("RM_REASONING_MODEL", "openai/gpt-5-mini"),
         reasoning_effort=os.environ.get("RM_REASONING_EFFORT", "medium"),
         reasoning_enabled=os.environ.get("RM_REASONING", "on").lower() not in ("0", "off", "false"),
