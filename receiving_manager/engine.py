@@ -5,6 +5,8 @@ guesses: an observation only counts if it cites at least one submitted, usable p
 the confidence threshold. Anything else leads to UNCERTAIN.
 """
 
+from __future__ import annotations
+
 import math
 import re
 import uuid
@@ -175,8 +177,14 @@ def sanitize(obs: Observations, photos: dict[str, PhotoInput]) -> tuple[Observat
 
 
 # ---------------------------------------------------------------------------
-# Checks
-# ---------------------------------------------------------------------------
+def is_valid_gtin_checksum(barcode: str) -> bool:
+    digits = re.sub(r"\D", "", barcode)
+    if len(digits) not in (8, 12, 13, 14):
+        return True
+    rev = digits[::-1]
+    total = sum(int(d) * (3 if i % 2 == 1 else 1) for i, d in enumerate(rev[1:], 1))
+    check_digit = (10 - (total % 10)) % 10
+    return check_digit == int(rev[0])
 
 
 def check_sku(ctx: InspectionContext) -> CheckResult:
@@ -847,6 +855,43 @@ def find_line(po: PurchaseOrder, sku: str | None) -> POLine:
     raise ValueError(f"SKU '{sku}' is not on purchase order {po.po_number}")
 
 
+def calculate_risk_score(checks: list[CheckResult], issues: list[Issue]) -> tuple[float, str]:
+    weights = {
+        "sku_identity": 35.0,
+        "variant": 25.0,
+        "packaging_damage": 25.0,
+        "quantity": 20.0,
+        "carton_count": 20.0,
+        "units_per_carton": 20.0,
+        "components": 20.0,
+        "label_upc": 15.0,
+        "quality_issues": 15.0,
+    }
+    score = 0.0
+    for c in checks:
+        if c.verdict == Verdict.FAIL:
+            score += weights.get(c.check, 15.0)
+        elif c.verdict == Verdict.UNCERTAIN:
+            score += 5.0
+
+    for issue in issues:
+        if "CRITICAL" in issue.code:
+            score += 15.0
+        elif "WRONG" in issue.code or "MISSING" in issue.code:
+            score += 10.0
+
+    score = round(min(100.0, max(0.0, score)), 1)
+    if score >= 70.0:
+        level = "CRITICAL"
+    elif score >= 35.0:
+        level = "HIGH"
+    elif score >= 15.0:
+        level = "MEDIUM"
+    else:
+        level = "LOW"
+    return score, level
+
+
 def inspect(
     po: PurchaseOrder,
     catalog: list[CatalogItem],
@@ -875,6 +920,8 @@ def inspect(
     ctx.sku_confirmed = sku_result.verdict == Verdict.PASS
     checks = [sku_result, *(fn(ctx) for fn in CHECKS if fn is not check_sku)]
     decision, reason = decide(checks)
+    all_issues = [i for c in checks for i in c.issues]
+    risk_score, risk_level = calculate_risk_score(checks, all_issues)
     report = InspectionReport(
         inspection_id=inspection_id or uuid.uuid4().hex[:12],
         created_at=datetime.now(timezone.utc),
@@ -883,8 +930,10 @@ def inspect(
         decision=decision,
         decision_reason=reason,
         checks=checks,
-        issues=[i for c in checks for i in c.issues],
+        issues=all_issues,
         warnings=warnings,
         confidence_threshold=threshold,
+        risk_score=risk_score,
+        risk_level=risk_level,
     )
     return report, clean

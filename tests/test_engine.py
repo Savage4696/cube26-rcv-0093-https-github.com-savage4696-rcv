@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from receiving_manager.engine import inspect
 from receiving_manager.models import Decision, Observations, Verdict
 from receiving_manager.scenarios import load_catalog, load_scenarios, placeholder_photos
@@ -138,3 +140,16 @@ def test_carton_derived_quantity_requires_confirmed_sku():
     _, checks = run("06_crushed_carton", m)
     assert checks["quantity"].verdict == Verdict.UNCERTAIN
     assert "identity not confirmed" in checks["quantity"].reason
+
+
+def test_gtin_checksum_validation():
+    from receiving_manager.engine import is_valid_gtin_checksum
+
+    assert is_valid_gtin_checksum("012345678905") is True
+    assert is_valid_gtin_checksum("012345678900") is False
+
+
+def test_risk_score_calculation():
+    report, _ = run("05_wrong_variant")
+    assert report.risk_score > 0.0
+    assert report.risk_level in ("MEDIUM", "HIGH", "CRITICAL")

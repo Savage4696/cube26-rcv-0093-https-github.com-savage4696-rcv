@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from ..config import Settings
 from ..llm import CreditBudget, ResponseCache
 from ..reasoning import ReasoningReviewer

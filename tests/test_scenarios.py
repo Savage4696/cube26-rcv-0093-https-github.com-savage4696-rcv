@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import pytest
 
 from receiving_manager.engine import inspect

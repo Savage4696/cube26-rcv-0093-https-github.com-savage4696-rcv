@@ -1,5 +1,7 @@
 """Plain-language definitions of verdicts, decisions and checks, shown in the UI and API."""
 
+from __future__ import annotations
+
 VERDICTS = {
     "PASS": "The evidence positively proves the check: a cited, usable photo shows the expected "
     "value with confidence at or above the threshold.",

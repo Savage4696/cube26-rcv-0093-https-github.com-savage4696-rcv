@@ -6,6 +6,8 @@ subordinate to the rules engine: it cannot change a check verdict and cannot upg
 If it disagrees with an ACCEPT, the decision is escalated to UNCERTAIN for human review.
 """
 
+from __future__ import annotations
+
 import json
 import re
 

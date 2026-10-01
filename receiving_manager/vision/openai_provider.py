@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import base64
 
 from ..llm import ChatResult, CreditBudget, LLMError, ResponseCache, chat_completion

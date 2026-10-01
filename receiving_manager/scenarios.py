@@ -4,6 +4,8 @@ Scenario photos are placeholders identified by photo_id; the observations stand 
 vision model or human inspector recorded for those photos.
 """
 
+from __future__ import annotations
+
 import json
 from pathlib import Path
 

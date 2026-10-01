@@ -4,183 +4,354 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>RCV · AI Receiving Manager</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@600;700;800;900&display=swap" rel="stylesheet">
 <style>
-:root{--pass:#16a34a;--pass-bg:#dcfce7;--fail:#dc2626;--fail-bg:#fee2e2;--unc:#d97706;--unc-bg:#fef3c7;--na:#6b7280;--na-bg:#f3f4f6;
---ink:#0f172a;--muted:#64748b;--line:#e2e8f0;--bg:#f1f5f9;--card:#fff;--brand:#4f46e5;--brand2:#7c3aed}
-*{box-sizing:border-box}
-body{margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,sans-serif;background:var(--bg);color:var(--ink);font-size:14px}
-header{background:linear-gradient(90deg,#0f172a,#1e1b4b);color:#fff;padding:12px 24px;display:flex;align-items:center;gap:18px;flex-wrap:wrap;position:sticky;top:0;z-index:10}
-.logo{display:flex;align-items:center;gap:10px;font-weight:800;font-size:18px;letter-spacing:.02em}
-.logo .mark{width:34px;height:34px;border-radius:9px;background:linear-gradient(135deg,var(--brand),var(--brand2));display:grid;place-items:center;font-size:15px}
-.logo small{display:block;font-weight:500;font-size:11px;opacity:.7;letter-spacing:0}
-nav{display:flex;gap:4px;margin-left:12px}
-nav button{background:transparent;color:#c7d2fe;border:0;padding:8px 14px;border-radius:8px;font-weight:600;cursor:pointer;font-size:13px}
-nav button.active,nav button:hover{background:rgba(255,255,255,.12);color:#fff}
-.chips{margin-left:auto;display:flex;gap:8px;align-items:center;flex-wrap:wrap}
-.chip{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.15);border-radius:999px;padding:4px 10px;font-size:11px;white-space:nowrap}
-.chip b{font-weight:700}
-.meter{width:90px;height:6px;background:rgba(255,255,255,.2);border-radius:9px;display:inline-block;vertical-align:middle;margin-left:6px;overflow:hidden}
-.meter i{display:block;height:100%;background:#4ade80}
-.page{display:none;padding:20px 24px;max-width:1500px;margin:0 auto}
-.page.active{display:block}
-.grid{display:grid;grid-template-columns:minmax(360px,460px) 1fr;gap:20px}
-@media(max-width:1000px){.grid{grid-template-columns:1fr}}
-.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px 18px;margin-bottom:16px;box-shadow:0 1px 2px rgba(15,23,42,.04)}
-.card h2{font-size:12px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin:0 0 12px;display:flex;align-items:center;gap:8px}
-.card h2 .n{background:var(--ink);color:#fff;width:20px;height:20px;border-radius:50%;display:grid;place-items:center;font-size:11px;letter-spacing:0}
-.scen-filter{display:flex;gap:6px;margin-bottom:10px;flex-wrap:wrap}
-.pill{border:1px solid var(--line);background:#fff;border-radius:999px;padding:4px 10px;font-size:12px;cursor:pointer;font-weight:600;color:var(--muted)}
-.pill.active{background:var(--ink);color:#fff;border-color:var(--ink)}
-.scen-list{display:grid;grid-template-columns:1fr 1fr;gap:8px;max-height:300px;overflow:auto;padding-right:4px}
-.scen{border:1px solid var(--line);border-radius:10px;padding:8px 10px;cursor:pointer;background:#fff;transition:.15s}
-.scen:hover{border-color:var(--brand);box-shadow:0 0 0 3px #e0e7ff}
-.scen.sel{border-color:var(--brand);background:#eef2ff}
-.scen .t{font-weight:600;font-size:12.5px;line-height:1.25}
-.scen .d{font-size:11px;color:var(--muted);margin-top:4px}
-.dec{display:inline-block;font-size:10px;font-weight:800;letter-spacing:.04em;padding:2px 7px;border-radius:999px;margin-top:5px}
-.dec.ACCEPT,.v.PASS{background:var(--pass-bg);color:var(--pass)}
-.dec.EXCEPTION,.v.FAIL{background:var(--fail-bg);color:var(--fail)}
-.dec.UNCERTAIN,.v.UNCERTAIN{background:var(--unc-bg);color:var(--unc)}
-.v.NOT_APPLICABLE{background:var(--na-bg);color:var(--na)}
-.v{display:inline-block;font-size:11px;font-weight:800;padding:3px 9px;border-radius:999px;letter-spacing:.03em;cursor:help}
-.po-sum{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:10px}
-.kv{background:#f8fafc;border:1px solid var(--line);border-radius:8px;padding:6px 8px}
-.kv span{display:block;font-size:10px;text-transform:uppercase;color:var(--muted);letter-spacing:.05em}
-.kv b{font-size:13px;word-break:break-all}
-details>summary{cursor:pointer;color:var(--brand);font-size:12px;font-weight:600;margin:6px 0}
-label.f{display:block;font-size:11px;font-weight:700;color:var(--muted);margin:8px 0 4px;text-transform:uppercase;letter-spacing:.04em}
-textarea{width:100%;font-family:ui-monospace,Menlo,monospace;font-size:11.5px;border:1px solid var(--line);border-radius:8px;padding:8px;min-height:120px;background:#f8fafc}
-input[type=text]{width:100%;padding:7px 9px;border:1px solid var(--line);border-radius:8px}
-.drop{border:2px dashed #c7d2fe;border-radius:12px;padding:16px;text-align:center;color:var(--muted);cursor:pointer;background:#f8faff}
-.drop:hover,.drop.over{border-color:var(--brand);background:#eef2ff}
-.thumbs{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
-.thumbs figure{margin:0;text-align:center;font-size:11px;font-weight:700;color:var(--muted)}
-.thumbs img{width:96px;height:64px;object-fit:cover;border-radius:8px;border:1px solid var(--line);display:block}
-.seg{display:grid;grid-template-columns:1fr 1fr;gap:6px;background:#f1f5f9;padding:4px;border-radius:10px}
-.seg label{padding:9px 8px;border-radius:8px;text-align:center;cursor:pointer;font-weight:600;font-size:12.5px;color:var(--muted)}
-.seg input{display:none}
-.seg label:has(input:checked){background:#fff;color:var(--ink);box-shadow:0 1px 3px rgba(0,0,0,.1)}
-.seg small{display:block;font-weight:500;font-size:10.5px;margin-top:2px}
-.toggle{display:flex;align-items:center;gap:10px;margin-top:12px;padding:10px;border:1px solid var(--line);border-radius:10px}
-.toggle input{width:18px;height:18px;accent-color:var(--brand2)}
-.hint{font-size:12px;color:var(--muted)}
-button.primary{background:linear-gradient(135deg,var(--brand),var(--brand2));color:#fff;border:0;border-radius:10px;padding:12px 18px;font-weight:700;cursor:pointer;font-size:14px;width:100%;margin-top:12px}
-button.primary:disabled{opacity:.6;cursor:wait}
-button.sec{background:#fff;color:var(--ink);border:1px solid var(--line);border-radius:8px;padding:7px 12px;font-weight:600;cursor:pointer;font-size:12px}
-button.sec:hover{border-color:var(--brand)}
-.status{margin-top:8px;font-size:12px;color:var(--muted);min-height:16px}
-.status.err{color:var(--fail)}
-.hero{border-radius:16px;padding:20px 22px;color:#fff;display:grid;grid-template-columns:auto 1fr;gap:6px 22px;align-items:center;margin-bottom:16px}
-.hero.ACCEPT{background:linear-gradient(135deg,#15803d,#22c55e)}.hero.EXCEPTION{background:linear-gradient(135deg,#b91c1c,#ef4444)}.hero.UNCERTAIN{background:linear-gradient(135deg,#b45309,#f59e0b)}
-.hero .big{font-size:34px;font-weight:900;letter-spacing:.04em;grid-row:span 2}
-.hero .mean{font-weight:600;font-size:14px}
-.hero .why{font-size:13px;opacity:.95}
-.hero .meta{grid-column:1/-1;font-size:11px;opacity:.85;margin-top:6px}
-.tally{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:16px}
-.tally div{background:#fff;border:1px solid var(--line);border-radius:12px;padding:10px 12px;border-left:5px solid}
-.tally b{font-size:22px;display:block}.tally span{font-size:11px;color:var(--muted);font-weight:700;letter-spacing:.05em}
-.checks{display:grid;grid-template-columns:repeat(auto-fill,minmax(310px,1fr));gap:12px;margin-bottom:16px}
-.chk{background:#fff;border:1px solid var(--line);border-left:5px solid;border-radius:12px;padding:12px 14px}
-.chk.PASS{border-left-color:var(--pass)}.chk.FAIL{border-left-color:var(--fail)}.chk.UNCERTAIN{border-left-color:var(--unc)}.chk.NOT_APPLICABLE{border-left-color:var(--na);opacity:.75}
-.chk .hd{display:flex;justify-content:space-between;align-items:center;gap:8px}
-.chk .nm{font-weight:700;font-size:13.5px;text-transform:capitalize}
-.eo{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin:10px 0}
-.eo div{background:#f8fafc;border-radius:8px;padding:6px 8px;font-size:12px}
-.eo span{display:block;font-size:10px;color:var(--muted);text-transform:uppercase;font-weight:700;letter-spacing:.05em}
-.conf{display:flex;align-items:center;gap:8px;font-size:11px;color:var(--muted)}
-.bar{position:relative;flex:1;height:7px;background:#e2e8f0;border-radius:9px}
-.bar i{position:absolute;left:0;top:0;bottom:0;border-radius:9px}
-.bar em{position:absolute;top:-3px;bottom:-3px;width:2px;background:var(--ink)}
-.rsn{font-size:12.5px;margin-top:8px}
-.ai-x{font-size:12px;margin-top:8px;padding:8px;border-radius:8px;background:#f5f3ff;color:#4c1d95}
-.ai-x::before{content:"AI ";font-weight:800;font-size:10px;background:var(--brand2);color:#fff;padding:1px 5px;border-radius:4px;margin-right:4px}
-.evs{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
-.ev{display:flex;gap:6px;align-items:center;font-size:11px;background:#f1f5f9;border-radius:8px;padding:3px 6px 3px 3px;max-width:100%}
-.ev img{width:34px;height:24px;object-fit:cover;border-radius:5px}
-.ev a{color:var(--brand);font-weight:700;text-decoration:none}
-.ai{border:1px solid #ddd6fe;background:linear-gradient(180deg,#faf5ff,#fff)}
-.ai h2{color:#6d28d9}
-.ai .sum{font-size:14px;line-height:1.5}
-.ai ul{margin:6px 0 0;padding-left:18px}.ai li{margin:3px 0;font-size:13px}
-.claim{white-space:pre-wrap;background:#fff;border:1px solid var(--line);border-radius:8px;padding:10px;font-size:12.5px}
-.esc{background:var(--unc-bg);color:#92400e;border-radius:8px;padding:8px 10px;font-size:12.5px;font-weight:600;margin:8px 0}
-.issue{display:flex;gap:8px;align-items:baseline;padding:6px 0;border-bottom:1px dashed var(--line);font-size:13px}
-.code{font-family:ui-monospace,monospace;font-size:11px;background:#f1f5f9;padding:2px 6px;border-radius:5px;font-weight:700}
-.warn{color:#92400e;font-size:12px;padding:3px 0}
-pre{background:#0b1020;color:#cbd5e1;padding:12px;border-radius:10px;overflow:auto;max-height:380px;font-size:11px}
-.empty{text-align:center;padding:70px 20px;color:var(--muted)}
-.empty .big{font-size:40px}
-.flow{display:flex;gap:6px;align-items:stretch;flex-wrap:wrap;margin-top:6px}
-.flow div{flex:1;min-width:120px;background:#f8fafc;border:1px solid var(--line);border-radius:10px;padding:10px;font-size:12px}
-.flow div b{display:block;font-size:12.5px;margin-bottom:3px}
-.flow .arrow{flex:0;min-width:0;border:0;background:none;display:grid;place-items:center;color:var(--muted);padding:0}
-.defs{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:12px}
-.def{border:1px solid var(--line);border-radius:12px;padding:12px;background:#fff}
-.def p{margin:8px 0 0;font-size:13px;line-height:1.45}
-table{width:100%;border-collapse:collapse;font-size:12.5px}
-th,td{text-align:left;padding:8px;border-bottom:1px solid var(--line);vertical-align:middle}
-th{font-size:10.5px;text-transform:uppercase;color:var(--muted);letter-spacing:.05em}
-.mini{display:inline-block;width:14px;height:14px;border-radius:4px;margin-right:2px}
-.mini.PASS{background:var(--pass)}.mini.FAIL{background:var(--fail)}.mini.UNCERTAIN{background:var(--unc)}.mini.NOT_APPLICABLE{background:#cbd5e1}
-.score{font-size:40px;font-weight:900}
-.hist li{list-style:none;padding:8px 0;border-bottom:1px solid var(--line);cursor:pointer;display:flex;gap:10px;align-items:center}
-.hist li:hover{background:#f8fafc}
-.hist{padding:0;margin:0}
+:root {
+  --pass:#16a34a; --pass-bg:#dcfce7;
+  --fail:#dc2626; --fail-bg:#fee2e2;
+  --unc:#d97706;  --unc-bg:#fef3c7;
+  --na:#6b7280;   --na-bg:#f3f4f6;
+  --risk-low:#16a34a; --risk-med:#d97706; --risk-high:#ea580c; --risk-crit:#dc2626;
+  --ink:#0f172a;  --muted:#64748b;  --line:#e2e8f0; --bg:#f8fafc; --card:#ffffff;
+  --brand:#4f46e5; --brand2:#7c3aed; --brand-light:#eef2ff;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  background: var(--bg);
+  color: var(--ink);
+  font-size: 14px;
+  line-height: 1.5;
+}
+h1, h2, h3, .logo, .hero .big, .score {
+  font-family: 'Outfit', 'Inter', sans-serif;
+}
+
+/* Glassmorphic Sticky Header */
+header {
+  background: rgba(15, 23, 42, 0.94);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  color: #fff;
+  padding: 12px 24px;
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  flex-wrap: wrap;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+}
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 800;
+  font-size: 20px;
+  letter-spacing: 0.02em;
+}
+.logo .mark {
+  width: 36px; height: 36px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, var(--brand), var(--brand2));
+  display: grid; place-items: center;
+  font-size: 16px; font-weight: 900;
+  box-shadow: 0 2px 10px rgba(124, 58, 237, 0.4);
+}
+.logo small {
+  display: block; font-weight: 500; font-size: 11px; opacity: 0.75; font-family: 'Inter', sans-serif;
+}
+nav { display: flex; gap: 4px; margin-left: 12px; }
+nav button {
+  background: transparent; color: #c7d2fe; border: 0; padding: 8px 14px; border-radius: 8px;
+  font-weight: 600; cursor: pointer; font-size: 13px; transition: all 0.2s;
+}
+nav button.active, nav button:hover { background: rgba(255, 255, 255, 0.12); color: #fff; }
+
+.chips { margin-left: auto; display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+.chip {
+  background: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 999px; padding: 4px 12px; font-size: 11.5px; white-space: nowrap;
+}
+.chip b { font-weight: 700; color: #a5b4fc; }
+.meter {
+  width: 80px; height: 6px; background: rgba(255, 255, 255, 0.2); border-radius: 9px;
+  display: inline-block; vertical-align: middle; margin-left: 6px; overflow: hidden;
+}
+.meter i { display: block; height: 100%; background: #4ade80; transition: width 0.3s; }
+
+/* Page Layout */
+.page { display: none; padding: 24px; max-width: 1540px; margin: 0 auto; }
+.page.active { display: block; animation: fadeIn 0.2s ease-out; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
+
+.grid { display: grid; grid-template-columns: minmax(380px, 480px) 1fr; gap: 24px; }
+@media(max-width: 1080px) { .grid { grid-template-columns: 1fr; } }
+
+.card {
+  background: var(--card); border: 1px solid var(--line); border-radius: 16px;
+  padding: 18px 20px; margin-bottom: 20px; box-shadow: 0 2px 8px rgba(15, 23, 42, 0.03);
+  transition: border-color 0.2s;
+}
+.card h2 {
+  font-size: 12px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted);
+  margin: 0 0 14px; display: flex; align-items: center; gap: 8px; font-weight: 700;
+}
+.card h2 .n {
+  background: var(--ink); color: #fff; width: 22px; height: 22px; border-radius: 50%;
+  display: grid; place-items: center; font-size: 11px; font-weight: 800; font-family: 'Outfit';
+}
+
+/* Filters & Controls */
+.scen-filter { display: flex; gap: 6px; margin-bottom: 12px; flex-wrap: wrap; }
+.pill {
+  border: 1px solid var(--line); background: #fff; border-radius: 999px; padding: 4px 12px;
+  font-size: 12px; cursor: pointer; font-weight: 600; color: var(--muted); transition: all 0.15s;
+}
+.pill.active { background: var(--ink); color: #fff; border-color: var(--ink); box-shadow: 0 2px 6px rgba(15, 23, 42, 0.15); }
+
+.search-bar {
+  width: 100%; padding: 8px 12px; border: 1px solid var(--line); border-radius: 10px;
+  font-size: 12.5px; margin-bottom: 10px; background: #fff; transition: border-color 0.2s;
+}
+.search-bar:focus { outline: none; border-color: var(--brand); box-shadow: 0 0 0 3px #e0e7ff; }
+
+.scen-list { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; max-height: 320px; overflow-y: auto; padding-right: 4px; }
+.scen {
+  border: 1px solid var(--line); border-radius: 12px; padding: 10px 12px; cursor: pointer;
+  background: #fff; transition: all 0.15s ease; position: relative;
+}
+.scen:hover { border-color: var(--brand); box-shadow: 0 4px 12px rgba(79, 70, 229, 0.08); transform: translateY(-1px); }
+.scen.sel { border-color: var(--brand); background: var(--brand-light); box-shadow: 0 0 0 2px var(--brand); }
+.scen .t { font-weight: 700; font-size: 12.5px; line-height: 1.3; color: var(--ink); }
+.scen .d { font-size: 11px; color: var(--muted); margin-top: 4px; line-height: 1.3; }
+
+/* Status Badges */
+.dec { display: inline-block; font-size: 10px; font-weight: 800; letter-spacing: 0.04em; padding: 2px 8px; border-radius: 999px; margin-top: 6px; }
+.dec.ACCEPT, .v.PASS { background: var(--pass-bg); color: var(--pass); }
+.dec.EXCEPTION, .v.FAIL { background: var(--fail-bg); color: var(--fail); }
+.dec.UNCERTAIN, .v.UNCERTAIN { background: var(--unc-bg); color: var(--unc); }
+.v.NOT_APPLICABLE { background: var(--na-bg); color: var(--na); }
+.v { display: inline-block; font-size: 11px; font-weight: 800; padding: 3px 10px; border-radius: 999px; letter-spacing: 0.03em; cursor: help; }
+
+.risk-tag { display: inline-block; font-size: 10px; font-weight: 800; padding: 2px 7px; border-radius: 6px; margin-left: 6px; text-transform: uppercase; }
+.risk-LOW { background: #dcfce7; color: var(--risk-low); }
+.risk-MEDIUM { background: #fef3c7; color: var(--risk-med); }
+.risk-HIGH { background: #ffedd5; color: var(--risk-high); }
+.risk-CRITICAL { background: #fee2e2; color: var(--risk-crit); }
+
+.po-sum { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-bottom: 10px; }
+.kv { background: #f8fafc; border: 1px solid var(--line); border-radius: 10px; padding: 8px 10px; }
+.kv span { display: block; font-size: 10px; text-transform: uppercase; color: var(--muted); letter-spacing: 0.05em; font-weight: 700; }
+.kv b { font-size: 13px; word-break: break-all; color: var(--ink); }
+
+details > summary { cursor: pointer; color: var(--brand); font-size: 12.5px; font-weight: 600; margin: 6px 0; }
+label.f { display: block; font-size: 11px; font-weight: 700; color: var(--muted); margin: 10px 0 4px; text-transform: uppercase; letter-spacing: 0.04em; }
+textarea { width: 100%; font-family: ui-monospace, Menlo, monospace; font-size: 11.5px; border: 1px solid var(--line); border-radius: 10px; padding: 10px; min-height: 120px; background: #f8fafc; }
+input[type=text] { width: 100%; padding: 8px 10px; border: 1px solid var(--line); border-radius: 10px; font-size: 13px; }
+
+/* Dropzone & Thumbnails */
+.drop {
+  border: 2px dashed #c7d2fe; border-radius: 14px; padding: 20px; text-align: center; color: var(--muted);
+  cursor: pointer; background: #f8faff; transition: all 0.2s;
+}
+.drop:hover, .drop.over { border-color: var(--brand); background: #eef2ff; }
+.thumbs { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 12px; }
+.thumbs figure { margin: 0; text-align: center; font-size: 11px; font-weight: 700; color: var(--muted); cursor: pointer; }
+.thumbs img { width: 96px; height: 68px; object-fit: cover; border-radius: 10px; border: 1px solid var(--line); display: block; transition: transform 0.15s; }
+.thumbs figure:hover img { transform: scale(1.04); border-color: var(--brand); box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+
+.seg { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; background: #f1f5f9; padding: 4px; border-radius: 12px; }
+.seg label { padding: 10px 8px; border-radius: 10px; text-align: center; cursor: pointer; font-weight: 600; font-size: 12.5px; color: var(--muted); }
+.seg input { display: none; }
+.seg label:has(input:checked) { background: #fff; color: var(--ink); box-shadow: 0 2px 4px rgba(0,0,0,0.06); }
+.seg small { display: block; font-weight: 500; font-size: 10.5px; margin-top: 2px; }
+
+.toggle { display: flex; align-items: center; gap: 12px; margin-top: 12px; padding: 12px; border: 1px solid var(--line); border-radius: 12px; }
+.toggle input { width: 18px; height: 18px; accent-color: var(--brand2); }
+.hint { font-size: 12px; color: var(--muted); }
+
+/* Range Slider */
+.range-wrap { margin-top: 12px; padding: 10px 12px; background: #f8fafc; border: 1px solid var(--line); border-radius: 12px; }
+.range-header { display: flex; justify-content: space-between; font-size: 12px; font-weight: 700; color: var(--muted); margin-bottom: 6px; }
+.range-wrap input[type=range] { width: 100%; accent-color: var(--brand); cursor: pointer; }
+
+button.primary {
+  background: linear-gradient(135deg, var(--brand), var(--brand2)); color: #fff; border: 0;
+  border-radius: 12px; padding: 14px 20px; font-weight: 700; cursor: pointer; font-size: 14.5px;
+  width: 100%; margin-top: 14px; box-shadow: 0 4px 14px rgba(79, 70, 229, 0.3); transition: all 0.2s;
+}
+button.primary:hover:not(:disabled) { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(79, 70, 229, 0.4); }
+button.primary:disabled { opacity: 0.6; cursor: wait; }
+
+button.sec {
+  background: #fff; color: var(--ink); border: 1px solid var(--line); border-radius: 8px;
+  padding: 7px 14px; font-weight: 600; cursor: pointer; font-size: 12px; transition: all 0.15s;
+}
+button.sec:hover { border-color: var(--brand); background: var(--brand-light); color: var(--brand); }
+
+.status { margin-top: 10px; font-size: 12px; color: var(--muted); min-height: 18px; }
+.status.err { color: var(--fail); font-weight: 600; }
+
+/* Hero Card */
+.hero {
+  border-radius: 18px; padding: 22px 26px; color: #fff; display: grid;
+  grid-template-columns: auto 1fr; gap: 8px 24px; align-items: center; margin-bottom: 20px;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+}
+.hero.ACCEPT { background: linear-gradient(135deg, #15803d, #22c55e); }
+.hero.EXCEPTION { background: linear-gradient(135deg, #b91c1c, #ef4444); }
+.hero.UNCERTAIN { background: linear-gradient(135deg, #b45309, #f59e0b); }
+.hero .big { font-size: 38px; font-weight: 900; letter-spacing: 0.04em; grid-row: span 2; }
+.hero .mean { font-weight: 700; font-size: 15px; }
+.hero .why { font-size: 13.5px; opacity: 0.95; }
+.hero .meta { grid-column: 1/-1; font-size: 11.5px; opacity: 0.88; margin-top: 8px; border-top: 1px solid rgba(255,255,255,0.2); padding-top: 8px; }
+
+.tally { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 20px; }
+.tally div { background: #fff; border: 1px solid var(--line); border-radius: 14px; padding: 12px 14px; border-left: 5px solid; }
+.tally b { font-size: 24px; display: block; font-family: 'Outfit'; }
+.tally span { font-size: 11px; color: var(--muted); font-weight: 700; letter-spacing: 0.05em; }
+
+.checks { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 14px; margin-bottom: 20px; }
+.chk { background: #fff; border: 1px solid var(--line); border-left: 5px solid; border-radius: 14px; padding: 14px 16px; box-shadow: 0 2px 6px rgba(0,0,0,0.02); }
+.chk.PASS { border-left-color: var(--pass); }
+.chk.FAIL { border-left-color: var(--fail); }
+.chk.UNCERTAIN { border-left-color: var(--unc); }
+.chk.NOT_APPLICABLE { border-left-color: var(--na); opacity: 0.75; }
+.chk .hd { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+.chk .nm { font-weight: 700; font-size: 14px; text-transform: capitalize; }
+.eo { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin: 12px 0; }
+.eo div { background: #f8fafc; border-radius: 8px; padding: 7px 10px; font-size: 12px; }
+.eo span { display: block; font-size: 10px; color: var(--muted); text-transform: uppercase; font-weight: 700; letter-spacing: 0.05em; }
+.conf { display: flex; align-items: center; gap: 8px; font-size: 11px; color: var(--muted); }
+.bar { position: relative; flex: 1; height: 8px; background: #e2e8f0; border-radius: 9px; }
+.bar i { position: absolute; left: 0; top: 0; bottom: 0; border-radius: 9px; }
+.bar em { position: absolute; top: -3px; bottom: -3px; width: 2px; background: var(--ink); }
+.rsn { font-size: 13px; margin-top: 10px; line-height: 1.4; }
+.ai-x { font-size: 12px; margin-top: 10px; padding: 10px; border-radius: 10px; background: #f5f3ff; color: #4c1d95; border: 1px solid #ddd6fe; }
+.ai-x::before { content: "AI"; font-weight: 800; font-size: 10px; background: var(--brand2); color: #fff; padding: 2px 6px; border-radius: 4px; margin-right: 6px; }
+
+.evs { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 10px; }
+.ev { display: flex; gap: 8px; align-items: center; font-size: 11.5px; background: #f1f5f9; border-radius: 8px; padding: 4px 8px 4px 4px; max-width: 100%; cursor: pointer; }
+.ev img { width: 38px; height: 26px; object-fit: cover; border-radius: 6px; }
+.ev a { color: var(--brand); font-weight: 700; text-decoration: none; }
+
+/* AI Audit Card */
+.ai { border: 1px solid #ddd6fe; background: linear-gradient(180deg, #faf5ff, #fff); }
+.ai h2 { color: #6d28d9; }
+.ai .sum { font-size: 14px; line-height: 1.55; }
+.ai ul { margin: 8px 0 0; padding-left: 20px; } .ai li { margin: 4px 0; font-size: 13px; }
+.claim { white-space: pre-wrap; background: #fff; border: 1px solid var(--line); border-radius: 10px; padding: 12px; font-size: 12.5px; font-family: ui-monospace, Menlo, monospace; }
+.esc { background: var(--unc-bg); color: #92400e; border-radius: 10px; padding: 10px 14px; font-size: 13px; font-weight: 600; margin: 10px 0; border: 1px solid #fcd34d; }
+
+.issue { display: flex; gap: 10px; align-items: baseline; padding: 8px 0; border-bottom: 1px dashed var(--line); font-size: 13px; }
+.code { font-family: ui-monospace, monospace; font-size: 11px; background: #f1f5f9; padding: 2px 7px; border-radius: 6px; font-weight: 700; color: #334155; }
+.warn { color: #92400e; font-size: 12.5px; padding: 4px 0; font-weight: 500; }
+pre { background: #0b1020; color: #cbd5e1; padding: 14px; border-radius: 12px; overflow: auto; max-height: 400px; font-size: 11.5px; }
+.empty { text-align: center; padding: 80px 20px; color: var(--muted); }
+.empty .big { font-size: 48px; margin-bottom: 12px; }
+
+/* Supplier Table & History */
+table { width: 100%; border-collapse: collapse; font-size: 13px; }
+th, td { text-align: left; padding: 10px 12px; border-bottom: 1px solid var(--line); vertical-align: middle; }
+th { font-size: 11px; text-transform: uppercase; color: var(--muted); letter-spacing: 0.06em; font-weight: 700; background: #f8fafc; }
+.mini { display: inline-block; width: 14px; height: 14px; border-radius: 4px; margin-right: 3px; }
+.mini.PASS { background: var(--pass); } .mini.FAIL { background: var(--fail); } .mini.UNCERTAIN { background: var(--unc); } .mini.NOT_APPLICABLE { background: #cbd5e1; }
+.score { font-size: 44px; font-weight: 900; }
+.hist { padding: 0; margin: 0; }
+.hist li { list-style: none; padding: 12px 14px; border-bottom: 1px solid var(--line); cursor: pointer; display: flex; gap: 12px; align-items: center; border-radius: 10px; transition: background 0.15s; }
+.hist li:hover { background: #f1f5f9; }
+
+/* Lightbox Modal */
+.lightbox {
+  display: none; position: fixed; inset: 0; z-index: 1000; background: rgba(15, 23, 42, 0.85);
+  backdrop-filter: blur(8px); place-items: center; padding: 24px;
+}
+.lightbox.active { display: grid; }
+.lightbox-content {
+  background: #fff; border-radius: 18px; max-width: 900px; width: 100%; padding: 20px;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.3); max-height: 90vh; overflow-y: auto; position: relative;
+}
+.lightbox-content img { width: 100%; max-height: 60vh; object-fit: contain; border-radius: 12px; background: #0f172a; }
+.lightbox-close { position: absolute; top: 16px; right: 20px; font-size: 24px; font-weight: 700; cursor: pointer; color: var(--muted); }
+
+/* Toast Notifications */
+.toast-container { position: fixed; bottom: 24px; right: 24px; z-index: 2000; display: flex; flex-direction: column; gap: 8px; }
+.toast {
+  background: var(--ink); color: #fff; padding: 12px 20px; border-radius: 12px; font-size: 13px; font-weight: 600;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.2); display: flex; align-items: center; gap: 10px; animation: toastIn 0.2s ease-out;
+}
+@keyframes toastIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 </style>
 </head>
 <body>
+
 <header>
-  <div class="logo"><div class="mark">RCV</div><div>AI Receiving Manager<small>Evidence-backed inbound inspection</small></div></div>
+  <div class="logo">
+    <div class="mark">RCV</div>
+    <div>AI Receiving Manager<small>Evidence-backed inbound inspection</small></div>
+  </div>
   <nav>
     <button data-page="inspect" class="active">Inspect</button>
     <button data-page="bench">Scenario benchmark</button>
+    <button data-page="suppliers">Supplier quality</button>
     <button data-page="defs">How decisions work</button>
     <button data-page="history">History</button>
   </nav>
   <div class="chips">
     <span class="chip" id="chip-vision">Vision: -</span>
     <span class="chip" id="chip-reason">Reasoning: -</span>
-    <span class="chip" id="chip-budget" title="OpenRouter credit. Calls are refused before the reserve is reached.">Credit: -</span>
+    <span class="chip" id="chip-budget" title="OpenRouter credit. Calls are refused before reserve is reached.">Credit: -</span>
   </div>
 </header>
 
 <section class="page active" id="page-inspect">
- <div class="grid">
-  <div>
-    <div class="card">
-      <h2><span class="n">1</span>Pick a sample shipment</h2>
-      <div class="scen-filter" id="scen-filter"></div>
-      <div class="scen-list" id="scen-list"></div>
-    </div>
-    <div class="card">
-      <h2><span class="n">2</span>Purchase order &amp; catalogue</h2>
-      <div class="po-sum" id="po-sum"></div>
-      <details><summary>Edit purchase order / catalogue JSON</summary>
-        <label class="f" for="po">Purchase order</label><textarea id="po" spellcheck="false"></textarea>
-        <label class="f" for="catalog">Product catalogue</label><textarea id="catalog" spellcheck="false"></textarea>
-        <label class="f" for="sku">PO line SKU to inspect (blank = first line)</label><input type="text" id="sku" placeholder="e.g. BLUE-BOTTLE-001">
-      </details>
-    </div>
-    <div class="card">
-      <h2><span class="n">3</span>Receiving photos</h2>
-      <div class="drop" id="drop">Drop photos here or <b>click to upload</b><br><span class="hint">Numbered P1, P2... in order and SHA-256 hashed into the evidence record</span></div>
-      <input type="file" id="photos" accept="image/*" multiple hidden>
-      <div class="thumbs" id="thumbs"></div>
-    </div>
-    <div class="card">
-      <h2><span class="n">4</span>Analyse</h2>
-      <div class="seg">
-        <label><input type="radio" name="src" value="manual" checked>Recorded observations<small>Free · deterministic replay</small></label>
-        <label><input type="radio" name="src" value="vision">AI vision on photos<small id="vision-sub">uses credit</small></label>
+  <div class="grid">
+    <div>
+      <div class="card">
+        <h2><span class="n">1</span>Pick a sample shipment</h2>
+        <input type="text" class="search-bar" id="scen-search" placeholder="Search scenarios by title or SKU...">
+        <div class="scen-filter" id="scen-filter"></div>
+        <div class="scen-list" id="scen-list"></div>
       </div>
-      <details id="obs-wrap"><summary>View / edit recorded observations JSON</summary><textarea id="observations" spellcheck="false"></textarea></details>
-      <label class="toggle"><input type="checkbox" id="ai-review" checked><div><b>Reasoning-model review</b><div class="hint" id="reason-sub">Explains every verdict, recommends actions, drafts a supplier claim. Can only escalate, never overrule.</div></div></label>
-      <button class="primary" id="run">Run inspection</button>
-      <div class="status" id="status"></div>
+      <div class="card">
+        <h2><span class="n">2</span>Purchase order &amp; catalogue</h2>
+        <div class="po-sum" id="po-sum"></div>
+        <details><summary>Edit purchase order / catalogue JSON</summary>
+          <label class="f" for="po">Purchase order</label><textarea id="po" spellcheck="false"></textarea>
+          <label class="f" for="catalog">Product catalogue</label><textarea id="catalog" spellcheck="false"></textarea>
+          <label class="f" for="sku">PO line SKU to inspect (blank = first line)</label><input type="text" id="sku" placeholder="e.g. BLUE-BOTTLE-001">
+        </details>
+      </div>
+      <div class="card">
+        <h2><span class="n">3</span>Receiving photos</h2>
+        <div class="drop" id="drop">Drop photos here or <b>click to upload</b><br><span class="hint">Numbered P1, P2... in order and SHA-256 hashed into evidence record</span></div>
+        <input type="file" id="photos" accept="image/*" multiple hidden>
+        <div class="thumbs" id="thumbs"></div>
+      </div>
+      <div class="card">
+        <h2><span class="n">4</span>Analyse</h2>
+        <div class="seg">
+          <label><input type="radio" name="src" value="manual" checked>Recorded observations<small>Free · deterministic replay</small></label>
+          <label><input type="radio" name="src" value="vision">AI vision on photos<small id="vision-sub">uses credit</small></label>
+        </div>
+        <div class="range-wrap">
+          <div class="range-header"><span>Confidence threshold:</span><span id="thresh-val">0.70</span></div>
+          <input type="range" id="thresh-slider" min="0.50" max="0.95" step="0.05" value="0.70">
+        </div>
+        <details id="obs-wrap"><summary>View / edit recorded observations JSON</summary><textarea id="observations" spellcheck="false"></textarea></details>
+        <label class="toggle"><input type="checkbox" id="ai-review" checked><div><b>Reasoning-model review</b><div class="hint" id="reason-sub">Explains every verdict, recommends actions, drafts a supplier claim. Can only escalate, never overrule.</div></div></label>
+        <button class="primary" id="run">Run inspection</button>
+        <div class="status" id="status"></div>
+      </div>
     </div>
+    <div id="result"><div class="card empty"><div class="big">📦</div><p><b>Pick a sample shipment and run an inspection.</b></p><p class="hint">Each check returns PASS, FAIL or UNCERTAIN; shipment gets ACCEPT, EXCEPTION or UNCERTAIN.</p></div></div>
   </div>
-  <div id="result"><div class="card empty"><div class="big">📦</div><p><b>Pick a sample shipment and run an inspection.</b></p><p class="hint">Each check returns PASS, FAIL or UNCERTAIN; the shipment gets ACCEPT, EXCEPTION or UNCERTAIN. See "How decisions work".</p></div></div>
- </div>
 </section>
 
 <section class="page" id="page-bench">
@@ -192,16 +363,32 @@ th{font-size:10.5px;text-transform:uppercase;color:var(--muted);letter-spacing:.
   </div>
 </section>
 
+<section class="page" id="page-suppliers">
+  <div class="card">
+    <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-bottom:12px;">
+      <div>
+        <h2 style="margin:0">Supplier Quality Analytics</h2>
+        <p class="hint" style="margin:4px 0 0">Quality track record, acceptance rates, and common defect codes by supplier.</p>
+      </div>
+      <div style="display:flex; gap:8px;">
+        <button class="sec" id="export-json">Export JSON</button>
+        <button class="sec" id="export-csv">Export CSV</button>
+      </div>
+    </div>
+    <div id="supplier-stats-out" style="margin-top:14px"></div>
+  </div>
+</section>
+
 <section class="page" id="page-defs">
   <div class="card">
     <h2>Pipeline</h2>
     <div class="flow">
       <div><b>1. Photos</b>Uploaded, numbered P1..Pn, SHA-256 hashed.</div><div class="arrow">→</div>
-      <div><b>2. Vision model</b>Reports only what it sees; every observation cites photo IDs and a confidence.</div><div class="arrow">→</div>
-      <div><b>3. Evidence filter</b>Drops observations citing missing or unusable photos, or below the confidence threshold.</div><div class="arrow">→</div>
-      <div><b>4. Rules engine</b>Deterministic PASS / FAIL / UNCERTAIN per check, then the shipment decision.</div><div class="arrow">→</div>
-      <div><b>5. Reasoning review</b>Explains, recommends and drafts a claim. Can only escalate ACCEPT to UNCERTAIN.</div><div class="arrow">→</div>
-      <div><b>6. Sealed record</b>Photos, observations, verdicts and review hashed into a tamper-evident record.</div>
+      <div><b>2. Vision model</b>Reports only what it sees; every observation cites photo IDs and confidence.</div><div class="arrow">→</div>
+      <div><b>3. Evidence filter</b>Drops observations citing missing photos or below confidence threshold.</div><div class="arrow">→</div>
+      <div><b>4. Rules engine</b>Deterministic PASS / FAIL / UNCERTAIN per check, then shipment decision.</div><div class="arrow">→</div>
+      <div><b>5. Reasoning review</b>Explains, recommends and drafts claim. Can only escalate ACCEPT to UNCERTAIN.</div><div class="arrow">→</div>
+      <div><b>6. Sealed record</b>Photos, observations, verdicts and review hashed into tamper-evident record.</div>
     </div>
   </div>
   <div class="card"><h2>Check verdicts</h2><div class="defs" id="defs-verdicts"></div></div>
@@ -210,21 +397,47 @@ th{font-size:10.5px;text-transform:uppercase;color:var(--muted);letter-spacing:.
 </section>
 
 <section class="page" id="page-history">
-  <div class="card"><h2>Inspection history</h2><ul class="hist" id="history"></ul></div>
+  <div class="card">
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+      <h2 style="margin:0">Inspection history</h2>
+      <input type="text" class="search-bar" id="hist-search" placeholder="Search history by PO, SKU or ID..." style="max-width:300px; margin:0">
+    </div>
+    <ul class="hist" id="history"></ul>
+  </div>
 </section>
+
+<!-- Lightbox Modal -->
+<div class="lightbox" id="lightbox">
+  <div class="lightbox-content">
+    <span class="lightbox-close" id="lightbox-close">&times;</span>
+    <h3 id="lightbox-title" style="margin:0 0 10px; font-family:'Outfit'">Photo Evidence</h3>
+    <img id="lightbox-img" src="" alt="Photo evidence view">
+    <div id="lightbox-meta" style="margin-top:12px; font-size:12px; color:var(--muted)"></div>
+  </div>
+</div>
+
+<div class="toast-container" id="toast-wrap"></div>
 
 <script>
 const $ = (id) => document.getElementById(id);
 const esc = (s) => String(s ?? "").replace(/[&<>"]/g, (c) => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 const pretty = (o) => JSON.stringify(o, null, 2);
 const label = (s) => String(s).replace(/_/g, " ");
+
+function showToast(msg) {
+  const t = document.createElement("div"); t.className = "toast"; t.innerHTML = `<span>✓</span> ${esc(msg)}`;
+  $("toast-wrap").appendChild(t);
+  setTimeout(() => t.remove(), 3000);
+}
+
 let scenarios = [], catalog = [], health = {}, defs = {verdicts:{}, decisions:{}, checks:{}};
-let files = [], selected = null, filter = "ALL";
+let files = [], selected = null, filter = "ALL", scenarioSearchQuery = "", historyItems = [];
 
 document.querySelectorAll("nav button").forEach((b) => b.onclick = () => {
   document.querySelectorAll("nav button").forEach((x) => x.classList.toggle("active", x === b));
   document.querySelectorAll(".page").forEach((p) => p.classList.toggle("active", p.id === "page-" + b.dataset.page));
   if (b.dataset.page === "history") loadHistory();
+  if (b.dataset.page === "suppliers") loadSupplierStats();
 });
 
 async function init() {
@@ -240,6 +453,8 @@ async function init() {
   await selectScenario(scenarios.find((s) => s.name.startsWith("11")) || scenarios[0]);
 }
 
+$("thresh-slider").oninput = (e) => { $("thresh-val").textContent = parseFloat(e.target.value).toFixed(2); };
+
 async function loadBudget() {
   const b = await (await fetch("/api/budget")).json();
   if (b.remaining_usd == null) { $("chip-budget").innerHTML = `Session spend: <b>$${b.session_spent_usd.toFixed(3)}</b> / cap $${b.session_cap_usd}`; return; }
@@ -253,9 +468,16 @@ function renderFilter() {
   $("scen-filter").querySelectorAll("button").forEach((b) => b.onclick = () => { filter = b.dataset.f; renderFilter(); renderScenarios(); });
 }
 
+$("scen-search").oninput = (e) => { scenarioSearchQuery = e.target.value.toLowerCase(); renderScenarios(); };
+
 function renderScenarios() {
-  $("scen-list").innerHTML = scenarios.filter((s) => filter === "ALL" || s.expected.decision === filter).map((s) =>
-    `<div class="scen ${selected && selected.name === s.name ? "sel" : ""}" data-n="${s.name}"><div class="t">${esc(s.title)}</div><div class="d">${esc(s.description.slice(0, 90))}${s.description.length > 90 ? "…" : ""}</div><span class="dec ${s.expected.decision}">expected ${s.expected.decision}</span></div>`).join("");
+  const filtered = scenarios.filter((s) => {
+    const matchFilter = filter === "ALL" || s.expected.decision === filter;
+    const matchSearch = !scenarioSearchQuery || s.title.toLowerCase().includes(scenarioSearchQuery) || s.description.toLowerCase().includes(scenarioSearchQuery) || s.purchase_order.lines.some(l => l.sku.toLowerCase().includes(scenarioSearchQuery));
+    return matchFilter && matchSearch;
+  });
+  $("scen-list").innerHTML = filtered.map((s) =>
+    `<div class="scen ${selected && selected.name === s.name ? "sel" : ""}" data-n="${s.name}"><div class="t">${esc(s.title)}</div><div class="d">${esc(s.description.slice(0, 85))}${s.description.length > 85 ? "…" : ""}</div><span class="dec ${s.expected.decision}">expected ${s.expected.decision}</span></div>`).join("");
   $("scen-list").querySelectorAll(".scen").forEach((el) => el.onclick = () => selectScenario(scenarios.find((s) => s.name === el.dataset.n)));
 }
 
@@ -281,12 +503,12 @@ function renderPO() {
   let po; try { po = JSON.parse($("po").value); } catch { $("po-sum").innerHTML = '<span class="hint">Invalid PO JSON</span>'; return; }
   const line = po.lines?.find((l) => !$("sku").value.trim() || l.sku === $("sku").value.trim()) || po.lines?.[0] || {};
   const v = Object.entries(line.variant || {}).map(([k, x]) => `${k}: ${x}`).join(", ") || "-";
-  $("po-sum").innerHTML = [["PO", po.po_number], ["SKU", line.sku], ["Qty", line.expected_quantity], ["Variant", v]].map(([k, x]) => `<div class="kv"><span>${k}</span><b>${esc(x ?? "-")}</b></div>`).join("");
+  $("po-sum").innerHTML = [["PO", po.po_number], ["Supplier", po.supplier || "N/A"], ["SKU", line.sku], ["Qty", line.expected_quantity]].map(([k, x]) => `<div class="kv"><span>${k}</span><b>${esc(x ?? "-")}</b></div>`).join("");
 }
 $("po").oninput = renderPO; $("sku").oninput = renderPO;
 
 function renderThumbs() {
-  $("thumbs").innerHTML = files.map((f, i) => `<figure><img src="${URL.createObjectURL(f)}" alt="P${i + 1}">P${i + 1}</figure>`).join("");
+  $("thumbs").innerHTML = files.map((f, i) => `<figure onclick="openLightbox(URL.createObjectURL(files[${i}]), 'Photo P${i + 1}: ${f.name}', 'File size: ${(f.size/1024).toFixed(1)} KB')"><img src="${URL.createObjectURL(f)}" alt="P${i + 1}">P${i + 1}</figure>`).join("");
 }
 $("drop").onclick = () => $("photos").click();
 $("photos").onchange = () => setFiles([...$("photos").files]);
@@ -299,23 +521,33 @@ function setFiles(list) {
   $("status").textContent = "Own photos loaded: analysis switched to AI vision.";
 }
 
+function openLightbox(src, title, meta) {
+  $("lightbox-img").src = src; $("lightbox-title").textContent = title; $("lightbox-meta").innerHTML = meta;
+  $("lightbox").classList.add("active");
+}
+$("lightbox-close").onclick = () => $("lightbox").classList.remove("active");
+$("lightbox").onclick = (e) => { if(e.target === $("lightbox")) $("lightbox").classList.remove("active"); };
+
 $("run").onclick = async () => {
   const vision = document.querySelector('input[name=src]:checked').value === "vision";
+  const thresh = parseFloat($("thresh-slider").value);
   const fd = new FormData();
   fd.append("purchase_order", $("po").value);
   fd.append("catalog", $("catalog").value || "[]");
   if ($("sku").value.trim()) fd.append("sku", $("sku").value.trim());
   if (!vision) fd.append("observations", $("observations").value);
   fd.append("ai_review", $("ai-review").checked ? "true" : "false");
+  fd.append("threshold", thresh.toString());
   files.forEach((f) => fd.append("photos", f, f.name));
   $("run").disabled = true; $("status").className = "status";
-  $("status").textContent = (vision ? "Vision model is reading the photos" : "Applying rules") + ($("ai-review").checked ? ", then the reasoning model reviews…" : "…");
+  $("status").textContent = (vision ? "Vision model is reading the photos" : "Applying rules") + ($("ai-review").checked ? ", then reasoning model reviews…" : "…");
   try {
     const resp = await fetch("/api/inspections", {method: "POST", body: fd});
     const body = await resp.json();
     if (!resp.ok) throw new Error(typeof body.detail === "string" ? body.detail : pretty(body.detail));
     render(body);
     $("status").textContent = `Done · model cost $${(body.llm_cost_usd || 0).toFixed(4)}`;
+    showToast("Inspection complete");
   } catch (e) { $("status").className = "status err"; $("status").textContent = "Error: " + e.message; }
   finally { $("run").disabled = false; loadBudget(); }
 };
@@ -334,7 +566,7 @@ function render(rec) {
   const cards = r.checks.map((c) => {
     const conf = c.confidence == null ? "" : `<div class="conf">confidence <div class="bar"><i style="width:${c.confidence * 100}%;background:${c.confidence >= r.confidence_threshold ? "var(--pass)" : "var(--unc)"}"></i><em style="left:${r.confidence_threshold * 100}%" title="threshold ${r.confidence_threshold}"></em></div><b>${c.confidence.toFixed(2)}</b></div>`;
     const evs = c.evidence.map((e) => known.has(e.photo_id)
-      ? `<div class="ev"><a href="${purl(e.photo_id)}" target="_blank"><img src="${purl(e.photo_id)}"></a><span><a href="${purl(e.photo_id)}" target="_blank">${esc(e.photo_id)}</a> ${esc(e.detail)}</span></div>`
+      ? `<div class="ev" onclick="openLightbox('${purl(e.photo_id)}', 'Photo ${esc(e.photo_id)}', '${esc(e.detail)}')"><img src="${purl(e.photo_id)}"><span><b>${esc(e.photo_id)}</b> ${esc(e.detail)}</span></div>`
       : `<div class="ev"><span><b>${esc(e.photo_id)}</b> ${esc(e.detail)}</span></div>`).join("");
     return `<div class="chk ${c.verdict}"><div class="hd"><span class="nm" title="${esc(defs.checks[c.check] || "")}">${label(c.check)}</span>${vbadge(c.verdict)}</div>
       ${c.verdict === "NOT_APPLICABLE" ? "" : `<div class="eo"><div><span>Expected</span>${fmt(c.expected)}</div><div><span>Observed</span>${fmt(c.observed)}</div></div>`}
@@ -348,10 +580,13 @@ function render(rec) {
       ${rv.supplier_claim_draft ? `<h2 style="margin-top:14px">Supplier claim draft <button class="sec" id="copy-claim" style="margin-left:auto">Copy</button></h2><div class="claim" id="claim">${esc(rv.supplier_claim_draft)}</div>` : ""}
     </div>` : "";
   const issues = r.issues.length ? r.issues.map((i) => `<div class="issue"><span class="code">${esc(i.code)}</span><span>${esc(i.description)} ${i.photo_ids.length ? `<span class="hint">[${i.photo_ids.join(", ")}]</span>` : ""}</span></div>`).join("") : '<span class="hint">No issues detected</span>';
-  const photos = rec.photos.map((p) => `<figure><a href="${purl(p.photo_id)}" target="_blank"><img src="${purl(p.photo_id)}"></a>${esc(p.photo_id)} <span class="hint" title="${p.sha256}">${p.sha256.slice(0, 8)}…</span></figure>`).join("");
+  const photos = rec.photos.map((p) => `<figure onclick="openLightbox('${purl(p.photo_id)}', 'Photo ${esc(p.photo_id)}', 'SHA-256: ${p.sha256}')"><img src="${purl(p.photo_id)}">${esc(p.photo_id)} <span class="hint" title="${p.sha256}">${p.sha256.slice(0, 8)}…</span></figure>`).join("");
+
+  const riskBadge = `<span class="risk-tag risk-${r.risk_level}">Risk: ${r.risk_score} (${r.risk_level})</span>`;
+
   $("result").innerHTML = `
-    <div class="hero ${r.decision}"><div class="big">${r.decision}</div><div class="mean">${esc(defs.decisions[r.decision] || "")}</div><div class="why">${esc(r.decision_reason)}</div>
-      <div class="meta">PO ${esc(r.po_number)} · SKU ${esc(r.sku)} · inspection ${id} · ${new Date(r.created_at).toLocaleString()} · observations: ${esc(rec.observation_source)} · threshold ${r.confidence_threshold}</div></div>
+    <div class="hero ${r.decision}"><div class="big">${r.decision}</div><div class="mean">${esc(defs.decisions[r.decision] || "")} ${riskBadge}</div><div class="why">${esc(r.decision_reason)}</div>
+      <div class="meta">PO ${esc(r.po_number)} · SKU ${esc(r.sku)} · Inspection ${id} · ${new Date(r.created_at).toLocaleString()} · Source: ${esc(rec.observation_source)} · Threshold ${r.confidence_threshold}</div></div>
     <div class="tally">${tally}</div>
     ${ai}
     <div class="checks">${cards}</div>
@@ -362,10 +597,18 @@ function render(rec) {
       <details><summary>Raw evidence record</summary><pre>${esc(pretty(rec))}</pre></details></div>`;
   $("verify").onclick = async () => {
     const v = await (await fetch(`/api/inspections/${id}/verify`)).json();
-    $("verify-out").innerHTML = v.valid ? '<b style="color:var(--pass)">Record intact: hash matches</b>' : '<b style="color:var(--fail)">HASH MISMATCH: record modified</b>';
+    if (v.valid) {
+      $("verify-out").innerHTML = '<b style="color:var(--pass)">Record intact: hash matches</b>';
+      showToast("Evidence record SHA-256 verified");
+    } else {
+      $("verify-out").innerHTML = '<b style="color:var(--fail)">HASH MISMATCH: record modified</b>';
+    }
   };
-  $("download").onclick = () => { const a = document.createElement("a"); a.href = URL.createObjectURL(new Blob([pretty(rec)], {type: "application/json"})); a.download = `evidence-${id}.json`; a.click(); };
-  if ($("copy-claim")) $("copy-claim").onclick = () => navigator.clipboard.writeText($("claim").textContent);
+  $("download").onclick = () => {
+    const a = document.createElement("a"); a.href = URL.createObjectURL(new Blob([pretty(rec)], {type: "application/json"}));
+    a.download = `evidence-${id}.json`; a.click(); showToast("Downloaded evidence JSON");
+  };
+  if ($("copy-claim")) $("copy-claim").onclick = () => { navigator.clipboard.writeText($("claim").textContent); showToast("Supplier claim copied to clipboard"); };
   $("result").scrollIntoView({behavior: "smooth", block: "start"});
 }
 
@@ -380,23 +623,54 @@ $("bench-run").onclick = async () => {
   $("bench-out").innerHTML = '<span class="hint">Running…</span>';
   const b = await (await fetch("/api/benchmark")).json();
   const checks = Object.keys(b.results[0]?.verdicts || {});
-  $("bench-out").innerHTML = `<div style="display:flex;align-items:baseline;gap:12px"><span class="score" style="color:${b.passed === b.total ? "var(--pass)" : "var(--fail)"}">${b.passed}/${b.total}</span><span class="hint">scenarios produce exactly the expected decision, check verdicts and issue codes</span></div>
-    <p class="hint">Squares: ${checks.map(label).join(" · ")}</p>
+  $("bench-out").innerHTML = `<div style="display:flex;align-items:baseline;gap:12px"><span class="score" style="color:${b.passed === b.total ? "var(--pass)" : "var(--fail)"}">${b.passed}/${b.total}</span><span class="hint">scenarios produce expected decision, check verdicts and issue codes</span></div>
+    <p class="hint">Checks evaluated: ${checks.map(label).join(" · ")}</p>
     <table><thead><tr><th>Scenario</th><th>Expected</th><th>Actual</th><th>Checks</th><th>Issue codes</th><th></th></tr></thead><tbody>
     ${b.results.map((r) => `<tr><td><b>${esc(r.title)}</b><div class="hint">${esc(r.name)}</div></td><td><span class="dec ${r.expected_decision}">${r.expected_decision}</span></td><td><span class="dec ${r.decision}">${r.decision}</span></td>
       <td>${checks.map((c) => `<span class="mini ${r.verdicts[c]}" title="${label(c)}: ${r.verdicts[c]}"></span>`).join("")}</td>
       <td>${r.issue_codes.map((c) => `<span class="code">${esc(c)}</span>`).join(" ")}</td><td>${r.passed ? '<b style="color:var(--pass)">✓</b>' : '<b style="color:var(--fail)">✗</b>'}</td></tr>`).join("")}</tbody></table>`;
 };
 
-async function loadHistory() {
-  const items = await (await fetch("/api/inspections")).json();
-  $("history").innerHTML = items.length ? "" : '<li class="hint">No inspections yet</li>';
-  for (const it of items.slice(0, 50)) {
+async function loadSupplierStats() {
+  $("supplier-stats-out").innerHTML = '<span class="hint">Loading supplier analytics...</span>';
+  const stats = await (await fetch("/api/suppliers/stats")).json();
+  if (!stats.length) { $("supplier-stats-out").innerHTML = '<p class="hint">No supplier inspection data yet. Run inspections to generate quality records.</p>'; return; }
+  $("supplier-stats-out").innerHTML = `
+    <table><thead><tr><th>Supplier</th><th>Total Inspections</th><th>Accept Rate</th><th>Avg Risk Score</th><th>Decisions (Acc / Exc / Unc)</th><th>Common Issues</th></tr></thead>
+    <tbody>${stats.map((s) => `
+      <tr>
+        <td><b>${esc(s.supplier)}</b></td>
+        <td>${s.total_inspections}</td>
+        <td><b style="color:${s.accept_rate >= 80 ? "var(--pass)" : s.accept_rate >= 50 ? "var(--unc)" : "var(--fail)"}">${s.accept_rate}%</b></td>
+        <td><span class="risk-tag risk-${s.avg_risk_score >= 70 ? 'CRITICAL' : s.avg_risk_score >= 35 ? 'HIGH' : s.avg_risk_score >= 15 ? 'MEDIUM' : 'LOW'}">${s.avg_risk_score}</span></td>
+        <td><span class="dec ACCEPT">${s.accept_count}</span> <span class="dec EXCEPTION">${s.exception_count}</span> <span class="dec UNCERTAIN">${s.uncertain_count}</span></td>
+        <td>${s.common_issues.map((c) => `<span class="code">${esc(c)}</span>`).join(" ") || '<span class="hint">None</span>'}</td>
+      </tr>`).join("")}
+    </tbody></table>`;
+}
+
+$("export-json").onclick = () => { window.open("/api/inspections/export?fmt=json"); showToast("Exporting inspections JSON"); };
+$("export-csv").onclick = () => { window.open("/api/inspections/export?fmt=csv"); showToast("Exporting inspections CSV"); };
+
+$("hist-search").oninput = (e) => {
+  const q = e.target.value.toLowerCase();
+  renderHistory(historyItems.filter((it) => !q || it.po_number.toLowerCase().includes(q) || it.sku.toLowerCase().includes(q) || it.inspection_id.toLowerCase().includes(q) || (it.supplier && it.supplier.toLowerCase().includes(q))));
+};
+
+function renderHistory(items) {
+  $("history").innerHTML = items.length ? "" : '<li class="hint">No matching inspections</li>';
+  for (const it of items) {
     const li = document.createElement("li");
-    li.innerHTML = `<span class="dec ${it.decision}">${it.decision}</span><b>${esc(it.po_number)}</b> ${esc(it.sku)} <span class="hint" style="margin-left:auto">${new Date(it.created_at).toLocaleString()}</span>`;
+    const riskTag = it.risk_score != null ? `<span class="risk-tag risk-${it.risk_level}">${it.risk_score}</span>` : "";
+    li.innerHTML = `<span class="dec ${it.decision}">${it.decision}</span> <b>${esc(it.po_number)}</b> <span class="hint">${esc(it.supplier || "")}</span> · <code>${esc(it.sku)}</code> ${riskTag} <span class="hint" style="margin-left:auto">${new Date(it.created_at).toLocaleString()}</span>`;
     li.onclick = async () => { render(await (await fetch(`/api/inspections/${it.inspection_id}`)).json()); document.querySelector('nav button[data-page=inspect]').click(); };
     $("history").appendChild(li);
   }
+}
+
+async function loadHistory() {
+  historyItems = await (await fetch("/api/inspections")).json();
+  renderHistory(historyItems.slice(0, 50));
 }
 
 init();

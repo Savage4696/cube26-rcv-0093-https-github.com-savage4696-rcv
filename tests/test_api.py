@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import importlib
 import json
 
@@ -164,3 +166,29 @@ def test_reviewer_failure_is_a_warning_not_a_crash(api):
     ).json()
     assert record["report"]["decision"] == "ACCEPT" and record["ai_review"] is None
     assert any("Reasoning review unavailable" in w for w in record["report"]["warnings"])
+
+
+def test_supplier_stats_and_export_endpoints(api):
+    _, client = api
+    s = SCENARIOS["01_correct_shipment"]
+    client.post(
+        "/api/inspections",
+        data={
+            "purchase_order": s.purchase_order.model_dump_json(),
+            "catalog": CATALOG_JSON,
+            "observations": s.observations.model_dump_json(),
+        },
+        files=photos(3),
+    )
+
+    stats = client.get("/api/suppliers/stats").json()
+    assert isinstance(stats, list) and len(stats) >= 1
+    assert stats[0]["supplier"] == s.purchase_order.supplier
+    assert stats[0]["total_inspections"] >= 1
+
+    exp_json = client.get("/api/inspections/export?fmt=json")
+    assert exp_json.status_code == 200 and "application/json" in exp_json.headers["content-type"]
+
+    exp_csv = client.get("/api/inspections/export?fmt=csv")
+    assert exp_csv.status_code == 200 and "text/csv" in exp_csv.headers["content-type"]
+    assert "Inspection ID,Created At,PO Number" in exp_csv.text

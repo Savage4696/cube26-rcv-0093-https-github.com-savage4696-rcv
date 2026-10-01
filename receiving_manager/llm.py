@@ -6,6 +6,8 @@ would be crossed the call is refused. Identical requests are served from the on-
 re-running a demo costs nothing.
 """
 
+from __future__ import annotations
+
 import hashlib
 import json
 import threading

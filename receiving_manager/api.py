@@ -1,14 +1,25 @@
+from __future__ import annotations
+
+import csv
+import io
 import json
 from pathlib import Path
 
 from fastapi import FastAPI, File, Form, HTTPException, UploadFile
-from fastapi.responses import FileResponse
+from fastapi.responses import FileResponse, Response
 from pydantic import TypeAdapter, ValidationError
 
 from . import definitions
 from .config import load_settings
 from .evidence import EvidenceStore, verify
-from .models import CatalogItem, EvidenceRecord, Observations, PurchaseOrder
+from .models import (
+    CatalogItem,
+    Decision,
+    EvidenceRecord,
+    Observations,
+    PurchaseOrder,
+    SupplierStats,
+)
 from .scenarios import SCENARIO_DIR, evaluate, load_catalog, load_scenarios
 from .service import UploadedPhoto, run_inspection
 from .vision import get_provider, get_reviewer, make_budget, make_cache
@@ -107,11 +118,13 @@ async def create_inspection(
     sku: str | None = Form(None),
     observations: str | None = Form(None),
     ai_review: bool = Form(True),
+    threshold: float | None = Form(None),
     photos: list[UploadFile] = NO_PHOTOS,
 ) -> EvidenceRecord:
     po = _parse(PurchaseOrder, purchase_order, "purchase_order")
     cat = _parse(catalog_adapter, catalog, "catalog")
     obs = _parse(Observations, observations, "observations") if observations else None
+    conf_threshold = threshold if threshold is not None else settings.confidence_threshold
     uploads = []
     for f in photos:
         if f.content_type not in ALLOWED_IMAGE_TYPES:
@@ -124,7 +137,7 @@ async def create_inspection(
             uploads,
             store,
             provider,
-            settings.confidence_threshold,
+            conf_threshold,
             sku=sku or None,
             observations=obs,
             reviewer=reviewer if ai_review else None,
@@ -140,11 +153,102 @@ def list_inspections() -> list[dict]:
             "inspection_id": r.report.inspection_id,
             "created_at": r.report.created_at,
             "po_number": r.report.po_number,
+            "supplier": r.purchase_order.supplier,
             "sku": r.report.sku,
             "decision": r.report.decision,
+            "risk_score": r.report.risk_score,
+            "risk_level": r.report.risk_level,
         }
         for r in store.list_records()
     ]
+
+
+@app.get("/api/suppliers/stats")
+def supplier_stats() -> list[SupplierStats]:
+    records = store.list_records()
+    by_supplier: dict[str, list[EvidenceRecord]] = {}
+    for r in records:
+        supp = r.purchase_order.supplier or "Unknown Supplier"
+        by_supplier.setdefault(supp, []).append(r)
+
+    stats = []
+    from collections import Counter
+
+    for supp, list_recs in by_supplier.items():
+        total = len(list_recs)
+        accepts = sum(1 for r in list_recs if r.report.decision == Decision.ACCEPT)
+        exceptions = sum(1 for r in list_recs if r.report.decision == Decision.EXCEPTION)
+        uncertains = sum(1 for r in list_recs if r.report.decision == Decision.UNCERTAIN)
+        acc_rate = round((accepts / total) * 100.0, 1) if total > 0 else 0.0
+        avg_risk = (
+            round(sum(r.report.risk_score for r in list_recs) / total, 1) if total > 0 else 0.0
+        )
+
+        all_issues = [issue.code for r in list_recs for issue in r.report.issues]
+        common = [code for code, _ in Counter(all_issues).most_common(5)]
+
+        stats.append(
+            SupplierStats(
+                supplier=supp,
+                total_inspections=total,
+                accept_count=accepts,
+                exception_count=exceptions,
+                uncertain_count=uncertains,
+                accept_rate=acc_rate,
+                avg_risk_score=avg_risk,
+                common_issues=common,
+            )
+        )
+    return sorted(stats, key=lambda s: s.total_inspections, reverse=True)
+
+
+@app.get("/api/inspections/export")
+def export_inspections(fmt: str = "json") -> Response:
+    records = store.list_records()
+    if fmt == "csv":
+        out = io.StringIO()
+        writer = csv.writer(out)
+        writer.writerow(
+            [
+                "Inspection ID",
+                "Created At",
+                "PO Number",
+                "Supplier",
+                "SKU",
+                "Decision",
+                "Risk Score",
+                "Risk Level",
+                "Observation Source",
+                "Record SHA-256",
+            ]
+        )
+        for r in records:
+            writer.writerow(
+                [
+                    r.report.inspection_id,
+                    r.report.created_at.isoformat(),
+                    r.report.po_number,
+                    r.purchase_order.supplier,
+                    r.report.sku,
+                    r.report.decision.value,
+                    r.report.risk_score,
+                    r.report.risk_level,
+                    r.observation_source,
+                    r.record_sha256 or "",
+                ]
+            )
+        return Response(
+            content=out.getvalue(),
+            media_type="text/csv",
+            headers={"Content-Disposition": "attachment; filename=rcv_inspections_export.csv"},
+        )
+    else:
+        content = json.dumps([r.model_dump(mode="json") for r in records], indent=2)
+        return Response(
+            content=content,
+            media_type="application/json",
+            headers={"Content-Disposition": "attachment; filename=rcv_inspections_export.json"},
+        )
 
 
 def _load(inspection_id: str) -> EvidenceRecord:

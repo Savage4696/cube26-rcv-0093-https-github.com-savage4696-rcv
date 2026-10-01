@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from .base import ImagePayload, VisionError, VisionProvider
 from .factory import get_provider, get_reviewer, make_budget, make_cache
 

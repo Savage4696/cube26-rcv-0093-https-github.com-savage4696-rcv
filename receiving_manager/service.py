@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import uuid
 from dataclasses import dataclass
 
@@ -52,10 +54,7 @@ def run_inspection(
         source = provider.name
         extra_warnings.append("No photos supplied")
     else:
-        images = [
-            ImagePayload(p.photo_id, p.content_type, u.data)
-            for p, u in zip(photos, uploads, strict=True)
-        ]
+        images = [ImagePayload(p.photo_id, p.content_type, u.data) for p, u in zip(photos, uploads)]
         try:
             observations = provider.observe(line, catalog_item, images)
             source = provider.name

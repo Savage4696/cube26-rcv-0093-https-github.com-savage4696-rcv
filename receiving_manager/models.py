@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from datetime import datetime
 from enum import Enum
 
@@ -199,6 +201,19 @@ class InspectionReport(BaseModel):
     issues: list[Issue]
     warnings: list[str] = Field(default_factory=list)
     confidence_threshold: float
+    risk_score: float = 0.0
+    risk_level: str = "LOW"
+
+
+class SupplierStats(BaseModel):
+    supplier: str
+    total_inspections: int
+    accept_count: int
+    exception_count: int
+    uncertain_count: int
+    accept_rate: float
+    avg_risk_score: float
+    common_issues: list[str] = Field(default_factory=list)
 
 
 class CheckExplanation(BaseModel):

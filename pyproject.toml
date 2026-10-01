@@ -2,7 +2,7 @@
 name = "receiving-manager"
 version = "0.1.0"
 description = "AI-powered Receiving Manager: inspects inbound shipment photos against purchase orders and produces evidence-backed decisions."
-requires-python = ">=3.10"
+requires-python = ">=3.9"
 dependencies = [
     "fastapi==0.115.0",
     "uvicorn==0.30.6",
@@ -33,6 +33,7 @@ target-version = "py310"
 
 [tool.ruff.lint]
 select = ["E", "F", "I", "B", "UP"]
+ignore = ["B905"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
