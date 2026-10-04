@@ -1,0 +1,468 @@
+{
+  "schema_version": "1.1",
+  "record_id": "RCV-4cad9cb09417",
+  "organization_id": "org_demo_alpha",
+  "client_id": "dock_station_01",
+  "agent": "receiving-manager/openrouter:openai/gpt-4o-mini",
+  "subject": {
+    "sku": "SKU-MUG-11",
+    "po_number": "PO-9019",
+    "expected_quantity": 24
+  },
+  "captured_at": "2026-10-04T19:13:27.470209Z",
+  "operator_label": "op_dock",
+  "images": [
+    {
+      "photo_id": "P1",
+      "sha256": "2da1111f056fa3ccf94d81574382a9bab9b041e00b99aaaccf7dcbb6074c21cd",
+      "filename": "P1.png"
+    },
+    {
+      "photo_id": "P2",
+      "sha256": "72d0c3b0a94aa6c04e7fe50b5fb50f0a9c2659a2d9db36fb75e60a0f41a5c41c",
+      "filename": "P2.png"
+    },
+    {
+      "photo_id": "P3",
+      "sha256": "a931311bd44e5333711af6836dcb641351f3a7cf276c1da14636dd0496a8d475",
+      "filename": "P3.png"
+    }
+  ],
+  "contract_checks": [
+    {
+      "check_key": "sku_identity",
+      "verdict": "FAIL",
+      "confidence": 0.9,
+      "detail": "Identifiers read on the shipment do not match the ordered SKU",
+      "model_version": "openrouter:openai/gpt-4o-mini",
+      "latency_ms": 120.0
+    },
+    {
+      "check_key": "variant",
+      "verdict": "PASS",
+      "confidence": 0.9,
+      "detail": "Observed variant matches the order",
+      "model_version": "openrouter:openai/gpt-4o-mini",
+      "latency_ms": 120.0
+    },
+    {
+      "check_key": "quantity",
+      "verdict": "UNCERTAIN",
+      "confidence": null,
+      "detail": "Quantity cannot be verified: units could not be counted; product identity not confirmed, so carton contents cannot be assumed",
+      "model_version": "openrouter:openai/gpt-4o-mini",
+      "latency_ms": 120.0
+    },
+    {
+      "check_key": "carton_count",
+      "verdict": "PASS",
+      "confidence": 0.9,
+      "detail": "Carton count matches",
+      "model_version": "openrouter:openai/gpt-4o-mini",
+      "latency_ms": 120.0
+    },
+    {
+      "check_key": "units_per_carton",
+      "verdict": "PASS",
+      "confidence": 0.9,
+      "detail": "Carton label matches expected pack size",
+      "model_version": "openrouter:openai/gpt-4o-mini",
+      "latency_ms": 120.0
+    },
+    {
+      "check_key": "damage",
+      "verdict": "PASS",
+      "confidence": null,
+      "detail": "No damage observed with full photo coverage",
+      "model_version": "openrouter:openai/gpt-4o-mini",
+      "latency_ms": 120.0
+    },
+    {
+      "check_key": "components",
+      "verdict": "PASS",
+      "confidence": 0.9,
+      "detail": "All expected components observed",
+      "model_version": "openrouter:openai/gpt-4o-mini",
+      "latency_ms": 120.0
+    },
+    {
+      "check_key": "other_quality",
+      "verdict": "PASS",
+      "confidence": null,
+      "detail": "No other quality issues observed",
+      "model_version": "openrouter:openai/gpt-4o-mini",
+      "latency_ms": 120.0
+    }
+  ],
+  "outcome": {
+    "decision": "EXCEPTION",
+    "decided_by": "rules_engine+reasoning_audit",
+    "decided_at": "2026-10-04T19:13:27.470209+00:00"
+  },
+  "overrides": [],
+  "status": "completed",
+  "content_hash": "ce184f4c0a2b95d919a17fe43ecd0cb538960efe2550775d93904edaf52ab8be",
+  "report": {
+    "inspection_id": "4cad9cb09417",
+    "created_at": "2026-10-04T19:13:27.470209Z",
+    "po_number": "PO-9019",
+    "sku": "SKU-MUG-11",
+    "decision": "EXCEPTION",
+    "decision_reason": "Failed checks: sku_identity. Also unverified: quantity",
+    "checks": [
+      {
+        "check": "sku_identity",
+        "verdict": "FAIL",
+        "expected": "SKU-MUG-11",
+        "observed": "sku 'SKU-CANDLE-3'",
+        "confidence": 0.9,
+        "reason": "Identifiers read on the shipment do not match the ordered SKU",
+        "issues": [
+          {
+            "code": "WRONG_SKU",
+            "description": "Received sku 'SKU-CANDLE-3' instead of SKU-MUG-11",
+            "photo_ids": [
+              "P2"
+            ]
+          }
+        ],
+        "evidence": [
+          {
+            "photo_id": "P2",
+            "sha256": "72d0c3b0a94aa6c04e7fe50b5fb50f0a9c2659a2d9db36fb75e60a0f41a5c41c",
+            "detail": "sku 'SKU-CANDLE-3' read (conf 0.90)"
+          }
+        ]
+      },
+      {
+        "check": "variant",
+        "verdict": "PASS",
+        "expected": "color=white",
+        "observed": "color=white",
+        "confidence": 0.9,
+        "reason": "Observed variant matches the order",
+        "issues": [],
+        "evidence": [
+          {
+            "photo_id": "P2",
+            "sha256": "72d0c3b0a94aa6c04e7fe50b5fb50f0a9c2659a2d9db36fb75e60a0f41a5c41c",
+            "detail": "variant observed: color=white (conf 0.90)"
+          }
+        ]
+      },
+      {
+        "check": "quantity",
+        "verdict": "UNCERTAIN",
+        "expected": 24,
+        "observed": null,
+        "confidence": null,
+        "reason": "Quantity cannot be verified: units could not be counted; product identity not confirmed, so carton contents cannot be assumed",
+        "issues": [
+          {
+            "code": "QUANTITY_UNVERIFIED",
+            "description": "Quantity not verifiable from photos",
+            "photo_ids": []
+          }
+        ],
+        "evidence": []
+      },
+      {
+        "check": "carton_count",
+        "verdict": "PASS",
+        "expected": 2,
+        "observed": 2,
+        "confidence": 0.9,
+        "reason": "Carton count matches",
+        "issues": [],
+        "evidence": [
+          {
+            "photo_id": "P1",
+            "sha256": "2da1111f056fa3ccf94d81574382a9bab9b041e00b99aaaccf7dcbb6074c21cd",
+            "detail": "cartons counted: 2 (conf 0.90)"
+          }
+        ]
+      },
+      {
+        "check": "units_per_carton",
+        "verdict": "PASS",
+        "expected": 12,
+        "observed": 12,
+        "confidence": 0.9,
+        "reason": "Carton label matches expected pack size",
+        "issues": [],
+        "evidence": [
+          {
+            "photo_id": "P2",
+            "sha256": "72d0c3b0a94aa6c04e7fe50b5fb50f0a9c2659a2d9db36fb75e60a0f41a5c41c",
+            "detail": "carton label: 12 units/carton"
+          }
+        ]
+      },
+      {
+        "check": "damage",
+        "verdict": "PASS",
+        "expected": "no visible damage",
+        "observed": "no damage observed",
+        "confidence": null,
+        "reason": "No damage observed with full photo coverage",
+        "issues": [],
+        "evidence": []
+      },
+      {
+        "check": "components",
+        "verdict": "PASS",
+        "expected": "mug x2",
+        "observed": "mug x2",
+        "confidence": 0.9,
+        "reason": "All expected components observed",
+        "issues": [],
+        "evidence": [
+          {
+            "photo_id": "P3",
+            "sha256": "a931311bd44e5333711af6836dcb641351f3a7cf276c1da14636dd0496a8d475",
+            "detail": "mug x2: present (conf 0.90)"
+          }
+        ]
+      },
+      {
+        "check": "other_quality",
+        "verdict": "PASS",
+        "expected": null,
+        "observed": "none observed",
+        "confidence": null,
+        "reason": "No other quality issues observed",
+        "issues": [],
+        "evidence": []
+      }
+    ],
+    "issues": [
+      {
+        "code": "WRONG_SKU",
+        "description": "Received sku 'SKU-CANDLE-3' instead of SKU-MUG-11",
+        "photo_ids": [
+          "P2"
+        ]
+      },
+      {
+        "code": "QUANTITY_UNVERIFIED",
+        "description": "Quantity not verifiable from photos",
+        "photo_ids": []
+      }
+    ],
+    "warnings": [],
+    "confidence_threshold": 0.7,
+    "risk_score": 50.0,
+    "risk_level": "HIGH"
+  },
+  "purchase_order": {
+    "po_number": "PO-9019",
+    "supplier": "Acme Global Freight (DUMMY)",
+    "lines": [
+      {
+        "sku": "SKU-MUG-11",
+        "expected_quantity": 24,
+        "variant": {
+          "color": "white"
+        },
+        "expected_cartons": 2,
+        "units_per_carton": 12
+      }
+    ]
+  },
+  "po_line": {
+    "sku": "SKU-MUG-11",
+    "expected_quantity": 24,
+    "variant": {
+      "color": "white"
+    },
+    "expected_cartons": 2,
+    "units_per_carton": 12
+  },
+  "catalog_item": {
+    "sku": "SKU-MUG-11",
+    "name": "Ceramic Mug 11oz Set of 2",
+    "asin": null,
+    "barcodes": [],
+    "variant": {},
+    "units_per_carton": null,
+    "components": [
+      "mug x2"
+    ],
+    "description": null
+  },
+  "photos": [
+    {
+      "photo_id": "P1",
+      "filename": "P1.png",
+      "content_type": "image/png",
+      "sha256": "2da1111f056fa3ccf94d81574382a9bab9b041e00b99aaaccf7dcbb6074c21cd",
+      "size_bytes": 4423,
+      "stored_path": "/Users/krish/Desktop/rcv ai/RCV/data/eval_50/store/inspections/4cad9cb09417/photos/P1__P1.png"
+    },
+    {
+      "photo_id": "P2",
+      "filename": "P2.png",
+      "content_type": "image/png",
+      "sha256": "72d0c3b0a94aa6c04e7fe50b5fb50f0a9c2659a2d9db36fb75e60a0f41a5c41c",
+      "size_bytes": 16436,
+      "stored_path": "/Users/krish/Desktop/rcv ai/RCV/data/eval_50/store/inspections/4cad9cb09417/photos/P2__P2.png"
+    },
+    {
+      "photo_id": "P3",
+      "filename": "P3.png",
+      "content_type": "image/png",
+      "sha256": "a931311bd44e5333711af6836dcb641351f3a7cf276c1da14636dd0496a8d475",
+      "size_bytes": 8683,
+      "stored_path": "/Users/krish/Desktop/rcv ai/RCV/data/eval_50/store/inspections/4cad9cb09417/photos/P3__P3.png"
+    }
+  ],
+  "observations": {
+    "photos": [
+      {
+        "photo_id": "P1",
+        "usable": true,
+        "shows": [
+          "cartons"
+        ],
+        "quality_issues": []
+      },
+      {
+        "photo_id": "P2",
+        "usable": true,
+        "shows": [
+          "carton label"
+        ],
+        "quality_issues": []
+      },
+      {
+        "photo_id": "P3",
+        "usable": true,
+        "shows": [
+          "components"
+        ],
+        "quality_issues": []
+      }
+    ],
+    "identifiers": [
+      {
+        "kind": "sku",
+        "value": "SKU-CANDLE-3",
+        "photo_ids": [
+          "P2"
+        ],
+        "confidence": 0.9
+      }
+    ],
+    "variant": {
+      "attributes": {
+        "color": "white"
+      },
+      "photo_ids": [
+        "P2"
+      ],
+      "confidence": 0.9,
+      "notes": null
+    },
+    "units": {
+      "count": null,
+      "all_visible": false,
+      "photo_ids": [],
+      "confidence": 0.0,
+      "notes": "units inside sealed cartons"
+    },
+    "cartons": {
+      "count": {
+        "count": 2,
+        "all_visible": true,
+        "photo_ids": [
+          "P1"
+        ],
+        "confidence": 0.9,
+        "notes": null
+      },
+      "units_per_carton_label": 12,
+      "units_per_carton_label_photo_ids": [
+        "P2"
+      ],
+      "units_per_carton_label_confidence": 0.9,
+      "sealed": true
+    },
+    "damage": [],
+    "damage_coverage": "full",
+    "components": [
+      {
+        "name": "mug x2",
+        "present": true,
+        "photo_ids": [
+          "P3"
+        ],
+        "confidence": 0.9,
+        "notes": null
+      }
+    ],
+    "other_issues": [],
+    "notes": null
+  },
+  "observation_source": "openrouter:openai/gpt-4o-mini",
+  "ai_review": {
+    "model": "openai/gpt-4o-mini",
+    "summary": "The inspection resulted in an exception due to a failed SKU identity check and an uncertain quantity check.",
+    "check_explanations": [
+      {
+        "check": "sku_identity",
+        "explanation": "The expected SKU is SKU-MUG-11, but the observed SKU was SKU-CANDLE-3 as shown in photo P2, resulting in a FAIL."
+      },
+      {
+        "check": "variant",
+        "explanation": "The expected color of white matches the observed color in photo P2, so the outcome is a PASS."
+      },
+      {
+        "check": "quantity",
+        "explanation": "The quantity check is UNCERTAIN because the units inside the sealed cartons could not be counted, and the product identity is not confirmed."
+      },
+      {
+        "check": "carton_count",
+        "explanation": "The expected count of 2 cartons matches the counted cartons in photo P1, resulting in a PASS."
+      },
+      {
+        "check": "units_per_carton",
+        "explanation": "The count of 12 units per carton is confirmed by the carton label shown in photo P2, leading to a PASS."
+      },
+      {
+        "check": "damage",
+        "explanation": "No damage was noted in the inspection, resulting in a PASS."
+      },
+      {
+        "check": "components",
+        "explanation": "The expected components of 'mug x2' were present as evidenced in photo P3, leading to a PASS."
+      },
+      {
+        "check": "other_quality",
+        "explanation": "No other quality issues were observed, resulting in a PASS."
+      }
+    ],
+    "concerns": [
+      {
+        "description": "There is a discrepancy in the observed SKU identity which affects product verification.",
+        "checks": [
+          "sku_identity",
+          "quantity"
+        ],
+        "photo_ids": [
+          "P2"
+        ]
+      }
+    ],
+    "recommended_actions": [
+      "Quarantine the shipment due to SKU discrepancy.",
+      "Verify contents of the cartons by opening one to count the units."
+    ],
+    "supplier_claim_draft": "Discrepancy detected: Expected SKU SKU-MUG-11, but received SKU-CANDLE-3 (P2). Quantity verification not possible as units inside sealed cartons could not be counted.",
+    "agrees_with_decision": false,
+    "escalated": false,
+    "cost_usd": 0.0005436,
+    "cached": false
+  },
+  "llm_cost_usd": 0.012469,
+  "record_sha256": "ce184f4c0a2b95d919a17fe43ecd0cb538960efe2550775d93904edaf52ab8be"
+}

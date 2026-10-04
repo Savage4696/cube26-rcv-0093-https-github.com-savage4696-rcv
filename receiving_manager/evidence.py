@@ -13,17 +13,20 @@ def sha256_bytes(data: bytes) -> str:
 
 
 def record_digest(record: EvidenceRecord) -> str:
-    payload = record.model_dump(mode="json", exclude={"record_sha256"})
+    payload = record.model_dump(mode="json", exclude={"record_sha256", "content_hash"})
     return sha256_bytes(json.dumps(payload, sort_keys=True, separators=(",", ":")).encode())
 
 
 def seal(record: EvidenceRecord) -> EvidenceRecord:
-    record.record_sha256 = record_digest(record)
+    digest = record_digest(record)
+    record.record_sha256 = digest
+    record.content_hash = digest
     return record
 
 
 def verify(record: EvidenceRecord) -> bool:
-    return record.record_sha256 == record_digest(record)
+    expected = record_digest(record)
+    return (record.record_sha256 == expected) or (record.content_hash == expected)
 
 
 class EvidenceStore:

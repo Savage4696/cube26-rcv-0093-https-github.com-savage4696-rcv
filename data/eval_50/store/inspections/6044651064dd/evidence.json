@@ -1,0 +1,481 @@
+{
+  "schema_version": "1.1",
+  "record_id": "RCV-6044651064dd",
+  "organization_id": "org_demo_alpha",
+  "client_id": "dock_station_01",
+  "agent": "receiving-manager/openrouter:openai/gpt-4o-mini",
+  "subject": {
+    "sku": "SKU-LEASH-6FT",
+    "po_number": "PO-9020",
+    "expected_quantity": 24
+  },
+  "captured_at": "2026-10-04T19:13:42.609842Z",
+  "operator_label": "op_dock",
+  "images": [
+    {
+      "photo_id": "P1",
+      "sha256": "2da1111f056fa3ccf94d81574382a9bab9b041e00b99aaaccf7dcbb6074c21cd",
+      "filename": "P1.png"
+    },
+    {
+      "photo_id": "P2",
+      "sha256": "5538865f6048d68b63cf83ca049200791ff077b67b74e3463c0e66cbdca7e421",
+      "filename": "P2.png"
+    },
+    {
+      "photo_id": "P3",
+      "sha256": "99d4dff82dfac5a625ec2878b0549f7a742c91a190c5dd2d553a18bc917ef085",
+      "filename": "P3.png"
+    }
+  ],
+  "contract_checks": [
+    {
+      "check_key": "sku_identity",
+      "verdict": "FAIL",
+      "confidence": 0.9,
+      "detail": "Identifiers read on the shipment do not match the ordered SKU",
+      "model_version": "openrouter:openai/gpt-4o-mini",
+      "latency_ms": 120.0
+    },
+    {
+      "check_key": "variant",
+      "verdict": "PASS",
+      "confidence": 0.9,
+      "detail": "Observed variant matches the order",
+      "model_version": "openrouter:openai/gpt-4o-mini",
+      "latency_ms": 120.0
+    },
+    {
+      "check_key": "quantity",
+      "verdict": "FAIL",
+      "confidence": 0.9,
+      "detail": "Short by 16 unit(s) (direct count of units (all units visible))",
+      "model_version": "openrouter:openai/gpt-4o-mini",
+      "latency_ms": 120.0
+    },
+    {
+      "check_key": "carton_count",
+      "verdict": "PASS",
+      "confidence": 0.9,
+      "detail": "Carton count matches",
+      "model_version": "openrouter:openai/gpt-4o-mini",
+      "latency_ms": 120.0
+    },
+    {
+      "check_key": "units_per_carton",
+      "verdict": "PASS",
+      "confidence": 0.9,
+      "detail": "Carton label matches expected pack size",
+      "model_version": "openrouter:openai/gpt-4o-mini",
+      "latency_ms": 120.0
+    },
+    {
+      "check_key": "damage",
+      "verdict": "PASS",
+      "confidence": null,
+      "detail": "No damage observed with full photo coverage",
+      "model_version": "openrouter:openai/gpt-4o-mini",
+      "latency_ms": 120.0
+    },
+    {
+      "check_key": "components",
+      "verdict": "PASS",
+      "confidence": 0.9,
+      "detail": "All expected components observed",
+      "model_version": "openrouter:openai/gpt-4o-mini",
+      "latency_ms": 120.0
+    },
+    {
+      "check_key": "other_quality",
+      "verdict": "PASS",
+      "confidence": null,
+      "detail": "No other quality issues observed",
+      "model_version": "openrouter:openai/gpt-4o-mini",
+      "latency_ms": 120.0
+    }
+  ],
+  "outcome": {
+    "decision": "EXCEPTION",
+    "decided_by": "rules_engine+reasoning_audit",
+    "decided_at": "2026-10-04T19:13:42.609842+00:00"
+  },
+  "overrides": [],
+  "status": "completed",
+  "content_hash": "8bc892ad545284812414a067d5288a0a0315ab1385a0ecca4b7749d77e84fc62",
+  "report": {
+    "inspection_id": "6044651064dd",
+    "created_at": "2026-10-04T19:13:42.609842Z",
+    "po_number": "PO-9020",
+    "sku": "SKU-LEASH-6FT",
+    "decision": "EXCEPTION",
+    "decision_reason": "Failed checks: sku_identity, quantity",
+    "checks": [
+      {
+        "check": "sku_identity",
+        "verdict": "FAIL",
+        "expected": "SKU-LEASH-6FT",
+        "observed": "sku 'SKU-TOWEL-BLU'",
+        "confidence": 0.9,
+        "reason": "Identifiers read on the shipment do not match the ordered SKU",
+        "issues": [
+          {
+            "code": "WRONG_SKU",
+            "description": "Received sku 'SKU-TOWEL-BLU' instead of SKU-LEASH-6FT",
+            "photo_ids": [
+              "P2"
+            ]
+          }
+        ],
+        "evidence": [
+          {
+            "photo_id": "P2",
+            "sha256": "5538865f6048d68b63cf83ca049200791ff077b67b74e3463c0e66cbdca7e421",
+            "detail": "sku 'SKU-TOWEL-BLU' read (conf 0.90)"
+          }
+        ]
+      },
+      {
+        "check": "variant",
+        "verdict": "PASS",
+        "expected": "color=red",
+        "observed": "color=red",
+        "confidence": 0.9,
+        "reason": "Observed variant matches the order",
+        "issues": [],
+        "evidence": [
+          {
+            "photo_id": "P2",
+            "sha256": "5538865f6048d68b63cf83ca049200791ff077b67b74e3463c0e66cbdca7e421",
+            "detail": "variant observed: color=red (conf 0.90)"
+          }
+        ]
+      },
+      {
+        "check": "quantity",
+        "verdict": "FAIL",
+        "expected": 24,
+        "observed": 8,
+        "confidence": 0.9,
+        "reason": "Short by 16 unit(s) (direct count of units (all units visible))",
+        "issues": [
+          {
+            "code": "SHORT_SHIPMENT",
+            "description": "Expected 24, observed 8",
+            "photo_ids": [
+              "P3"
+            ]
+          }
+        ],
+        "evidence": [
+          {
+            "photo_id": "P3",
+            "sha256": "99d4dff82dfac5a625ec2878b0549f7a742c91a190c5dd2d553a18bc917ef085",
+            "detail": "direct count of units (all units visible)"
+          }
+        ]
+      },
+      {
+        "check": "carton_count",
+        "verdict": "PASS",
+        "expected": 2,
+        "observed": 2,
+        "confidence": 0.9,
+        "reason": "Carton count matches",
+        "issues": [],
+        "evidence": [
+          {
+            "photo_id": "P1",
+            "sha256": "2da1111f056fa3ccf94d81574382a9bab9b041e00b99aaaccf7dcbb6074c21cd",
+            "detail": "cartons counted: 2 (conf 0.90)"
+          }
+        ]
+      },
+      {
+        "check": "units_per_carton",
+        "verdict": "PASS",
+        "expected": 12,
+        "observed": 12,
+        "confidence": 0.9,
+        "reason": "Carton label matches expected pack size",
+        "issues": [],
+        "evidence": [
+          {
+            "photo_id": "P2",
+            "sha256": "5538865f6048d68b63cf83ca049200791ff077b67b74e3463c0e66cbdca7e421",
+            "detail": "carton label: 12 units/carton"
+          }
+        ]
+      },
+      {
+        "check": "damage",
+        "verdict": "PASS",
+        "expected": "no visible damage",
+        "observed": "no damage observed",
+        "confidence": null,
+        "reason": "No damage observed with full photo coverage",
+        "issues": [],
+        "evidence": []
+      },
+      {
+        "check": "components",
+        "verdict": "PASS",
+        "expected": "leash",
+        "observed": "leash",
+        "confidence": 0.9,
+        "reason": "All expected components observed",
+        "issues": [],
+        "evidence": [
+          {
+            "photo_id": "P3",
+            "sha256": "99d4dff82dfac5a625ec2878b0549f7a742c91a190c5dd2d553a18bc917ef085",
+            "detail": "leash: present (conf 0.90)"
+          }
+        ]
+      },
+      {
+        "check": "other_quality",
+        "verdict": "PASS",
+        "expected": null,
+        "observed": "none observed",
+        "confidence": null,
+        "reason": "No other quality issues observed",
+        "issues": [],
+        "evidence": []
+      }
+    ],
+    "issues": [
+      {
+        "code": "WRONG_SKU",
+        "description": "Received sku 'SKU-TOWEL-BLU' instead of SKU-LEASH-6FT",
+        "photo_ids": [
+          "P2"
+        ]
+      },
+      {
+        "code": "SHORT_SHIPMENT",
+        "description": "Expected 24, observed 8",
+        "photo_ids": [
+          "P3"
+        ]
+      }
+    ],
+    "warnings": [],
+    "confidence_threshold": 0.7,
+    "risk_score": 65.0,
+    "risk_level": "HIGH"
+  },
+  "purchase_order": {
+    "po_number": "PO-9020",
+    "supplier": "Acme Global Freight (DUMMY)",
+    "lines": [
+      {
+        "sku": "SKU-LEASH-6FT",
+        "expected_quantity": 24,
+        "variant": {
+          "color": "red"
+        },
+        "expected_cartons": 2,
+        "units_per_carton": 12
+      }
+    ]
+  },
+  "po_line": {
+    "sku": "SKU-LEASH-6FT",
+    "expected_quantity": 24,
+    "variant": {
+      "color": "red"
+    },
+    "expected_cartons": 2,
+    "units_per_carton": 12
+  },
+  "catalog_item": {
+    "sku": "SKU-LEASH-6FT",
+    "name": "Nylon Heavy Duty Dog Leash",
+    "asin": null,
+    "barcodes": [],
+    "variant": {},
+    "units_per_carton": null,
+    "components": [
+      "leash"
+    ],
+    "description": null
+  },
+  "photos": [
+    {
+      "photo_id": "P1",
+      "filename": "P1.png",
+      "content_type": "image/png",
+      "sha256": "2da1111f056fa3ccf94d81574382a9bab9b041e00b99aaaccf7dcbb6074c21cd",
+      "size_bytes": 4423,
+      "stored_path": "/Users/krish/Desktop/rcv ai/RCV/data/eval_50/store/inspections/6044651064dd/photos/P1__P1.png"
+    },
+    {
+      "photo_id": "P2",
+      "filename": "P2.png",
+      "content_type": "image/png",
+      "sha256": "5538865f6048d68b63cf83ca049200791ff077b67b74e3463c0e66cbdca7e421",
+      "size_bytes": 15494,
+      "stored_path": "/Users/krish/Desktop/rcv ai/RCV/data/eval_50/store/inspections/6044651064dd/photos/P2__P2.png"
+    },
+    {
+      "photo_id": "P3",
+      "filename": "P3.png",
+      "content_type": "image/png",
+      "sha256": "99d4dff82dfac5a625ec2878b0549f7a742c91a190c5dd2d553a18bc917ef085",
+      "size_bytes": 11154,
+      "stored_path": "/Users/krish/Desktop/rcv ai/RCV/data/eval_50/store/inspections/6044651064dd/photos/P3__P3.png"
+    }
+  ],
+  "observations": {
+    "photos": [
+      {
+        "photo_id": "P1",
+        "usable": true,
+        "shows": [
+          "cartons"
+        ],
+        "quality_issues": []
+      },
+      {
+        "photo_id": "P2",
+        "usable": true,
+        "shows": [
+          "carton label"
+        ],
+        "quality_issues": []
+      },
+      {
+        "photo_id": "P3",
+        "usable": true,
+        "shows": [
+          "units"
+        ],
+        "quality_issues": []
+      }
+    ],
+    "identifiers": [
+      {
+        "kind": "sku",
+        "value": "SKU-TOWEL-BLU",
+        "photo_ids": [
+          "P2"
+        ],
+        "confidence": 0.9
+      }
+    ],
+    "variant": {
+      "attributes": {
+        "color": "red"
+      },
+      "photo_ids": [
+        "P2"
+      ],
+      "confidence": 0.9,
+      "notes": null
+    },
+    "units": {
+      "count": 8,
+      "all_visible": true,
+      "photo_ids": [
+        "P3"
+      ],
+      "confidence": 0.9,
+      "notes": null
+    },
+    "cartons": {
+      "count": {
+        "count": 2,
+        "all_visible": true,
+        "photo_ids": [
+          "P1"
+        ],
+        "confidence": 0.9,
+        "notes": null
+      },
+      "units_per_carton_label": 12,
+      "units_per_carton_label_photo_ids": [
+        "P2"
+      ],
+      "units_per_carton_label_confidence": 0.9,
+      "sealed": true
+    },
+    "damage": [],
+    "damage_coverage": "full",
+    "components": [
+      {
+        "name": "leash",
+        "present": true,
+        "photo_ids": [
+          "P3"
+        ],
+        "confidence": 0.9,
+        "notes": null
+      }
+    ],
+    "other_issues": [],
+    "notes": null
+  },
+  "observation_source": "openrouter:openai/gpt-4o-mini",
+  "ai_review": {
+    "model": "openai/gpt-4o-mini",
+    "summary": "The inspection has identified significant discrepancies, including a mismatch in SKU and a shortfall in quantity, leading to an EXCEPTION decision.",
+    "check_explanations": [
+      {
+        "check": "sku_identity",
+        "explanation": "The observed SKU is 'SKU-TOWEL-BLU' instead of the expected 'SKU-LEASH-6FT', resulting in a FAIL."
+      },
+      {
+        "check": "variant",
+        "explanation": "The observed color matches the expected red variant, which gives a PASS."
+      },
+      {
+        "check": "quantity",
+        "explanation": "Only 8 units were counted instead of the expected 24, indicating a FAIL due to the shortfall."
+      },
+      {
+        "check": "carton_count",
+        "explanation": "The count of cartons was correctly matched at 2, leading to a PASS."
+      },
+      {
+        "check": "units_per_carton",
+        "explanation": "The label indicated 12 units per carton, which matches the expectation, resulting in a PASS."
+      },
+      {
+        "check": "damage",
+        "explanation": "No visible damage was observed, resulting in a PASS."
+      },
+      {
+        "check": "components",
+        "explanation": "The expected component (leash) was confirmed present, yielding a PASS."
+      },
+      {
+        "check": "other_quality",
+        "explanation": "No other quality issues were observed, resulting in a PASS."
+      }
+    ],
+    "concerns": [
+      {
+        "description": "The SKU mismatch and the quantity shortfall indicate that the shipment does not match the purchase order conditions.",
+        "checks": [
+          "sku_identity",
+          "quantity"
+        ],
+        "photo_ids": [
+          "P2",
+          "P3"
+        ]
+      }
+    ],
+    "recommended_actions": [
+      "Contact the supplier regarding the SKU mismatch and quantity shortfall.",
+      "Consider a manual review of the shipment based on the discrepancies."
+    ],
+    "supplier_claim_draft": "Discrepancies noted in the shipment: SKU read as 'SKU-TOWEL-BLU' (P2), only 8 units counted instead of 24 (P3).",
+    "agrees_with_decision": false,
+    "escalated": false,
+    "cost_usd": 0.0005394,
+    "cached": false
+  },
+  "llm_cost_usd": 0.012244,
+  "record_sha256": "8bc892ad545284812414a067d5288a0a0315ab1385a0ecca4b7749d77e84fc62"
+}

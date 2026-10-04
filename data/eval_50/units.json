@@ -1,0 +1,3330 @@
+[
+  {
+    "unit_id": "UNIT-0001",
+    "condition": "clear_direct_light",
+    "lighting": "normal",
+    "blur": false,
+    "occluded": false,
+    "purchase_order": {
+      "po_number": "PO-9001",
+      "supplier": "Acme Global Freight (DUMMY)",
+      "lines": [
+        {
+          "sku": "SKU-TOWEL-BLU",
+          "expected_quantity": 48,
+          "expected_cartons": 2,
+          "units_per_carton": 24,
+          "variant": {
+            "color": "blue"
+          }
+        }
+      ]
+    },
+    "catalog_item": {
+      "sku": "SKU-TOWEL-BLU",
+      "name": "Cotton Bath Towel",
+      "color": "blue",
+      "pack": 24,
+      "components": [
+        "towel"
+      ]
+    },
+    "arrived_truth": {
+      "sku": "SKU-TOWEL-BLU",
+      "variant": {
+        "color": "blue"
+      },
+      "cartons": 2,
+      "units_per_carton": 24,
+      "damage": false,
+      "missing_component": false
+    },
+    "human_label_1": {
+      "decision": "ACCEPT",
+      "sku_match": "PASS",
+      "variant_match": "PASS",
+      "quantity_match": "PASS",
+      "damage_clean": "PASS",
+      "components_complete": "PASS"
+    },
+    "human_label_2": {
+      "decision": "ACCEPT",
+      "sku_match": "PASS",
+      "variant_match": "PASS",
+      "quantity_match": "PASS",
+      "damage_clean": "PASS",
+      "components_complete": "PASS"
+    },
+    "consensus_ground_truth": {
+      "decision": "ACCEPT",
+      "reason": "All goods, counts, variants, and condition match PO."
+    },
+    "photos": [
+      "data/eval_50/photos/UNIT-0001/P1.png",
+      "data/eval_50/photos/UNIT-0001/P2.png",
+      "data/eval_50/photos/UNIT-0001/P3.png"
+    ]
+  },
+  {
+    "unit_id": "UNIT-0002",
+    "condition": "clear_direct_light",
+    "lighting": "normal",
+    "blur": false,
+    "occluded": false,
+    "purchase_order": {
+      "po_number": "PO-9002",
+      "supplier": "Acme Global Freight (DUMMY)",
+      "lines": [
+        {
+          "sku": "SKU-BOTTLE-750",
+          "expected_quantity": 24,
+          "expected_cartons": 2,
+          "units_per_carton": 12,
+          "variant": {
+            "color": "black"
+          }
+        }
+      ]
+    },
+    "catalog_item": {
+      "sku": "SKU-BOTTLE-750",
+      "name": "Steel Water Bottle 750ml",
+      "color": "black",
+      "pack": 12,
+      "components": [
+        "bottle",
+        "lid"
+      ]
+    },
+    "arrived_truth": {
+      "sku": "SKU-BOTTLE-750",
+      "variant": {
+        "color": "black"
+      },
+      "cartons": 2,
+      "units_per_carton": 12,
+      "damage": false,
+      "missing_component": false
+    },
+    "human_label_1": {
+      "decision": "ACCEPT",
+      "sku_match": "PASS",
+      "variant_match": "PASS",
+      "quantity_match": "PASS",
+      "damage_clean": "PASS",
+      "components_complete": "PASS"
+    },
+    "human_label_2": {
+      "decision": "ACCEPT",
+      "sku_match": "PASS",
+      "variant_match": "PASS",
+      "quantity_match": "PASS",
+      "damage_clean": "PASS",
+      "components_complete": "PASS"
+    },
+    "consensus_ground_truth": {
+      "decision": "ACCEPT",
+      "reason": "All goods, counts, variants, and condition match PO."
+    },
+    "photos": [
+      "data/eval_50/photos/UNIT-0002/P1.png",
+      "data/eval_50/photos/UNIT-0002/P2.png",
+      "data/eval_50/photos/UNIT-0002/P3.png"
+    ]
+  },
+  {
+    "unit_id": "UNIT-0003",
+    "condition": "dim_warehouse_lighting",
+    "lighting": "dim",
+    "blur": false,
+    "occluded": false,
+    "purchase_order": {
+      "po_number": "PO-9003",
+      "supplier": "Acme Global Freight (DUMMY)",
+      "lines": [
+        {
+          "sku": "SKU-CABLE-USBC",
+          "expected_quantity": 48,
+          "expected_cartons": 2,
+          "units_per_carton": 24,
+          "variant": {
+            "color": "white"
+          }
+        }
+      ]
+    },
+    "catalog_item": {
+      "sku": "SKU-CABLE-USBC",
+      "name": "USB-C Fast Charging Cable 2m",
+      "color": "white",
+      "pack": 24,
+      "components": [
+        "cable"
+      ]
+    },
+    "arrived_truth": {
+      "sku": "SKU-CABLE-USBC",
+      "variant": {
+        "color": "white"
+      },
+      "cartons": 2,
+      "units_per_carton": 24,
+      "damage": false,
+      "missing_component": false
+    },
+    "human_label_1": {
+      "decision": "ACCEPT",
+      "sku_match": "PASS",
+      "variant_match": "PASS",
+      "quantity_match": "PASS",
+      "damage_clean": "PASS",
+      "components_complete": "PASS"
+    },
+    "human_label_2": {
+      "decision": "ACCEPT",
+      "sku_match": "PASS",
+      "variant_match": "PASS",
+      "quantity_match": "PASS",
+      "damage_clean": "PASS",
+      "components_complete": "PASS"
+    },
+    "consensus_ground_truth": {
+      "decision": "ACCEPT",
+      "reason": "All goods, counts, variants, and condition match PO."
+    },
+    "photos": [
+      "data/eval_50/photos/UNIT-0003/P1.png",
+      "data/eval_50/photos/UNIT-0003/P2.png",
+      "data/eval_50/photos/UNIT-0003/P3.png"
+    ]
+  },
+  {
+    "unit_id": "UNIT-0004",
+    "condition": "clear_direct_light",
+    "lighting": "normal",
+    "blur": false,
+    "occluded": false,
+    "purchase_order": {
+      "po_number": "PO-9004",
+      "supplier": "Acme Global Freight (DUMMY)",
+      "lines": [
+        {
+          "sku": "SKU-LAMP-LED",
+          "expected_quantity": 24,
+          "expected_cartons": 2,
+          "units_per_carton": 12,
+          "variant": {
+            "color": "grey"
+          }
+        }
+      ]
+    },
+    "catalog_item": {
+      "sku": "SKU-LAMP-LED",
+      "name": "LED Desk Lamp with USB",
+      "color": "grey",
+      "pack": 12,
+      "components": [
+        "lamp",
+        "usb cable",
+        "manual"
+      ]
+    },
+    "arrived_truth": {
+      "sku": "SKU-LAMP-LED",
+      "variant": {
+        "color": "grey"
+      },
+      "cartons": 2,
+      "units_per_carton": 12,
+      "damage": false,
+      "missing_component": false
+    },
+    "human_label_1": {
+      "decision": "ACCEPT",
+      "sku_match": "PASS",
+      "variant_match": "PASS",
+      "quantity_match": "PASS",
+      "damage_clean": "PASS",
+      "components_complete": "PASS"
+    },
+    "human_label_2": {
+      "decision": "ACCEPT",
+      "sku_match": "PASS",
+      "variant_match": "PASS",
+      "quantity_match": "PASS",
+      "damage_clean": "PASS",
+      "components_complete": "PASS"
+    },
+    "consensus_ground_truth": {
+      "decision": "ACCEPT",
+      "reason": "All goods, counts, variants, and condition match PO."
+    },
+    "photos": [
+      "data/eval_50/photos/UNIT-0004/P1.png",
+      "data/eval_50/photos/UNIT-0004/P2.png",
+      "data/eval_50/photos/UNIT-0004/P3.png"
+    ]
+  },
+  {
+    "unit_id": "UNIT-0005",
+    "condition": "dock_glare_backlight",
+    "lighting": "glare",
+    "blur": false,
+    "occluded": false,
+    "purchase_order": {
+      "po_number": "PO-9005",
+      "supplier": "Acme Global Freight (DUMMY)",
+      "lines": [
+        {
+          "sku": "SKU-MUG-11",
+          "expected_quantity": 24,
+          "expected_cartons": 2,
+          "units_per_carton": 12,
+          "variant": {
+            "color": "white"
+          }
+        }
+      ]
+    },
+    "catalog_item": {
+      "sku": "SKU-MUG-11",
+      "name": "Ceramic Mug 11oz Set of 2",
+      "color": "white",
+      "pack": 12,
+      "components": [
+        "mug x2"
+      ]
+    },
+    "arrived_truth": {
+      "sku": "SKU-MUG-11",
+      "variant": {
+        "color": "white"
+      },
+      "cartons": 2,
+      "units_per_carton": 12,
+      "damage": false,
+      "missing_component": false
+    },
+    "human_label_1": {
+      "decision": "ACCEPT",
+      "sku_match": "PASS",
+      "variant_match": "PASS",
+      "quantity_match": "PASS",
+      "damage_clean": "PASS",
+      "components_complete": "PASS"
+    },
+    "human_label_2": {
+      "decision": "ACCEPT",
+      "sku_match": "PASS",
+      "variant_match": "PASS",
+      "quantity_match": "PASS",
+      "damage_clean": "PASS",
+      "components_complete": "PASS"
+    },
+    "consensus_ground_truth": {
+      "decision": "ACCEPT",
+      "reason": "All goods, counts, variants, and condition match PO."
+    },
+    "photos": [
+      "data/eval_50/photos/UNIT-0005/P1.png",
+      "data/eval_50/photos/UNIT-0005/P2.png",
+      "data/eval_50/photos/UNIT-0005/P3.png"
+    ]
+  },
+  {
+    "unit_id": "UNIT-0006",
+    "condition": "dim_warehouse_lighting",
+    "lighting": "dim",
+    "blur": false,
+    "occluded": false,
+    "purchase_order": {
+      "po_number": "PO-9006",
+      "supplier": "Acme Global Freight (DUMMY)",
+      "lines": [
+        {
+          "sku": "SKU-LEASH-6FT",
+          "expected_quantity": 24,
+          "expected_cartons": 2,
+          "units_per_carton": 12,
+          "variant": {
+            "color": "red"
+          }
+        }
+      ]
+    },
+    "catalog_item": {
+      "sku": "SKU-LEASH-6FT",
+      "name": "Nylon Heavy Duty Dog Leash",
+      "color": "red",
+      "pack": 12,
+      "components": [
+        "leash"
+      ]
+    },
+    "arrived_truth": {
+      "sku": "SKU-LEASH-6FT",
+      "variant": {
+        "color": "red"
+      },
+      "cartons": 2,
+      "units_per_carton": 12,
+      "damage": false,
+      "missing_component": false
+    },
+    "human_label_1": {
+      "decision": "ACCEPT",
+      "sku_match": "PASS",
+      "variant_match": "PASS",
+      "quantity_match": "PASS",
+      "damage_clean": "PASS",
+      "components_complete": "PASS"
+    },
+    "human_label_2": {
+      "decision": "ACCEPT",
+      "sku_match": "PASS",
+      "variant_match": "PASS",
+      "quantity_match": "PASS",
+      "damage_clean": "PASS",
+      "components_complete": "PASS"
+    },
+    "consensus_ground_truth": {
+      "decision": "ACCEPT",
+      "reason": "All goods, counts, variants, and condition match PO."
+    },
+    "photos": [
+      "data/eval_50/photos/UNIT-0006/P1.png",
+      "data/eval_50/photos/UNIT-0006/P2.png",
+      "data/eval_50/photos/UNIT-0006/P3.png"
+    ]
+  },
+  {
+    "unit_id": "UNIT-0007",
+    "condition": "clear_direct_light",
+    "lighting": "normal",
+    "blur": false,
+    "occluded": false,
+    "purchase_order": {
+      "po_number": "PO-9007",
+      "supplier": "Acme Global Freight (DUMMY)",
+      "lines": [
+        {
+          "sku": "SKU-CANDLE-3",
+          "expected_quantity": 24,
+          "expected_cartons": 2,
+          "units_per_carton": 12,
+          "variant": {
+            "color": "cream"
+          }
+        }
+      ]
+    },
+    "catalog_item": {
+      "sku": "SKU-CANDLE-3",
+      "name": "Soy Candle Trio Gift Box",
+      "color": "cream",
+      "pack": 12,
+      "components": [
+        "candle x3",
+        "gift box"
+      ]
+    },
+    "arrived_truth": {
+      "sku": "SKU-CANDLE-3",
+      "variant": {
+        "color": "cream"
+      },
+      "cartons": 2,
+      "units_per_carton": 12,
+      "damage": false,
+      "missing_component": false
+    },
+    "human_label_1": {
+      "decision": "ACCEPT",
+      "sku_match": "PASS",
+      "variant_match": "PASS",
+      "quantity_match": "PASS",
+      "damage_clean": "PASS",
+      "components_complete": "PASS"
+    },
+    "human_label_2": {
+      "decision": "ACCEPT",
+      "sku_match": "PASS",
+      "variant_match": "PASS",
+      "quantity_match": "PASS",
+      "damage_clean": "PASS",
+      "components_complete": "PASS"
+    },
+    "consensus_ground_truth": {
+      "decision": "ACCEPT",
+      "reason": "All goods, counts, variants, and condition match PO."
+    },
+    "photos": [
+      "data/eval_50/photos/UNIT-0007/P1.png",
+      "data/eval_50/photos/UNIT-0007/P2.png",
+      "data/eval_50/photos/UNIT-0007/P3.png"
+    ]
+  },
+  {
+    "unit_id": "UNIT-0008",
+    "condition": "clear_direct_light",
+    "lighting": "normal",
+    "blur": false,
+    "occluded": false,
+    "purchase_order": {
+      "po_number": "PO-9008",
+      "supplier": "Acme Global Freight (DUMMY)",
+      "lines": [
+        {
+          "sku": "SKU-TOWEL-BLU",
+          "expected_quantity": 48,
+          "expected_cartons": 2,
+          "units_per_carton": 24,
+          "variant": {
+            "color": "blue"
+          }
+        }
+      ]
+    },
+    "catalog_item": {
+      "sku": "SKU-TOWEL-BLU",
+      "name": "Cotton Bath Towel",
+      "color": "blue",
+      "pack": 24,
+      "components": [
+        "towel"
+      ]
+    },
+    "arrived_truth": {
+      "sku": "SKU-TOWEL-BLU",
+      "variant": {
+        "color": "blue"
+      },
+      "cartons": 2,
+      "units_per_carton": 24,
+      "damage": false,
+      "missing_component": false
+    },
+    "human_label_1": {
+      "decision": "ACCEPT",
+      "sku_match": "PASS",
+      "variant_match": "PASS",
+      "quantity_match": "PASS",
+      "damage_clean": "PASS",
+      "components_complete": "PASS"
+    },
+    "human_label_2": {
+      "decision": "ACCEPT",
+      "sku_match": "PASS",
+      "variant_match": "PASS",
+      "quantity_match": "PASS",
+      "damage_clean": "PASS",
+      "components_complete": "PASS"
+    },
+    "consensus_ground_truth": {
+      "decision": "ACCEPT",
+      "reason": "All goods, counts, variants, and condition match PO."
+    },
+    "photos": [
+      "data/eval_50/photos/UNIT-0008/P1.png",
+      "data/eval_50/photos/UNIT-0008/P2.png",
+      "data/eval_50/photos/UNIT-0008/P3.png"
+    ]
+  },
+  {
+    "unit_id": "UNIT-0009",
+    "condition": "dim_warehouse_lighting",
+    "lighting": "dim",
+    "blur": false,
+    "occluded": false,
+    "purchase_order": {
+      "po_number": "PO-9009",
+      "supplier": "Acme Global Freight (DUMMY)",
+      "lines": [
+        {
+          "sku": "SKU-BOTTLE-750",
+          "expected_quantity": 24,
+          "expected_cartons": 2,
+          "units_per_carton": 12,
+          "variant": {
+            "color": "black"
+          }
+        }
+      ]
+    },
+    "catalog_item": {
+      "sku": "SKU-BOTTLE-750",
+      "name": "Steel Water Bottle 750ml",
+      "color": "black",
+      "pack": 12,
+      "components": [
+        "bottle",
+        "lid"
+      ]
+    },
+    "arrived_truth": {
+      "sku": "SKU-BOTTLE-750",
+      "variant": {
+        "color": "black"
+      },
+      "cartons": 2,
+      "units_per_carton": 12,
+      "damage": false,
+      "missing_component": false
+    },
+    "human_label_1": {
+      "decision": "ACCEPT",
+      "sku_match": "PASS",
+      "variant_match": "PASS",
+      "quantity_match": "PASS",
+      "damage_clean": "PASS",
+      "components_complete": "PASS"
+    },
+    "human_label_2": {
+      "decision": "ACCEPT",
+      "sku_match": "PASS",
+      "variant_match": "PASS",
+      "quantity_match": "PASS",
+      "damage_clean": "PASS",
+      "components_complete": "PASS"
+    },
+    "consensus_ground_truth": {
+      "decision": "ACCEPT",
+      "reason": "All goods, counts, variants, and condition match PO."
+    },
+    "photos": [
+      "data/eval_50/photos/UNIT-0009/P1.png",
+      "data/eval_50/photos/UNIT-0009/P2.png",
+      "data/eval_50/photos/UNIT-0009/P3.png"
+    ]
+  },
+  {
+    "unit_id": "UNIT-0010",
+    "condition": "dock_glare_backlight",
+    "lighting": "glare",
+    "blur": false,
+    "occluded": false,
+    "purchase_order": {
+      "po_number": "PO-9010",
+      "supplier": "Acme Global Freight (DUMMY)",
+      "lines": [
+        {
+          "sku": "SKU-CABLE-USBC",
+          "expected_quantity": 48,
+          "expected_cartons": 2,
+          "units_per_carton": 24,
+          "variant": {
+            "color": "white"
+          }
+        }
+      ]
+    },
+    "catalog_item": {
+      "sku": "SKU-CABLE-USBC",
+      "name": "USB-C Fast Charging Cable 2m",
+      "color": "white",
+      "pack": 24,
+      "components": [
+        "cable"
+      ]
+    },
+    "arrived_truth": {
+      "sku": "SKU-CABLE-USBC",
+      "variant": {
+        "color": "white"
+      },
+      "cartons": 2,
+      "units_per_carton": 24,
+      "damage": false,
+      "missing_component": false
+    },
+    "human_label_1": {
+      "decision": "ACCEPT",
+      "sku_match": "PASS",
+      "variant_match": "PASS",
+      "quantity_match": "PASS",
+      "damage_clean": "PASS",
+      "components_complete": "PASS"
+    },
+    "human_label_2": {
+      "decision": "ACCEPT",
+      "sku_match": "PASS",
+      "variant_match": "PASS",
+      "quantity_match": "PASS",
+      "damage_clean": "PASS",
+      "components_complete": "PASS"
+    },
+    "consensus_ground_truth": {
+      "decision": "ACCEPT",
+      "reason": "All goods, counts, variants, and condition match PO."
+    },
+    "photos": [
+      "data/eval_50/photos/UNIT-0010/P1.png",
+      "data/eval_50/photos/UNIT-0010/P2.png",
+      "data/eval_50/photos/UNIT-0010/P3.png"
+    ]
+  },
+  {
+    "unit_id": "UNIT-0011",
+    "condition": "clear_direct_light",
+    "lighting": "normal",
+    "blur": false,
+    "occluded": false,
+    "purchase_order": {
+      "po_number": "PO-9011",
+      "supplier": "Acme Global Freight (DUMMY)",
+      "lines": [
+        {
+          "sku": "SKU-LAMP-LED",
+          "expected_quantity": 24,
+          "expected_cartons": 2,
+          "units_per_carton": 12,
+          "variant": {
+            "color": "grey"
+          }
+        }
+      ]
+    },
+    "catalog_item": {
+      "sku": "SKU-LAMP-LED",
+      "name": "LED Desk Lamp with USB",
+      "color": "grey",
+      "pack": 12,
+      "components": [
+        "lamp",
+        "usb cable",
+        "manual"
+      ]
+    },
+    "arrived_truth": {
+      "sku": "SKU-LAMP-LED",
+      "variant": {
+        "color": "grey"
+      },
+      "cartons": 2,
+      "units_per_carton": 12,
+      "damage": false,
+      "missing_component": false
+    },
+    "human_label_1": {
+      "decision": "ACCEPT",
+      "sku_match": "PASS",
+      "variant_match": "PASS",
+      "quantity_match": "PASS",
+      "damage_clean": "PASS",
+      "components_complete": "PASS"
+    },
+    "human_label_2": {
+      "decision": "ACCEPT",
+      "sku_match": "PASS",
+      "variant_match": "PASS",
+      "quantity_match": "PASS",
+      "damage_clean": "PASS",
+      "components_complete": "PASS"
+    },
+    "consensus_ground_truth": {
+      "decision": "ACCEPT",
+      "reason": "All goods, counts, variants, and condition match PO."
+    },
+    "photos": [
+      "data/eval_50/photos/UNIT-0011/P1.png",
+      "data/eval_50/photos/UNIT-0011/P2.png",
+      "data/eval_50/photos/UNIT-0011/P3.png"
+    ]
+  },
+  {
+    "unit_id": "UNIT-0012",
+    "condition": "dim_warehouse_lighting",
+    "lighting": "dim",
+    "blur": false,
+    "occluded": false,
+    "purchase_order": {
+      "po_number": "PO-9012",
+      "supplier": "Acme Global Freight (DUMMY)",
+      "lines": [
+        {
+          "sku": "SKU-MUG-11",
+          "expected_quantity": 24,
+          "expected_cartons": 2,
+          "units_per_carton": 12,
+          "variant": {
+            "color": "white"
+          }
+        }
+      ]
+    },
+    "catalog_item": {
+      "sku": "SKU-MUG-11",
+      "name": "Ceramic Mug 11oz Set of 2",
+      "color": "white",
+      "pack": 12,
+      "components": [
+        "mug x2"
+      ]
+    },
+    "arrived_truth": {
+      "sku": "SKU-MUG-11",
+      "variant": {
+        "color": "white"
+      },
+      "cartons": 2,
+      "units_per_carton": 12,
+      "damage": false,
+      "missing_component": false
+    },
+    "human_label_1": {
+      "decision": "ACCEPT",
+      "sku_match": "PASS",
+      "variant_match": "PASS",
+      "quantity_match": "PASS",
+      "damage_clean": "PASS",
+      "components_complete": "PASS"
+    },
+    "human_label_2": {
+      "decision": "ACCEPT",
+      "sku_match": "PASS",
+      "variant_match": "PASS",
+      "quantity_match": "PASS",
+      "damage_clean": "PASS",
+      "components_complete": "PASS"
+    },
+    "consensus_ground_truth": {
+      "decision": "ACCEPT",
+      "reason": "All goods, counts, variants, and condition match PO."
+    },
+    "photos": [
+      "data/eval_50/photos/UNIT-0012/P1.png",
+      "data/eval_50/photos/UNIT-0012/P2.png",
+      "data/eval_50/photos/UNIT-0012/P3.png"
+    ]
+  },
+  {
+    "unit_id": "UNIT-0013",
+    "condition": "clear_direct_light",
+    "lighting": "normal",
+    "blur": false,
+    "occluded": false,
+    "purchase_order": {
+      "po_number": "PO-9013",
+      "supplier": "Acme Global Freight (DUMMY)",
+      "lines": [
+        {
+          "sku": "SKU-LEASH-6FT",
+          "expected_quantity": 24,
+          "expected_cartons": 2,
+          "units_per_carton": 12,
+          "variant": {
+            "color": "red"
+          }
+        }
+      ]
+    },
+    "catalog_item": {
+      "sku": "SKU-LEASH-6FT",
+      "name": "Nylon Heavy Duty Dog Leash",
+      "color": "red",
+      "pack": 12,
+      "components": [
+        "leash"
+      ]
+    },
+    "arrived_truth": {
+      "sku": "SKU-LEASH-6FT",
+      "variant": {
+        "color": "red"
+      },
+      "cartons": 2,
+      "units_per_carton": 12,
+      "damage": false,
+      "missing_component": false
+    },
+    "human_label_1": {
+      "decision": "ACCEPT",
+      "sku_match": "PASS",
+      "variant_match": "PASS",
+      "quantity_match": "PASS",
+      "damage_clean": "PASS",
+      "components_complete": "PASS"
+    },
+    "human_label_2": {
+      "decision": "ACCEPT",
+      "sku_match": "PASS",
+      "variant_match": "PASS",
+      "quantity_match": "PASS",
+      "damage_clean": "PASS",
+      "components_complete": "PASS"
+    },
+    "consensus_ground_truth": {
+      "decision": "ACCEPT",
+      "reason": "All goods, counts, variants, and condition match PO."
+    },
+    "photos": [
+      "data/eval_50/photos/UNIT-0013/P1.png",
+      "data/eval_50/photos/UNIT-0013/P2.png",
+      "data/eval_50/photos/UNIT-0013/P3.png"
+    ]
+  },
+  {
+    "unit_id": "UNIT-0014",
+    "condition": "clear_direct_light",
+    "lighting": "normal",
+    "blur": false,
+    "occluded": false,
+    "purchase_order": {
+      "po_number": "PO-9014",
+      "supplier": "Acme Global Freight (DUMMY)",
+      "lines": [
+        {
+          "sku": "SKU-CANDLE-3",
+          "expected_quantity": 24,
+          "expected_cartons": 2,
+          "units_per_carton": 12,
+          "variant": {
+            "color": "cream"
+          }
+        }
+      ]
+    },
+    "catalog_item": {
+      "sku": "SKU-CANDLE-3",
+      "name": "Soy Candle Trio Gift Box",
+      "color": "cream",
+      "pack": 12,
+      "components": [
+        "candle x3",
+        "gift box"
+      ]
+    },
+    "arrived_truth": {
+      "sku": "SKU-CANDLE-3",
+      "variant": {
+        "color": "cream"
+      },
+      "cartons": 2,
+      "units_per_carton": 12,
+      "damage": false,
+      "missing_component": false
+    },
+    "human_label_1": {
+      "decision": "ACCEPT",
+      "sku_match": "PASS",
+      "variant_match": "PASS",
+      "quantity_match": "PASS",
+      "damage_clean": "PASS",
+      "components_complete": "PASS"
+    },
+    "human_label_2": {
+      "decision": "ACCEPT",
+      "sku_match": "PASS",
+      "variant_match": "PASS",
+      "quantity_match": "PASS",
+      "damage_clean": "PASS",
+      "components_complete": "PASS"
+    },
+    "consensus_ground_truth": {
+      "decision": "ACCEPT",
+      "reason": "All goods, counts, variants, and condition match PO."
+    },
+    "photos": [
+      "data/eval_50/photos/UNIT-0014/P1.png",
+      "data/eval_50/photos/UNIT-0014/P2.png",
+      "data/eval_50/photos/UNIT-0014/P3.png"
+    ]
+  },
+  {
+    "unit_id": "UNIT-0015",
+    "condition": "dim_warehouse_lighting",
+    "lighting": "dim",
+    "blur": false,
+    "occluded": false,
+    "purchase_order": {
+      "po_number": "PO-9015",
+      "supplier": "Acme Global Freight (DUMMY)",
+      "lines": [
+        {
+          "sku": "SKU-TOWEL-BLU",
+          "expected_quantity": 48,
+          "expected_cartons": 2,
+          "units_per_carton": 24,
+          "variant": {
+            "color": "blue"
+          }
+        }
+      ]
+    },
+    "catalog_item": {
+      "sku": "SKU-TOWEL-BLU",
+      "name": "Cotton Bath Towel",
+      "color": "blue",
+      "pack": 24,
+      "components": [
+        "towel"
+      ]
+    },
+    "arrived_truth": {
+      "sku": "SKU-TOWEL-BLU",
+      "variant": {
+        "color": "blue"
+      },
+      "cartons": 2,
+      "units_per_carton": 24,
+      "damage": false,
+      "missing_component": false
+    },
+    "human_label_1": {
+      "decision": "ACCEPT",
+      "sku_match": "PASS",
+      "variant_match": "PASS",
+      "quantity_match": "PASS",
+      "damage_clean": "PASS",
+      "components_complete": "PASS"
+    },
+    "human_label_2": {
+      "decision": "ACCEPT",
+      "sku_match": "PASS",
+      "variant_match": "PASS",
+      "quantity_match": "PASS",
+      "damage_clean": "PASS",
+      "components_complete": "PASS"
+    },
+    "consensus_ground_truth": {
+      "decision": "ACCEPT",
+      "reason": "All goods, counts, variants, and condition match PO."
+    },
+    "photos": [
+      "data/eval_50/photos/UNIT-0015/P1.png",
+      "data/eval_50/photos/UNIT-0015/P2.png",
+      "data/eval_50/photos/UNIT-0015/P3.png"
+    ]
+  },
+  {
+    "unit_id": "UNIT-0016",
+    "condition": "clear_direct_light",
+    "lighting": "normal",
+    "blur": false,
+    "occluded": false,
+    "purchase_order": {
+      "po_number": "PO-9016",
+      "supplier": "Acme Global Freight (DUMMY)",
+      "lines": [
+        {
+          "sku": "SKU-BOTTLE-750",
+          "expected_quantity": 24,
+          "expected_cartons": 2,
+          "units_per_carton": 12,
+          "variant": {
+            "color": "black"
+          }
+        }
+      ]
+    },
+    "catalog_item": {
+      "sku": "SKU-BOTTLE-750",
+      "name": "Steel Water Bottle 750ml",
+      "color": "black",
+      "pack": 12,
+      "components": [
+        "bottle",
+        "lid"
+      ]
+    },
+    "arrived_truth": {
+      "sku": "SKU-BOTTLE-750",
+      "variant": {
+        "color": "black"
+      },
+      "cartons": 2,
+      "units_per_carton": 12,
+      "damage": false,
+      "missing_component": false
+    },
+    "human_label_1": {
+      "decision": "ACCEPT",
+      "sku_match": "PASS",
+      "variant_match": "PASS",
+      "quantity_match": "PASS",
+      "damage_clean": "PASS",
+      "components_complete": "PASS"
+    },
+    "human_label_2": {
+      "decision": "ACCEPT",
+      "sku_match": "PASS",
+      "variant_match": "PASS",
+      "quantity_match": "PASS",
+      "damage_clean": "PASS",
+      "components_complete": "PASS"
+    },
+    "consensus_ground_truth": {
+      "decision": "ACCEPT",
+      "reason": "All goods, counts, variants, and condition match PO."
+    },
+    "photos": [
+      "data/eval_50/photos/UNIT-0016/P1.png",
+      "data/eval_50/photos/UNIT-0016/P2.png",
+      "data/eval_50/photos/UNIT-0016/P3.png"
+    ]
+  },
+  {
+    "unit_id": "UNIT-0017",
+    "condition": "clear_direct_light",
+    "lighting": "normal",
+    "blur": false,
+    "occluded": false,
+    "purchase_order": {
+      "po_number": "PO-9017",
+      "supplier": "Acme Global Freight (DUMMY)",
+      "lines": [
+        {
+          "sku": "SKU-CABLE-USBC",
+          "expected_quantity": 48,
+          "expected_cartons": 2,
+          "units_per_carton": 24,
+          "variant": {
+            "color": "white"
+          }
+        }
+      ]
+    },
+    "catalog_item": {
+      "sku": "SKU-CABLE-USBC",
+      "name": "USB-C Fast Charging Cable 2m",
+      "color": "white",
+      "pack": 24,
+      "components": [
+        "cable"
+      ]
+    },
+    "arrived_truth": {
+      "sku": "SKU-CABLE-USBC",
+      "variant": {
+        "color": "white"
+      },
+      "cartons": 2,
+      "units_per_carton": 24,
+      "damage": false,
+      "missing_component": false
+    },
+    "human_label_1": {
+      "decision": "ACCEPT",
+      "sku_match": "PASS",
+      "variant_match": "PASS",
+      "quantity_match": "PASS",
+      "damage_clean": "PASS",
+      "components_complete": "PASS"
+    },
+    "human_label_2": {
+      "decision": "ACCEPT",
+      "sku_match": "PASS",
+      "variant_match": "PASS",
+      "quantity_match": "PASS",
+      "damage_clean": "PASS",
+      "components_complete": "PASS"
+    },
+    "consensus_ground_truth": {
+      "decision": "ACCEPT",
+      "reason": "All goods, counts, variants, and condition match PO."
+    },
+    "photos": [
+      "data/eval_50/photos/UNIT-0017/P1.png",
+      "data/eval_50/photos/UNIT-0017/P2.png",
+      "data/eval_50/photos/UNIT-0017/P3.png"
+    ]
+  },
+  {
+    "unit_id": "UNIT-0018",
+    "condition": "dim_warehouse_lighting",
+    "lighting": "dim",
+    "blur": false,
+    "occluded": false,
+    "purchase_order": {
+      "po_number": "PO-9018",
+      "supplier": "Acme Global Freight (DUMMY)",
+      "lines": [
+        {
+          "sku": "SKU-LAMP-LED",
+          "expected_quantity": 24,
+          "expected_cartons": 2,
+          "units_per_carton": 12,
+          "variant": {
+            "color": "grey"
+          }
+        }
+      ]
+    },
+    "catalog_item": {
+      "sku": "SKU-LAMP-LED",
+      "name": "LED Desk Lamp with USB",
+      "color": "grey",
+      "pack": 12,
+      "components": [
+        "lamp",
+        "usb cable",
+        "manual"
+      ]
+    },
+    "arrived_truth": {
+      "sku": "SKU-LAMP-LED",
+      "variant": {
+        "color": "grey"
+      },
+      "cartons": 2,
+      "units_per_carton": 12,
+      "damage": false,
+      "missing_component": false
+    },
+    "human_label_1": {
+      "decision": "ACCEPT",
+      "sku_match": "PASS",
+      "variant_match": "PASS",
+      "quantity_match": "PASS",
+      "damage_clean": "PASS",
+      "components_complete": "PASS"
+    },
+    "human_label_2": {
+      "decision": "ACCEPT",
+      "sku_match": "PASS",
+      "variant_match": "PASS",
+      "quantity_match": "PASS",
+      "damage_clean": "PASS",
+      "components_complete": "PASS"
+    },
+    "consensus_ground_truth": {
+      "decision": "ACCEPT",
+      "reason": "All goods, counts, variants, and condition match PO."
+    },
+    "photos": [
+      "data/eval_50/photos/UNIT-0018/P1.png",
+      "data/eval_50/photos/UNIT-0018/P2.png",
+      "data/eval_50/photos/UNIT-0018/P3.png"
+    ]
+  },
+  {
+    "unit_id": "UNIT-0019",
+    "condition": "wrong_sku_delivered",
+    "lighting": "normal",
+    "blur": false,
+    "occluded": false,
+    "purchase_order": {
+      "po_number": "PO-9019",
+      "supplier": "Acme Global Freight (DUMMY)",
+      "lines": [
+        {
+          "sku": "SKU-MUG-11",
+          "expected_quantity": 24,
+          "expected_cartons": 2,
+          "units_per_carton": 12,
+          "variant": {
+            "color": "white"
+          }
+        }
+      ]
+    },
+    "catalog_item": {
+      "sku": "SKU-MUG-11",
+      "name": "Ceramic Mug 11oz Set of 2",
+      "color": "white",
+      "pack": 12,
+      "components": [
+        "mug x2"
+      ]
+    },
+    "arrived_truth": {
+      "sku": "SKU-CANDLE-3",
+      "variant": {
+        "color": "white"
+      },
+      "cartons": 2,
+      "units_per_carton": 12,
+      "damage": false,
+      "missing_component": false
+    },
+    "human_label_1": {
+      "decision": "EXCEPTION",
+      "sku_match": "FAIL",
+      "variant_match": "PASS",
+      "quantity_match": "PASS",
+      "damage_clean": "PASS",
+      "components_complete": "PASS"
+    },
+    "human_label_2": {
+      "decision": "EXCEPTION",
+      "sku_match": "FAIL",
+      "variant_match": "PASS",
+      "quantity_match": "PASS",
+      "damage_clean": "PASS",
+      "components_complete": "PASS"
+    },
+    "consensus_ground_truth": {
+      "decision": "EXCEPTION",
+      "reason": "Label displays arrived SKU SKU-CANDLE-3 instead of ordered SKU-MUG-11."
+    },
+    "photos": [
+      "data/eval_50/photos/UNIT-0019/P1.png",
+      "data/eval_50/photos/UNIT-0019/P2.png",
+      "data/eval_50/photos/UNIT-0019/P3.png"
+    ]
+  },
+  {
+    "unit_id": "UNIT-0020",
+    "condition": "wrong_sku_delivered",
+    "lighting": "normal",
+    "blur": false,
+    "occluded": false,
+    "purchase_order": {
+      "po_number": "PO-9020",
+      "supplier": "Acme Global Freight (DUMMY)",
+      "lines": [
+        {
+          "sku": "SKU-LEASH-6FT",
+          "expected_quantity": 24,
+          "expected_cartons": 2,
+          "units_per_carton": 12,
+          "variant": {
+            "color": "red"
+          }
+        }
+      ]
+    },
+    "catalog_item": {
+      "sku": "SKU-LEASH-6FT",
+      "name": "Nylon Heavy Duty Dog Leash",
+      "color": "red",
+      "pack": 12,
+      "components": [
+        "leash"
+      ]
+    },
+    "arrived_truth": {
+      "sku": "SKU-TOWEL-BLU",
+      "variant": {
+        "color": "red"
+      },
+      "cartons": 2,
+      "units_per_carton": 12,
+      "damage": false,
+      "missing_component": false
+    },
+    "human_label_1": {
+      "decision": "EXCEPTION",
+      "sku_match": "FAIL",
+      "variant_match": "PASS",
+      "quantity_match": "PASS",
+      "damage_clean": "PASS",
+      "components_complete": "PASS"
+    },
+    "human_label_2": {
+      "decision": "EXCEPTION",
+      "sku_match": "FAIL",
+      "variant_match": "PASS",
+      "quantity_match": "PASS",
+      "damage_clean": "PASS",
+      "components_complete": "PASS"
+    },
+    "consensus_ground_truth": {
+      "decision": "EXCEPTION",
+      "reason": "Label displays arrived SKU SKU-TOWEL-BLU instead of ordered SKU-LEASH-6FT."
+    },
+    "photos": [
+      "data/eval_50/photos/UNIT-0020/P1.png",
+      "data/eval_50/photos/UNIT-0020/P2.png",
+      "data/eval_50/photos/UNIT-0020/P3.png"
+    ]
+  },
+  {
+    "unit_id": "UNIT-0021",
+    "condition": "wrong_sku_delivered",
+    "lighting": "normal",
+    "blur": false,
+    "occluded": false,
+    "purchase_order": {
+      "po_number": "PO-9021",
+      "supplier": "Acme Global Freight (DUMMY)",
+      "lines": [
+        {
+          "sku": "SKU-CANDLE-3",
+          "expected_quantity": 24,
+          "expected_cartons": 2,
+          "units_per_carton": 12,
+          "variant": {
+            "color": "cream"
+          }
+        }
+      ]
+    },
+    "catalog_item": {
+      "sku": "SKU-CANDLE-3",
+      "name": "Soy Candle Trio Gift Box",
+      "color": "cream",
+      "pack": 12,
+      "components": [
+        "candle x3",
+        "gift box"
+      ]
+    },
+    "arrived_truth": {
+      "sku": "SKU-BOTTLE-750",
+      "variant": {
+        "color": "cream"
+      },
+      "cartons": 2,
+      "units_per_carton": 12,
+      "damage": false,
+      "missing_component": false
+    },
+    "human_label_1": {
+      "decision": "EXCEPTION",
+      "sku_match": "FAIL",
+      "variant_match": "PASS",
+      "quantity_match": "PASS",
+      "damage_clean": "PASS",
+      "components_complete": "PASS"
+    },
+    "human_label_2": {
+      "decision": "EXCEPTION",
+      "sku_match": "FAIL",
+      "variant_match": "PASS",
+      "quantity_match": "PASS",
+      "damage_clean": "PASS",
+      "components_complete": "PASS"
+    },
+    "consensus_ground_truth": {
+      "decision": "EXCEPTION",
+      "reason": "Label displays arrived SKU SKU-BOTTLE-750 instead of ordered SKU-CANDLE-3."
+    },
+    "photos": [
+      "data/eval_50/photos/UNIT-0021/P1.png",
+      "data/eval_50/photos/UNIT-0021/P2.png",
+      "data/eval_50/photos/UNIT-0021/P3.png"
+    ]
+  },
+  {
+    "unit_id": "UNIT-0022",
+    "condition": "wrong_sku_delivered",
+    "lighting": "normal",
+    "blur": false,
+    "occluded": false,
+    "purchase_order": {
+      "po_number": "PO-9022",
+      "supplier": "Acme Global Freight (DUMMY)",
+      "lines": [
+        {
+          "sku": "SKU-TOWEL-BLU",
+          "expected_quantity": 48,
+          "expected_cartons": 2,
+          "units_per_carton": 24,
+          "variant": {
+            "color": "blue"
+          }
+        }
+      ]
+    },
+    "catalog_item": {
+      "sku": "SKU-TOWEL-BLU",
+      "name": "Cotton Bath Towel",
+      "color": "blue",
+      "pack": 24,
+      "components": [
+        "towel"
+      ]
+    },
+    "arrived_truth": {
+      "sku": "SKU-CABLE-USBC",
+      "variant": {
+        "color": "blue"
+      },
+      "cartons": 2,
+      "units_per_carton": 24,
+      "damage": false,
+      "missing_component": false
+    },
+    "human_label_1": {
+      "decision": "EXCEPTION",
+      "sku_match": "FAIL",
+      "variant_match": "PASS",
+      "quantity_match": "PASS",
+      "damage_clean": "PASS",
+      "components_complete": "PASS"
+    },
+    "human_label_2": {
+      "decision": "EXCEPTION",
+      "sku_match": "FAIL",
+      "variant_match": "PASS",
+      "quantity_match": "PASS",
+      "damage_clean": "PASS",
+      "components_complete": "PASS"
+    },
+    "consensus_ground_truth": {
+      "decision": "EXCEPTION",
+      "reason": "Label displays arrived SKU SKU-CABLE-USBC instead of ordered SKU-TOWEL-BLU."
+    },
+    "photos": [
+      "data/eval_50/photos/UNIT-0022/P1.png",
+      "data/eval_50/photos/UNIT-0022/P2.png",
+      "data/eval_50/photos/UNIT-0022/P3.png"
+    ]
+  },
+  {
+    "unit_id": "UNIT-0023",
+    "condition": "wrong_sku_delivered",
+    "lighting": "normal",
+    "blur": false,
+    "occluded": false,
+    "purchase_order": {
+      "po_number": "PO-9023",
+      "supplier": "Acme Global Freight (DUMMY)",
+      "lines": [
+        {
+          "sku": "SKU-BOTTLE-750",
+          "expected_quantity": 24,
+          "expected_cartons": 2,
+          "units_per_carton": 12,
+          "variant": {
+            "color": "black"
+          }
+        }
+      ]
+    },
+    "catalog_item": {
+      "sku": "SKU-BOTTLE-750",
+      "name": "Steel Water Bottle 750ml",
+      "color": "black",
+      "pack": 12,
+      "components": [
+        "bottle",
+        "lid"
+      ]
+    },
+    "arrived_truth": {
+      "sku": "SKU-LAMP-LED",
+      "variant": {
+        "color": "black"
+      },
+      "cartons": 2,
+      "units_per_carton": 12,
+      "damage": false,
+      "missing_component": false
+    },
+    "human_label_1": {
+      "decision": "EXCEPTION",
+      "sku_match": "FAIL",
+      "variant_match": "PASS",
+      "quantity_match": "PASS",
+      "damage_clean": "PASS",
+      "components_complete": "PASS"
+    },
+    "human_label_2": {
+      "decision": "EXCEPTION",
+      "sku_match": "FAIL",
+      "variant_match": "PASS",
+      "quantity_match": "PASS",
+      "damage_clean": "PASS",
+      "components_complete": "PASS"
+    },
+    "consensus_ground_truth": {
+      "decision": "EXCEPTION",
+      "reason": "Label displays arrived SKU SKU-LAMP-LED instead of ordered SKU-BOTTLE-750."
+    },
+    "photos": [
+      "data/eval_50/photos/UNIT-0023/P1.png",
+      "data/eval_50/photos/UNIT-0023/P2.png",
+      "data/eval_50/photos/UNIT-0023/P3.png"
+    ]
+  },
+  {
+    "unit_id": "UNIT-0024",
+    "condition": "wrong_sku_delivered",
+    "lighting": "normal",
+    "blur": false,
+    "occluded": false,
+    "purchase_order": {
+      "po_number": "PO-9024",
+      "supplier": "Acme Global Freight (DUMMY)",
+      "lines": [
+        {
+          "sku": "SKU-CABLE-USBC",
+          "expected_quantity": 48,
+          "expected_cartons": 2,
+          "units_per_carton": 24,
+          "variant": {
+            "color": "white"
+          }
+        }
+      ]
+    },
+    "catalog_item": {
+      "sku": "SKU-CABLE-USBC",
+      "name": "USB-C Fast Charging Cable 2m",
+      "color": "white",
+      "pack": 24,
+      "components": [
+        "cable"
+      ]
+    },
+    "arrived_truth": {
+      "sku": "SKU-MUG-11",
+      "variant": {
+        "color": "white"
+      },
+      "cartons": 2,
+      "units_per_carton": 24,
+      "damage": false,
+      "missing_component": false
+    },
+    "human_label_1": {
+      "decision": "EXCEPTION",
+      "sku_match": "FAIL",
+      "variant_match": "PASS",
+      "quantity_match": "PASS",
+      "damage_clean": "PASS",
+      "components_complete": "PASS"
+    },
+    "human_label_2": {
+      "decision": "EXCEPTION",
+      "sku_match": "FAIL",
+      "variant_match": "PASS",
+      "quantity_match": "PASS",
+      "damage_clean": "PASS",
+      "components_complete": "PASS"
+    },
+    "consensus_ground_truth": {
+      "decision": "EXCEPTION",
+      "reason": "Label displays arrived SKU SKU-MUG-11 instead of ordered SKU-CABLE-USBC."
+    },
+    "photos": [
+      "data/eval_50/photos/UNIT-0024/P1.png",
+      "data/eval_50/photos/UNIT-0024/P2.png",
+      "data/eval_50/photos/UNIT-0024/P3.png"
+    ]
+  },
+  {
+    "unit_id": "UNIT-0025",
+    "condition": "color_variant_mismatch",
+    "lighting": "normal",
+    "blur": false,
+    "occluded": false,
+    "purchase_order": {
+      "po_number": "PO-9025",
+      "supplier": "Acme Global Freight (DUMMY)",
+      "lines": [
+        {
+          "sku": "SKU-LAMP-LED",
+          "expected_quantity": 24,
+          "expected_cartons": 2,
+          "units_per_carton": 12,
+          "variant": {
+            "color": "grey"
+          }
+        }
+      ]
+    },
+    "catalog_item": {
+      "sku": "SKU-LAMP-LED",
+      "name": "LED Desk Lamp with USB",
+      "color": "grey",
+      "pack": 12,
+      "components": [
+        "lamp",
+        "usb cable",
+        "manual"
+      ]
+    },
+    "arrived_truth": {
+      "sku": "SKU-LAMP-LED",
+      "variant": {
+        "color": "red"
+      },
+      "cartons": 2,
+      "units_per_carton": 12,
+      "damage": false,
+      "missing_component": false
+    },
+    "human_label_1": {
+      "decision": "EXCEPTION",
+      "sku_match": "PASS",
+      "variant_match": "FAIL",
+      "quantity_match": "PASS",
+      "damage_clean": "PASS",
+      "components_complete": "PASS"
+    },
+    "human_label_2": {
+      "decision": "EXCEPTION",
+      "sku_match": "PASS",
+      "variant_match": "FAIL",
+      "quantity_match": "PASS",
+      "damage_clean": "PASS",
+      "components_complete": "PASS"
+    },
+    "consensus_ground_truth": {
+      "decision": "EXCEPTION",
+      "reason": "Arrived color is red, PO specifies grey."
+    },
+    "photos": [
+      "data/eval_50/photos/UNIT-0025/P1.png",
+      "data/eval_50/photos/UNIT-0025/P2.png",
+      "data/eval_50/photos/UNIT-0025/P3.png"
+    ]
+  },
+  {
+    "unit_id": "UNIT-0026",
+    "condition": "color_variant_mismatch",
+    "lighting": "normal",
+    "blur": false,
+    "occluded": false,
+    "purchase_order": {
+      "po_number": "PO-9026",
+      "supplier": "Acme Global Freight (DUMMY)",
+      "lines": [
+        {
+          "sku": "SKU-MUG-11",
+          "expected_quantity": 24,
+          "expected_cartons": 2,
+          "units_per_carton": 12,
+          "variant": {
+            "color": "white"
+          }
+        }
+      ]
+    },
+    "catalog_item": {
+      "sku": "SKU-MUG-11",
+      "name": "Ceramic Mug 11oz Set of 2",
+      "color": "white",
+      "pack": 12,
+      "components": [
+        "mug x2"
+      ]
+    },
+    "arrived_truth": {
+      "sku": "SKU-MUG-11",
+      "variant": {
+        "color": "green"
+      },
+      "cartons": 2,
+      "units_per_carton": 12,
+      "damage": false,
+      "missing_component": false
+    },
+    "human_label_1": {
+      "decision": "EXCEPTION",
+      "sku_match": "PASS",
+      "variant_match": "FAIL",
+      "quantity_match": "PASS",
+      "damage_clean": "PASS",
+      "components_complete": "PASS"
+    },
+    "human_label_2": {
+      "decision": "EXCEPTION",
+      "sku_match": "PASS",
+      "variant_match": "FAIL",
+      "quantity_match": "PASS",
+      "damage_clean": "PASS",
+      "components_complete": "PASS"
+    },
+    "consensus_ground_truth": {
+      "decision": "EXCEPTION",
+      "reason": "Arrived color is green, PO specifies white."
+    },
+    "photos": [
+      "data/eval_50/photos/UNIT-0026/P1.png",
+      "data/eval_50/photos/UNIT-0026/P2.png",
+      "data/eval_50/photos/UNIT-0026/P3.png"
+    ]
+  },
+  {
+    "unit_id": "UNIT-0027",
+    "condition": "color_variant_mismatch",
+    "lighting": "normal",
+    "blur": false,
+    "occluded": false,
+    "purchase_order": {
+      "po_number": "PO-9027",
+      "supplier": "Acme Global Freight (DUMMY)",
+      "lines": [
+        {
+          "sku": "SKU-LEASH-6FT",
+          "expected_quantity": 24,
+          "expected_cartons": 2,
+          "units_per_carton": 12,
+          "variant": {
+            "color": "red"
+          }
+        }
+      ]
+    },
+    "catalog_item": {
+      "sku": "SKU-LEASH-6FT",
+      "name": "Nylon Heavy Duty Dog Leash",
+      "color": "red",
+      "pack": 12,
+      "components": [
+        "leash"
+      ]
+    },
+    "arrived_truth": {
+      "sku": "SKU-LEASH-6FT",
+      "variant": {
+        "color": "white"
+      },
+      "cartons": 2,
+      "units_per_carton": 12,
+      "damage": false,
+      "missing_component": false
+    },
+    "human_label_1": {
+      "decision": "EXCEPTION",
+      "sku_match": "PASS",
+      "variant_match": "FAIL",
+      "quantity_match": "PASS",
+      "damage_clean": "PASS",
+      "components_complete": "PASS"
+    },
+    "human_label_2": {
+      "decision": "EXCEPTION",
+      "sku_match": "PASS",
+      "variant_match": "FAIL",
+      "quantity_match": "PASS",
+      "damage_clean": "PASS",
+      "components_complete": "PASS"
+    },
+    "consensus_ground_truth": {
+      "decision": "EXCEPTION",
+      "reason": "Arrived color is white, PO specifies red."
+    },
+    "photos": [
+      "data/eval_50/photos/UNIT-0027/P1.png",
+      "data/eval_50/photos/UNIT-0027/P2.png",
+      "data/eval_50/photos/UNIT-0027/P3.png"
+    ]
+  },
+  {
+    "unit_id": "UNIT-0028",
+    "condition": "color_variant_mismatch",
+    "lighting": "normal",
+    "blur": false,
+    "occluded": false,
+    "purchase_order": {
+      "po_number": "PO-9028",
+      "supplier": "Acme Global Freight (DUMMY)",
+      "lines": [
+        {
+          "sku": "SKU-CANDLE-3",
+          "expected_quantity": 24,
+          "expected_cartons": 2,
+          "units_per_carton": 12,
+          "variant": {
+            "color": "cream"
+          }
+        }
+      ]
+    },
+    "catalog_item": {
+      "sku": "SKU-CANDLE-3",
+      "name": "Soy Candle Trio Gift Box",
+      "color": "cream",
+      "pack": 12,
+      "components": [
+        "candle x3",
+        "gift box"
+      ]
+    },
+    "arrived_truth": {
+      "sku": "SKU-CANDLE-3",
+      "variant": {
+        "color": "white"
+      },
+      "cartons": 2,
+      "units_per_carton": 12,
+      "damage": false,
+      "missing_component": false
+    },
+    "human_label_1": {
+      "decision": "EXCEPTION",
+      "sku_match": "PASS",
+      "variant_match": "FAIL",
+      "quantity_match": "PASS",
+      "damage_clean": "PASS",
+      "components_complete": "PASS"
+    },
+    "human_label_2": {
+      "decision": "EXCEPTION",
+      "sku_match": "PASS",
+      "variant_match": "FAIL",
+      "quantity_match": "PASS",
+      "damage_clean": "PASS",
+      "components_complete": "PASS"
+    },
+    "consensus_ground_truth": {
+      "decision": "EXCEPTION",
+      "reason": "Arrived color is white, PO specifies cream."
+    },
+    "photos": [
+      "data/eval_50/photos/UNIT-0028/P1.png",
+      "data/eval_50/photos/UNIT-0028/P2.png",
+      "data/eval_50/photos/UNIT-0028/P3.png"
+    ]
+  },
+  {
+    "unit_id": "UNIT-0029",
+    "condition": "color_variant_mismatch",
+    "lighting": "normal",
+    "blur": false,
+    "occluded": false,
+    "purchase_order": {
+      "po_number": "PO-9029",
+      "supplier": "Acme Global Freight (DUMMY)",
+      "lines": [
+        {
+          "sku": "SKU-TOWEL-BLU",
+          "expected_quantity": 48,
+          "expected_cartons": 2,
+          "units_per_carton": 24,
+          "variant": {
+            "color": "blue"
+          }
+        }
+      ]
+    },
+    "catalog_item": {
+      "sku": "SKU-TOWEL-BLU",
+      "name": "Cotton Bath Towel",
+      "color": "blue",
+      "pack": 24,
+      "components": [
+        "towel"
+      ]
+    },
+    "arrived_truth": {
+      "sku": "SKU-TOWEL-BLU",
+      "variant": {
+        "color": "cream"
+      },
+      "cartons": 2,
+      "units_per_carton": 24,
+      "damage": false,
+      "missing_component": false
+    },
+    "human_label_1": {
+      "decision": "EXCEPTION",
+      "sku_match": "PASS",
+      "variant_match": "FAIL",
+      "quantity_match": "PASS",
+      "damage_clean": "PASS",
+      "components_complete": "PASS"
+    },
+    "human_label_2": {
+      "decision": "EXCEPTION",
+      "sku_match": "PASS",
+      "variant_match": "FAIL",
+      "quantity_match": "PASS",
+      "damage_clean": "PASS",
+      "components_complete": "PASS"
+    },
+    "consensus_ground_truth": {
+      "decision": "EXCEPTION",
+      "reason": "Arrived color is cream, PO specifies blue."
+    },
+    "photos": [
+      "data/eval_50/photos/UNIT-0029/P1.png",
+      "data/eval_50/photos/UNIT-0029/P2.png",
+      "data/eval_50/photos/UNIT-0029/P3.png"
+    ]
+  },
+  {
+    "unit_id": "UNIT-0030",
+    "condition": "carton_shortage",
+    "lighting": "normal",
+    "blur": false,
+    "occluded": false,
+    "purchase_order": {
+      "po_number": "PO-9030",
+      "supplier": "Acme Global Freight (DUMMY)",
+      "lines": [
+        {
+          "sku": "SKU-BOTTLE-750",
+          "expected_quantity": 24,
+          "expected_cartons": 2,
+          "units_per_carton": 12,
+          "variant": {
+            "color": "black"
+          }
+        }
+      ]
+    },
+    "catalog_item": {
+      "sku": "SKU-BOTTLE-750",
+      "name": "Steel Water Bottle 750ml",
+      "color": "black",
+      "pack": 12,
+      "components": [
+        "bottle",
+        "lid"
+      ]
+    },
+    "arrived_truth": {
+      "sku": "SKU-BOTTLE-750",
+      "variant": {
+        "color": "black"
+      },
+      "cartons": 1,
+      "units_per_carton": 12,
+      "damage": false,
+      "missing_component": false
+    },
+    "human_label_1": {
+      "decision": "EXCEPTION",
+      "sku_match": "PASS",
+      "variant_match": "PASS",
+      "quantity_match": "FAIL",
+      "damage_clean": "PASS",
+      "components_complete": "PASS"
+    },
+    "human_label_2": {
+      "decision": "EXCEPTION",
+      "sku_match": "PASS",
+      "variant_match": "PASS",
+      "quantity_match": "FAIL",
+      "damage_clean": "PASS",
+      "components_complete": "PASS"
+    },
+    "consensus_ground_truth": {
+      "decision": "EXCEPTION",
+      "reason": "Received 1 of 2 ordered cartons."
+    },
+    "photos": [
+      "data/eval_50/photos/UNIT-0030/P1.png",
+      "data/eval_50/photos/UNIT-0030/P2.png",
+      "data/eval_50/photos/UNIT-0030/P3.png"
+    ]
+  },
+  {
+    "unit_id": "UNIT-0031",
+    "condition": "carton_shortage",
+    "lighting": "normal",
+    "blur": false,
+    "occluded": false,
+    "purchase_order": {
+      "po_number": "PO-9031",
+      "supplier": "Acme Global Freight (DUMMY)",
+      "lines": [
+        {
+          "sku": "SKU-CABLE-USBC",
+          "expected_quantity": 48,
+          "expected_cartons": 2,
+          "units_per_carton": 24,
+          "variant": {
+            "color": "white"
+          }
+        }
+      ]
+    },
+    "catalog_item": {
+      "sku": "SKU-CABLE-USBC",
+      "name": "USB-C Fast Charging Cable 2m",
+      "color": "white",
+      "pack": 24,
+      "components": [
+        "cable"
+      ]
+    },
+    "arrived_truth": {
+      "sku": "SKU-CABLE-USBC",
+      "variant": {
+        "color": "white"
+      },
+      "cartons": 1,
+      "units_per_carton": 24,
+      "damage": false,
+      "missing_component": false
+    },
+    "human_label_1": {
+      "decision": "EXCEPTION",
+      "sku_match": "PASS",
+      "variant_match": "PASS",
+      "quantity_match": "FAIL",
+      "damage_clean": "PASS",
+      "components_complete": "PASS"
+    },
+    "human_label_2": {
+      "decision": "EXCEPTION",
+      "sku_match": "PASS",
+      "variant_match": "PASS",
+      "quantity_match": "FAIL",
+      "damage_clean": "PASS",
+      "components_complete": "PASS"
+    },
+    "consensus_ground_truth": {
+      "decision": "EXCEPTION",
+      "reason": "Received 1 of 2 ordered cartons."
+    },
+    "photos": [
+      "data/eval_50/photos/UNIT-0031/P1.png",
+      "data/eval_50/photos/UNIT-0031/P2.png",
+      "data/eval_50/photos/UNIT-0031/P3.png"
+    ]
+  },
+  {
+    "unit_id": "UNIT-0032",
+    "condition": "carton_shortage",
+    "lighting": "normal",
+    "blur": false,
+    "occluded": false,
+    "purchase_order": {
+      "po_number": "PO-9032",
+      "supplier": "Acme Global Freight (DUMMY)",
+      "lines": [
+        {
+          "sku": "SKU-LAMP-LED",
+          "expected_quantity": 24,
+          "expected_cartons": 2,
+          "units_per_carton": 12,
+          "variant": {
+            "color": "grey"
+          }
+        }
+      ]
+    },
+    "catalog_item": {
+      "sku": "SKU-LAMP-LED",
+      "name": "LED Desk Lamp with USB",
+      "color": "grey",
+      "pack": 12,
+      "components": [
+        "lamp",
+        "usb cable",
+        "manual"
+      ]
+    },
+    "arrived_truth": {
+      "sku": "SKU-LAMP-LED",
+      "variant": {
+        "color": "grey"
+      },
+      "cartons": 1,
+      "units_per_carton": 12,
+      "damage": false,
+      "missing_component": false
+    },
+    "human_label_1": {
+      "decision": "EXCEPTION",
+      "sku_match": "PASS",
+      "variant_match": "PASS",
+      "quantity_match": "FAIL",
+      "damage_clean": "PASS",
+      "components_complete": "PASS"
+    },
+    "human_label_2": {
+      "decision": "EXCEPTION",
+      "sku_match": "PASS",
+      "variant_match": "PASS",
+      "quantity_match": "FAIL",
+      "damage_clean": "PASS",
+      "components_complete": "PASS"
+    },
+    "consensus_ground_truth": {
+      "decision": "EXCEPTION",
+      "reason": "Received 1 of 2 ordered cartons."
+    },
+    "photos": [
+      "data/eval_50/photos/UNIT-0032/P1.png",
+      "data/eval_50/photos/UNIT-0032/P2.png",
+      "data/eval_50/photos/UNIT-0032/P3.png"
+    ]
+  },
+  {
+    "unit_id": "UNIT-0033",
+    "condition": "carton_shortage",
+    "lighting": "normal",
+    "blur": false,
+    "occluded": false,
+    "purchase_order": {
+      "po_number": "PO-9033",
+      "supplier": "Acme Global Freight (DUMMY)",
+      "lines": [
+        {
+          "sku": "SKU-MUG-11",
+          "expected_quantity": 24,
+          "expected_cartons": 2,
+          "units_per_carton": 12,
+          "variant": {
+            "color": "white"
+          }
+        }
+      ]
+    },
+    "catalog_item": {
+      "sku": "SKU-MUG-11",
+      "name": "Ceramic Mug 11oz Set of 2",
+      "color": "white",
+      "pack": 12,
+      "components": [
+        "mug x2"
+      ]
+    },
+    "arrived_truth": {
+      "sku": "SKU-MUG-11",
+      "variant": {
+        "color": "white"
+      },
+      "cartons": 1,
+      "units_per_carton": 12,
+      "damage": false,
+      "missing_component": false
+    },
+    "human_label_1": {
+      "decision": "EXCEPTION",
+      "sku_match": "PASS",
+      "variant_match": "PASS",
+      "quantity_match": "FAIL",
+      "damage_clean": "PASS",
+      "components_complete": "PASS"
+    },
+    "human_label_2": {
+      "decision": "EXCEPTION",
+      "sku_match": "PASS",
+      "variant_match": "PASS",
+      "quantity_match": "FAIL",
+      "damage_clean": "PASS",
+      "components_complete": "PASS"
+    },
+    "consensus_ground_truth": {
+      "decision": "EXCEPTION",
+      "reason": "Received 1 of 2 ordered cartons."
+    },
+    "photos": [
+      "data/eval_50/photos/UNIT-0033/P1.png",
+      "data/eval_50/photos/UNIT-0033/P2.png",
+      "data/eval_50/photos/UNIT-0033/P3.png"
+    ]
+  },
+  {
+    "unit_id": "UNIT-0034",
+    "condition": "carton_shortage",
+    "lighting": "normal",
+    "blur": false,
+    "occluded": false,
+    "purchase_order": {
+      "po_number": "PO-9034",
+      "supplier": "Acme Global Freight (DUMMY)",
+      "lines": [
+        {
+          "sku": "SKU-LEASH-6FT",
+          "expected_quantity": 24,
+          "expected_cartons": 2,
+          "units_per_carton": 12,
+          "variant": {
+            "color": "red"
+          }
+        }
+      ]
+    },
+    "catalog_item": {
+      "sku": "SKU-LEASH-6FT",
+      "name": "Nylon Heavy Duty Dog Leash",
+      "color": "red",
+      "pack": 12,
+      "components": [
+        "leash"
+      ]
+    },
+    "arrived_truth": {
+      "sku": "SKU-LEASH-6FT",
+      "variant": {
+        "color": "red"
+      },
+      "cartons": 1,
+      "units_per_carton": 12,
+      "damage": false,
+      "missing_component": false
+    },
+    "human_label_1": {
+      "decision": "EXCEPTION",
+      "sku_match": "PASS",
+      "variant_match": "PASS",
+      "quantity_match": "FAIL",
+      "damage_clean": "PASS",
+      "components_complete": "PASS"
+    },
+    "human_label_2": {
+      "decision": "EXCEPTION",
+      "sku_match": "PASS",
+      "variant_match": "PASS",
+      "quantity_match": "FAIL",
+      "damage_clean": "PASS",
+      "components_complete": "PASS"
+    },
+    "consensus_ground_truth": {
+      "decision": "EXCEPTION",
+      "reason": "Received 1 of 2 ordered cartons."
+    },
+    "photos": [
+      "data/eval_50/photos/UNIT-0034/P1.png",
+      "data/eval_50/photos/UNIT-0034/P2.png",
+      "data/eval_50/photos/UNIT-0034/P3.png"
+    ]
+  },
+  {
+    "unit_id": "UNIT-0035",
+    "condition": "units_per_carton_mismatch",
+    "lighting": "normal",
+    "blur": false,
+    "occluded": false,
+    "purchase_order": {
+      "po_number": "PO-9035",
+      "supplier": "Acme Global Freight (DUMMY)",
+      "lines": [
+        {
+          "sku": "SKU-CANDLE-3",
+          "expected_quantity": 24,
+          "expected_cartons": 2,
+          "units_per_carton": 12,
+          "variant": {
+            "color": "cream"
+          }
+        }
+      ]
+    },
+    "catalog_item": {
+      "sku": "SKU-CANDLE-3",
+      "name": "Soy Candle Trio Gift Box",
+      "color": "cream",
+      "pack": 12,
+      "components": [
+        "candle x3",
+        "gift box"
+      ]
+    },
+    "arrived_truth": {
+      "sku": "SKU-CANDLE-3",
+      "variant": {
+        "color": "cream"
+      },
+      "cartons": 2,
+      "units_per_carton": 6,
+      "damage": false,
+      "missing_component": false
+    },
+    "human_label_1": {
+      "decision": "EXCEPTION",
+      "sku_match": "PASS",
+      "variant_match": "PASS",
+      "quantity_match": "FAIL",
+      "damage_clean": "PASS",
+      "components_complete": "PASS"
+    },
+    "human_label_2": {
+      "decision": "EXCEPTION",
+      "sku_match": "PASS",
+      "variant_match": "PASS",
+      "quantity_match": "FAIL",
+      "damage_clean": "PASS",
+      "components_complete": "PASS"
+    },
+    "consensus_ground_truth": {
+      "decision": "EXCEPTION",
+      "reason": "Carton label indicates 6 units/box; PO expected 12."
+    },
+    "photos": [
+      "data/eval_50/photos/UNIT-0035/P1.png",
+      "data/eval_50/photos/UNIT-0035/P2.png",
+      "data/eval_50/photos/UNIT-0035/P3.png"
+    ]
+  },
+  {
+    "unit_id": "UNIT-0036",
+    "condition": "units_per_carton_mismatch",
+    "lighting": "normal",
+    "blur": false,
+    "occluded": false,
+    "purchase_order": {
+      "po_number": "PO-9036",
+      "supplier": "Acme Global Freight (DUMMY)",
+      "lines": [
+        {
+          "sku": "SKU-TOWEL-BLU",
+          "expected_quantity": 48,
+          "expected_cartons": 2,
+          "units_per_carton": 24,
+          "variant": {
+            "color": "blue"
+          }
+        }
+      ]
+    },
+    "catalog_item": {
+      "sku": "SKU-TOWEL-BLU",
+      "name": "Cotton Bath Towel",
+      "color": "blue",
+      "pack": 24,
+      "components": [
+        "towel"
+      ]
+    },
+    "arrived_truth": {
+      "sku": "SKU-TOWEL-BLU",
+      "variant": {
+        "color": "blue"
+      },
+      "cartons": 2,
+      "units_per_carton": 12,
+      "damage": false,
+      "missing_component": false
+    },
+    "human_label_1": {
+      "decision": "EXCEPTION",
+      "sku_match": "PASS",
+      "variant_match": "PASS",
+      "quantity_match": "FAIL",
+      "damage_clean": "PASS",
+      "components_complete": "PASS"
+    },
+    "human_label_2": {
+      "decision": "EXCEPTION",
+      "sku_match": "PASS",
+      "variant_match": "PASS",
+      "quantity_match": "FAIL",
+      "damage_clean": "PASS",
+      "components_complete": "PASS"
+    },
+    "consensus_ground_truth": {
+      "decision": "EXCEPTION",
+      "reason": "Carton label indicates 12 units/box; PO expected 24."
+    },
+    "photos": [
+      "data/eval_50/photos/UNIT-0036/P1.png",
+      "data/eval_50/photos/UNIT-0036/P2.png",
+      "data/eval_50/photos/UNIT-0036/P3.png"
+    ]
+  },
+  {
+    "unit_id": "UNIT-0037",
+    "condition": "units_per_carton_mismatch",
+    "lighting": "normal",
+    "blur": false,
+    "occluded": false,
+    "purchase_order": {
+      "po_number": "PO-9037",
+      "supplier": "Acme Global Freight (DUMMY)",
+      "lines": [
+        {
+          "sku": "SKU-BOTTLE-750",
+          "expected_quantity": 24,
+          "expected_cartons": 2,
+          "units_per_carton": 12,
+          "variant": {
+            "color": "black"
+          }
+        }
+      ]
+    },
+    "catalog_item": {
+      "sku": "SKU-BOTTLE-750",
+      "name": "Steel Water Bottle 750ml",
+      "color": "black",
+      "pack": 12,
+      "components": [
+        "bottle",
+        "lid"
+      ]
+    },
+    "arrived_truth": {
+      "sku": "SKU-BOTTLE-750",
+      "variant": {
+        "color": "black"
+      },
+      "cartons": 2,
+      "units_per_carton": 6,
+      "damage": false,
+      "missing_component": false
+    },
+    "human_label_1": {
+      "decision": "EXCEPTION",
+      "sku_match": "PASS",
+      "variant_match": "PASS",
+      "quantity_match": "FAIL",
+      "damage_clean": "PASS",
+      "components_complete": "PASS"
+    },
+    "human_label_2": {
+      "decision": "EXCEPTION",
+      "sku_match": "PASS",
+      "variant_match": "PASS",
+      "quantity_match": "FAIL",
+      "damage_clean": "PASS",
+      "components_complete": "PASS"
+    },
+    "consensus_ground_truth": {
+      "decision": "EXCEPTION",
+      "reason": "Carton label indicates 6 units/box; PO expected 12."
+    },
+    "photos": [
+      "data/eval_50/photos/UNIT-0037/P1.png",
+      "data/eval_50/photos/UNIT-0037/P2.png",
+      "data/eval_50/photos/UNIT-0037/P3.png"
+    ]
+  },
+  {
+    "unit_id": "UNIT-0038",
+    "condition": "crushed_carton_transit_damage",
+    "lighting": "normal",
+    "blur": false,
+    "occluded": false,
+    "purchase_order": {
+      "po_number": "PO-9038",
+      "supplier": "Acme Global Freight (DUMMY)",
+      "lines": [
+        {
+          "sku": "SKU-CABLE-USBC",
+          "expected_quantity": 48,
+          "expected_cartons": 2,
+          "units_per_carton": 24,
+          "variant": {
+            "color": "white"
+          }
+        }
+      ]
+    },
+    "catalog_item": {
+      "sku": "SKU-CABLE-USBC",
+      "name": "USB-C Fast Charging Cable 2m",
+      "color": "white",
+      "pack": 24,
+      "components": [
+        "cable"
+      ]
+    },
+    "arrived_truth": {
+      "sku": "SKU-CABLE-USBC",
+      "variant": {
+        "color": "white"
+      },
+      "cartons": 2,
+      "units_per_carton": 24,
+      "damage": true,
+      "missing_component": false
+    },
+    "human_label_1": {
+      "decision": "EXCEPTION",
+      "sku_match": "PASS",
+      "variant_match": "PASS",
+      "quantity_match": "PASS",
+      "damage_clean": "FAIL",
+      "components_complete": "PASS"
+    },
+    "human_label_2": {
+      "decision": "EXCEPTION",
+      "sku_match": "PASS",
+      "variant_match": "PASS",
+      "quantity_match": "PASS",
+      "damage_clean": "FAIL",
+      "components_complete": "PASS"
+    },
+    "consensus_ground_truth": {
+      "decision": "EXCEPTION",
+      "reason": "Visible severe crushing on carton corner and sidewall."
+    },
+    "photos": [
+      "data/eval_50/photos/UNIT-0038/P1.png",
+      "data/eval_50/photos/UNIT-0038/P2.png",
+      "data/eval_50/photos/UNIT-0038/P3.png"
+    ]
+  },
+  {
+    "unit_id": "UNIT-0039",
+    "condition": "crushed_carton_transit_damage",
+    "lighting": "normal",
+    "blur": false,
+    "occluded": false,
+    "purchase_order": {
+      "po_number": "PO-9039",
+      "supplier": "Acme Global Freight (DUMMY)",
+      "lines": [
+        {
+          "sku": "SKU-LAMP-LED",
+          "expected_quantity": 24,
+          "expected_cartons": 2,
+          "units_per_carton": 12,
+          "variant": {
+            "color": "grey"
+          }
+        }
+      ]
+    },
+    "catalog_item": {
+      "sku": "SKU-LAMP-LED",
+      "name": "LED Desk Lamp with USB",
+      "color": "grey",
+      "pack": 12,
+      "components": [
+        "lamp",
+        "usb cable",
+        "manual"
+      ]
+    },
+    "arrived_truth": {
+      "sku": "SKU-LAMP-LED",
+      "variant": {
+        "color": "grey"
+      },
+      "cartons": 2,
+      "units_per_carton": 12,
+      "damage": true,
+      "missing_component": false
+    },
+    "human_label_1": {
+      "decision": "EXCEPTION",
+      "sku_match": "PASS",
+      "variant_match": "PASS",
+      "quantity_match": "PASS",
+      "damage_clean": "FAIL",
+      "components_complete": "PASS"
+    },
+    "human_label_2": {
+      "decision": "EXCEPTION",
+      "sku_match": "PASS",
+      "variant_match": "PASS",
+      "quantity_match": "PASS",
+      "damage_clean": "FAIL",
+      "components_complete": "PASS"
+    },
+    "consensus_ground_truth": {
+      "decision": "EXCEPTION",
+      "reason": "Visible severe crushing on carton corner and sidewall."
+    },
+    "photos": [
+      "data/eval_50/photos/UNIT-0039/P1.png",
+      "data/eval_50/photos/UNIT-0039/P2.png",
+      "data/eval_50/photos/UNIT-0039/P3.png"
+    ]
+  },
+  {
+    "unit_id": "UNIT-0040",
+    "condition": "crushed_carton_transit_damage",
+    "lighting": "normal",
+    "blur": false,
+    "occluded": false,
+    "purchase_order": {
+      "po_number": "PO-9040",
+      "supplier": "Acme Global Freight (DUMMY)",
+      "lines": [
+        {
+          "sku": "SKU-MUG-11",
+          "expected_quantity": 24,
+          "expected_cartons": 2,
+          "units_per_carton": 12,
+          "variant": {
+            "color": "white"
+          }
+        }
+      ]
+    },
+    "catalog_item": {
+      "sku": "SKU-MUG-11",
+      "name": "Ceramic Mug 11oz Set of 2",
+      "color": "white",
+      "pack": 12,
+      "components": [
+        "mug x2"
+      ]
+    },
+    "arrived_truth": {
+      "sku": "SKU-MUG-11",
+      "variant": {
+        "color": "white"
+      },
+      "cartons": 2,
+      "units_per_carton": 12,
+      "damage": true,
+      "missing_component": false
+    },
+    "human_label_1": {
+      "decision": "EXCEPTION",
+      "sku_match": "PASS",
+      "variant_match": "PASS",
+      "quantity_match": "PASS",
+      "damage_clean": "FAIL",
+      "components_complete": "PASS"
+    },
+    "human_label_2": {
+      "decision": "EXCEPTION",
+      "sku_match": "PASS",
+      "variant_match": "PASS",
+      "quantity_match": "PASS",
+      "damage_clean": "FAIL",
+      "components_complete": "PASS"
+    },
+    "consensus_ground_truth": {
+      "decision": "EXCEPTION",
+      "reason": "Visible severe crushing on carton corner and sidewall."
+    },
+    "photos": [
+      "data/eval_50/photos/UNIT-0040/P1.png",
+      "data/eval_50/photos/UNIT-0040/P2.png",
+      "data/eval_50/photos/UNIT-0040/P3.png"
+    ]
+  },
+  {
+    "unit_id": "UNIT-0041",
+    "condition": "crushed_carton_transit_damage",
+    "lighting": "normal",
+    "blur": false,
+    "occluded": false,
+    "purchase_order": {
+      "po_number": "PO-9041",
+      "supplier": "Acme Global Freight (DUMMY)",
+      "lines": [
+        {
+          "sku": "SKU-LEASH-6FT",
+          "expected_quantity": 24,
+          "expected_cartons": 2,
+          "units_per_carton": 12,
+          "variant": {
+            "color": "red"
+          }
+        }
+      ]
+    },
+    "catalog_item": {
+      "sku": "SKU-LEASH-6FT",
+      "name": "Nylon Heavy Duty Dog Leash",
+      "color": "red",
+      "pack": 12,
+      "components": [
+        "leash"
+      ]
+    },
+    "arrived_truth": {
+      "sku": "SKU-LEASH-6FT",
+      "variant": {
+        "color": "red"
+      },
+      "cartons": 2,
+      "units_per_carton": 12,
+      "damage": true,
+      "missing_component": false
+    },
+    "human_label_1": {
+      "decision": "EXCEPTION",
+      "sku_match": "PASS",
+      "variant_match": "PASS",
+      "quantity_match": "PASS",
+      "damage_clean": "FAIL",
+      "components_complete": "PASS"
+    },
+    "human_label_2": {
+      "decision": "EXCEPTION",
+      "sku_match": "PASS",
+      "variant_match": "PASS",
+      "quantity_match": "PASS",
+      "damage_clean": "FAIL",
+      "components_complete": "PASS"
+    },
+    "consensus_ground_truth": {
+      "decision": "EXCEPTION",
+      "reason": "Visible severe crushing on carton corner and sidewall."
+    },
+    "photos": [
+      "data/eval_50/photos/UNIT-0041/P1.png",
+      "data/eval_50/photos/UNIT-0041/P2.png",
+      "data/eval_50/photos/UNIT-0041/P3.png"
+    ]
+  },
+  {
+    "unit_id": "UNIT-0042",
+    "condition": "water_damaged_carton",
+    "lighting": "normal",
+    "blur": false,
+    "occluded": false,
+    "purchase_order": {
+      "po_number": "PO-9042",
+      "supplier": "Acme Global Freight (DUMMY)",
+      "lines": [
+        {
+          "sku": "SKU-CANDLE-3",
+          "expected_quantity": 24,
+          "expected_cartons": 2,
+          "units_per_carton": 12,
+          "variant": {
+            "color": "cream"
+          }
+        }
+      ]
+    },
+    "catalog_item": {
+      "sku": "SKU-CANDLE-3",
+      "name": "Soy Candle Trio Gift Box",
+      "color": "cream",
+      "pack": 12,
+      "components": [
+        "candle x3",
+        "gift box"
+      ]
+    },
+    "arrived_truth": {
+      "sku": "SKU-CANDLE-3",
+      "variant": {
+        "color": "cream"
+      },
+      "cartons": 2,
+      "units_per_carton": 12,
+      "damage": true,
+      "missing_component": false
+    },
+    "human_label_1": {
+      "decision": "EXCEPTION",
+      "sku_match": "PASS",
+      "variant_match": "PASS",
+      "quantity_match": "PASS",
+      "damage_clean": "FAIL",
+      "components_complete": "PASS"
+    },
+    "human_label_2": {
+      "decision": "EXCEPTION",
+      "sku_match": "PASS",
+      "variant_match": "PASS",
+      "quantity_match": "PASS",
+      "damage_clean": "FAIL",
+      "components_complete": "PASS"
+    },
+    "consensus_ground_truth": {
+      "decision": "EXCEPTION",
+      "reason": "Dark water stains and warping visible along lower carton face."
+    },
+    "photos": [
+      "data/eval_50/photos/UNIT-0042/P1.png",
+      "data/eval_50/photos/UNIT-0042/P2.png",
+      "data/eval_50/photos/UNIT-0042/P3.png"
+    ]
+  },
+  {
+    "unit_id": "UNIT-0043",
+    "condition": "water_damaged_carton",
+    "lighting": "normal",
+    "blur": false,
+    "occluded": false,
+    "purchase_order": {
+      "po_number": "PO-9043",
+      "supplier": "Acme Global Freight (DUMMY)",
+      "lines": [
+        {
+          "sku": "SKU-TOWEL-BLU",
+          "expected_quantity": 48,
+          "expected_cartons": 2,
+          "units_per_carton": 24,
+          "variant": {
+            "color": "blue"
+          }
+        }
+      ]
+    },
+    "catalog_item": {
+      "sku": "SKU-TOWEL-BLU",
+      "name": "Cotton Bath Towel",
+      "color": "blue",
+      "pack": 24,
+      "components": [
+        "towel"
+      ]
+    },
+    "arrived_truth": {
+      "sku": "SKU-TOWEL-BLU",
+      "variant": {
+        "color": "blue"
+      },
+      "cartons": 2,
+      "units_per_carton": 24,
+      "damage": true,
+      "missing_component": false
+    },
+    "human_label_1": {
+      "decision": "EXCEPTION",
+      "sku_match": "PASS",
+      "variant_match": "PASS",
+      "quantity_match": "PASS",
+      "damage_clean": "FAIL",
+      "components_complete": "PASS"
+    },
+    "human_label_2": {
+      "decision": "EXCEPTION",
+      "sku_match": "PASS",
+      "variant_match": "PASS",
+      "quantity_match": "PASS",
+      "damage_clean": "FAIL",
+      "components_complete": "PASS"
+    },
+    "consensus_ground_truth": {
+      "decision": "EXCEPTION",
+      "reason": "Dark water stains and warping visible along lower carton face."
+    },
+    "photos": [
+      "data/eval_50/photos/UNIT-0043/P1.png",
+      "data/eval_50/photos/UNIT-0043/P2.png",
+      "data/eval_50/photos/UNIT-0043/P3.png"
+    ]
+  },
+  {
+    "unit_id": "UNIT-0044",
+    "condition": "water_damaged_carton",
+    "lighting": "normal",
+    "blur": false,
+    "occluded": false,
+    "purchase_order": {
+      "po_number": "PO-9044",
+      "supplier": "Acme Global Freight (DUMMY)",
+      "lines": [
+        {
+          "sku": "SKU-BOTTLE-750",
+          "expected_quantity": 24,
+          "expected_cartons": 2,
+          "units_per_carton": 12,
+          "variant": {
+            "color": "black"
+          }
+        }
+      ]
+    },
+    "catalog_item": {
+      "sku": "SKU-BOTTLE-750",
+      "name": "Steel Water Bottle 750ml",
+      "color": "black",
+      "pack": 12,
+      "components": [
+        "bottle",
+        "lid"
+      ]
+    },
+    "arrived_truth": {
+      "sku": "SKU-BOTTLE-750",
+      "variant": {
+        "color": "black"
+      },
+      "cartons": 2,
+      "units_per_carton": 12,
+      "damage": true,
+      "missing_component": false
+    },
+    "human_label_1": {
+      "decision": "EXCEPTION",
+      "sku_match": "PASS",
+      "variant_match": "PASS",
+      "quantity_match": "PASS",
+      "damage_clean": "FAIL",
+      "components_complete": "PASS"
+    },
+    "human_label_2": {
+      "decision": "EXCEPTION",
+      "sku_match": "PASS",
+      "variant_match": "PASS",
+      "quantity_match": "PASS",
+      "damage_clean": "FAIL",
+      "components_complete": "PASS"
+    },
+    "consensus_ground_truth": {
+      "decision": "EXCEPTION",
+      "reason": "Dark water stains and warping visible along lower carton face."
+    },
+    "photos": [
+      "data/eval_50/photos/UNIT-0044/P1.png",
+      "data/eval_50/photos/UNIT-0044/P2.png",
+      "data/eval_50/photos/UNIT-0044/P3.png"
+    ]
+  },
+  {
+    "unit_id": "UNIT-0045",
+    "condition": "torn_outer_packaging",
+    "lighting": "normal",
+    "blur": false,
+    "occluded": false,
+    "purchase_order": {
+      "po_number": "PO-9045",
+      "supplier": "Acme Global Freight (DUMMY)",
+      "lines": [
+        {
+          "sku": "SKU-CABLE-USBC",
+          "expected_quantity": 48,
+          "expected_cartons": 2,
+          "units_per_carton": 24,
+          "variant": {
+            "color": "white"
+          }
+        }
+      ]
+    },
+    "catalog_item": {
+      "sku": "SKU-CABLE-USBC",
+      "name": "USB-C Fast Charging Cable 2m",
+      "color": "white",
+      "pack": 24,
+      "components": [
+        "cable"
+      ]
+    },
+    "arrived_truth": {
+      "sku": "SKU-CABLE-USBC",
+      "variant": {
+        "color": "white"
+      },
+      "cartons": 2,
+      "units_per_carton": 24,
+      "damage": true,
+      "missing_component": false
+    },
+    "human_label_1": {
+      "decision": "EXCEPTION",
+      "sku_match": "PASS",
+      "variant_match": "PASS",
+      "quantity_match": "PASS",
+      "damage_clean": "FAIL",
+      "components_complete": "PASS"
+    },
+    "human_label_2": {
+      "decision": "EXCEPTION",
+      "sku_match": "PASS",
+      "variant_match": "PASS",
+      "quantity_match": "PASS",
+      "damage_clean": "FAIL",
+      "components_complete": "PASS"
+    },
+    "consensus_ground_truth": {
+      "decision": "EXCEPTION",
+      "reason": "Outer shipping carton has jagged tear exposing interior."
+    },
+    "photos": [
+      "data/eval_50/photos/UNIT-0045/P1.png",
+      "data/eval_50/photos/UNIT-0045/P2.png",
+      "data/eval_50/photos/UNIT-0045/P3.png"
+    ]
+  },
+  {
+    "unit_id": "UNIT-0046",
+    "condition": "torn_outer_packaging",
+    "lighting": "normal",
+    "blur": false,
+    "occluded": false,
+    "purchase_order": {
+      "po_number": "PO-9046",
+      "supplier": "Acme Global Freight (DUMMY)",
+      "lines": [
+        {
+          "sku": "SKU-LAMP-LED",
+          "expected_quantity": 24,
+          "expected_cartons": 2,
+          "units_per_carton": 12,
+          "variant": {
+            "color": "grey"
+          }
+        }
+      ]
+    },
+    "catalog_item": {
+      "sku": "SKU-LAMP-LED",
+      "name": "LED Desk Lamp with USB",
+      "color": "grey",
+      "pack": 12,
+      "components": [
+        "lamp",
+        "usb cable",
+        "manual"
+      ]
+    },
+    "arrived_truth": {
+      "sku": "SKU-LAMP-LED",
+      "variant": {
+        "color": "grey"
+      },
+      "cartons": 2,
+      "units_per_carton": 12,
+      "damage": true,
+      "missing_component": false
+    },
+    "human_label_1": {
+      "decision": "EXCEPTION",
+      "sku_match": "PASS",
+      "variant_match": "PASS",
+      "quantity_match": "PASS",
+      "damage_clean": "FAIL",
+      "components_complete": "PASS"
+    },
+    "human_label_2": {
+      "decision": "EXCEPTION",
+      "sku_match": "PASS",
+      "variant_match": "PASS",
+      "quantity_match": "PASS",
+      "damage_clean": "FAIL",
+      "components_complete": "PASS"
+    },
+    "consensus_ground_truth": {
+      "decision": "EXCEPTION",
+      "reason": "Outer shipping carton has jagged tear exposing interior."
+    },
+    "photos": [
+      "data/eval_50/photos/UNIT-0046/P1.png",
+      "data/eval_50/photos/UNIT-0046/P2.png",
+      "data/eval_50/photos/UNIT-0046/P3.png"
+    ]
+  },
+  {
+    "unit_id": "UNIT-0047",
+    "condition": "missing_accessory_component",
+    "lighting": "normal",
+    "blur": false,
+    "occluded": false,
+    "purchase_order": {
+      "po_number": "PO-9047",
+      "supplier": "Acme Global Freight (DUMMY)",
+      "lines": [
+        {
+          "sku": "SKU-MUG-11",
+          "expected_quantity": 24,
+          "expected_cartons": 2,
+          "units_per_carton": 12,
+          "variant": {
+            "color": "white"
+          }
+        }
+      ]
+    },
+    "catalog_item": {
+      "sku": "SKU-MUG-11",
+      "name": "Ceramic Mug 11oz Set of 2",
+      "color": "white",
+      "pack": 12,
+      "components": [
+        "mug x2"
+      ]
+    },
+    "arrived_truth": {
+      "sku": "SKU-MUG-11",
+      "variant": {
+        "color": "white"
+      },
+      "cartons": 2,
+      "units_per_carton": 12,
+      "damage": false,
+      "missing_component": true
+    },
+    "human_label_1": {
+      "decision": "EXCEPTION",
+      "sku_match": "PASS",
+      "variant_match": "PASS",
+      "quantity_match": "PASS",
+      "damage_clean": "PASS",
+      "components_complete": "FAIL"
+    },
+    "human_label_2": {
+      "decision": "EXCEPTION",
+      "sku_match": "PASS",
+      "variant_match": "PASS",
+      "quantity_match": "PASS",
+      "damage_clean": "PASS",
+      "components_complete": "FAIL"
+    },
+    "consensus_ground_truth": {
+      "decision": "EXCEPTION",
+      "reason": "Open carton inspection confirms accessory compartment is empty."
+    },
+    "photos": [
+      "data/eval_50/photos/UNIT-0047/P1.png",
+      "data/eval_50/photos/UNIT-0047/P2.png",
+      "data/eval_50/photos/UNIT-0047/P3.png"
+    ]
+  },
+  {
+    "unit_id": "UNIT-0048",
+    "condition": "missing_accessory_component",
+    "lighting": "normal",
+    "blur": false,
+    "occluded": false,
+    "purchase_order": {
+      "po_number": "PO-9048",
+      "supplier": "Acme Global Freight (DUMMY)",
+      "lines": [
+        {
+          "sku": "SKU-LEASH-6FT",
+          "expected_quantity": 24,
+          "expected_cartons": 2,
+          "units_per_carton": 12,
+          "variant": {
+            "color": "red"
+          }
+        }
+      ]
+    },
+    "catalog_item": {
+      "sku": "SKU-LEASH-6FT",
+      "name": "Nylon Heavy Duty Dog Leash",
+      "color": "red",
+      "pack": 12,
+      "components": [
+        "leash"
+      ]
+    },
+    "arrived_truth": {
+      "sku": "SKU-LEASH-6FT",
+      "variant": {
+        "color": "red"
+      },
+      "cartons": 2,
+      "units_per_carton": 12,
+      "damage": false,
+      "missing_component": true
+    },
+    "human_label_1": {
+      "decision": "EXCEPTION",
+      "sku_match": "PASS",
+      "variant_match": "PASS",
+      "quantity_match": "PASS",
+      "damage_clean": "PASS",
+      "components_complete": "FAIL"
+    },
+    "human_label_2": {
+      "decision": "EXCEPTION",
+      "sku_match": "PASS",
+      "variant_match": "PASS",
+      "quantity_match": "PASS",
+      "damage_clean": "PASS",
+      "components_complete": "FAIL"
+    },
+    "consensus_ground_truth": {
+      "decision": "EXCEPTION",
+      "reason": "Open carton inspection confirms accessory compartment is empty."
+    },
+    "photos": [
+      "data/eval_50/photos/UNIT-0048/P1.png",
+      "data/eval_50/photos/UNIT-0048/P2.png",
+      "data/eval_50/photos/UNIT-0048/P3.png"
+    ]
+  },
+  {
+    "unit_id": "UNIT-0049",
+    "condition": "severe_blur_and_label_tear",
+    "lighting": "dim",
+    "blur": true,
+    "occluded": true,
+    "purchase_order": {
+      "po_number": "PO-9049",
+      "supplier": "Acme Global Freight (DUMMY)",
+      "lines": [
+        {
+          "sku": "SKU-CANDLE-3",
+          "expected_quantity": 24,
+          "expected_cartons": 2,
+          "units_per_carton": 12,
+          "variant": {
+            "color": "cream"
+          }
+        }
+      ]
+    },
+    "catalog_item": {
+      "sku": "SKU-CANDLE-3",
+      "name": "Soy Candle Trio Gift Box",
+      "color": "cream",
+      "pack": 12,
+      "components": [
+        "candle x3",
+        "gift box"
+      ]
+    },
+    "arrived_truth": {
+      "sku": "SKU-CANDLE-3",
+      "variant": {
+        "color": "cream"
+      },
+      "cartons": 2,
+      "units_per_carton": 12,
+      "damage": false,
+      "missing_component": false
+    },
+    "human_label_1": {
+      "decision": "UNCERTAIN",
+      "sku_match": "UNCERTAIN",
+      "variant_match": "PASS",
+      "quantity_match": "PASS",
+      "damage_clean": "PASS",
+      "components_complete": "PASS"
+    },
+    "human_label_2": {
+      "decision": "UNCERTAIN",
+      "sku_match": "UNCERTAIN",
+      "variant_match": "PASS",
+      "quantity_match": "PASS",
+      "damage_clean": "PASS",
+      "components_complete": "PASS"
+    },
+    "consensus_ground_truth": {
+      "decision": "UNCERTAIN",
+      "reason": "Label text is unreadable due to motion blur and surface tear; requires manual scan."
+    },
+    "photos": [
+      "data/eval_50/photos/UNIT-0049/P1.png",
+      "data/eval_50/photos/UNIT-0049/P2.png",
+      "data/eval_50/photos/UNIT-0049/P3.png"
+    ]
+  },
+  {
+    "unit_id": "UNIT-0050",
+    "condition": "dense_stack_hidden_interior",
+    "lighting": "glare",
+    "blur": false,
+    "occluded": false,
+    "purchase_order": {
+      "po_number": "PO-9050",
+      "supplier": "Acme Global Freight (DUMMY)",
+      "lines": [
+        {
+          "sku": "SKU-TOWEL-BLU",
+          "expected_quantity": 48,
+          "expected_cartons": 2,
+          "units_per_carton": 24,
+          "variant": {
+            "color": "blue"
+          }
+        }
+      ]
+    },
+    "catalog_item": {
+      "sku": "SKU-TOWEL-BLU",
+      "name": "Cotton Bath Towel",
+      "color": "blue",
+      "pack": 24,
+      "components": [
+        "towel"
+      ]
+    },
+    "arrived_truth": {
+      "sku": "SKU-TOWEL-BLU",
+      "variant": {
+        "color": "blue"
+      },
+      "cartons": 2,
+      "units_per_carton": 24,
+      "damage": false,
+      "missing_component": false
+    },
+    "human_label_1": {
+      "decision": "UNCERTAIN",
+      "sku_match": "PASS",
+      "variant_match": "PASS",
+      "quantity_match": "UNCERTAIN",
+      "damage_clean": "PASS",
+      "components_complete": "PASS"
+    },
+    "human_label_2": {
+      "decision": "ACCEPT",
+      "sku_match": "PASS",
+      "variant_match": "PASS",
+      "quantity_match": "PASS",
+      "damage_clean": "PASS",
+      "components_complete": "PASS"
+    },
+    "consensus_ground_truth": {
+      "decision": "UNCERTAIN",
+      "reason": "Interior cartons concealed behind front layer; total count cannot be verified optically."
+    },
+    "photos": [
+      "data/eval_50/photos/UNIT-0050/P1.png",
+      "data/eval_50/photos/UNIT-0050/P2.png",
+      "data/eval_50/photos/UNIT-0050/P3.png"
+    ]
+  }
+]

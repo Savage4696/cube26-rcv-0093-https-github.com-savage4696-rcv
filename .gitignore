@@ -19,3 +19,7 @@ node_modules/
 .DS_Store
 .idea/
 .vscode/
+
+# Runtime inspection records & cache
+data/inspections/
+data/llm-cache/

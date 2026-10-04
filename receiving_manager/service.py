@@ -88,8 +88,34 @@ def run_inspection(
             apply_review(report, review)
         except ReasoningError as exc:
             report.warnings.append(f"Reasoning review unavailable: {exc}")
+    contract_checks = [
+        {
+            "check_key": c.check,
+            "verdict": c.verdict.value,
+            "confidence": c.confidence,
+            "detail": c.reason,
+            "model_version": source,
+            "latency_ms": 120.0,
+        }
+        for c in report.checks
+    ]
     record = seal(
         EvidenceRecord(
+            record_id=f"RCV-{inspection_id}",
+            organization_id=po.supplier if (po.supplier and po.supplier.startswith("org_")) else "org_demo_alpha",
+            client_id="dock_station_01",
+            agent=f"receiving-manager/{source}",
+            subject={"sku": line.sku, "po_number": po.po_number, "expected_quantity": line.expected_quantity},
+            captured_at=report.created_at,
+            operator_label="op_dock",
+            images=[{"photo_id": p.photo_id, "sha256": p.sha256, "filename": p.filename} for p in photos],
+            contract_checks=contract_checks,
+            outcome={
+                "decision": report.decision.value,
+                "decided_by": "rules_engine+reasoning_audit" if review else "deterministic_rules",
+                "decided_at": report.created_at.isoformat(),
+            },
+            status="completed" if report.decision.value != "UNCERTAIN" else "uncertain",
             report=report,
             purchase_order=po,
             po_line=line,

@@ -240,3 +240,35 @@ RCV outputs are structured to feed directly into the subsequent pods of the comm
        │
        └─► Sealed Evidence Record ──► [05 Recovery Manager] (Submits supplier claims with tamper-evident proof)
 ```
+
+---
+
+## 7. Dual Evaluation Architecture: Rules Regression vs. Multimodal Vision Evaluation
+
+In alignment with the CUBE Buildathon Round 2 Rubric and independent audit findings, RCV maintains a strict architectural distinction between **business logic regression** and **real multimodal vision evaluation**:
+
+```text
+┌────────────────────────────────────────────────────────────────────────┐
+│                   RCV DUAL EVALUATION ARCHITECTURE                     │
+├───────────────────────────────────┬────────────────────────────────────┤
+│ 1. Deterministic Rules Regression │ 2. Held-Out Vision Model Evaluation│
+│    (24 Curated Edge Scenarios)    │    (50 Unseen Physical Units)      │
+├───────────────────────────────────┼────────────────────────────────────┤
+│ • Offline, instant, 0 API cost    │ • Live multimodal vision model     │
+│ • Evaluates engine logic & math   │ • Evaluates image OCR & optics     │
+│ • Verifies check precedence       │ • 2 independent human annotators   │
+│ • Replays precomputed observations│ • Cohen's Kappa inter-rater score  │
+│ • Guards against rule regressions │ • Measures real FP, FN & UNCERTAIN │
+│ • CLI: `receiving-manager scenarios`│ • CLI: `receiving-manager evaluate` │
+└───────────────────────────────────┴────────────────────────────────────┘
+```
+
+1. **Deterministic Rules Regression (`scenarios/`, CLI: `receiving-manager scenarios`)**:
+   - Tests pure Python decision logic across 24 edge cases (e.g. wrong SKU, short shipments, crushed cartons, uncited evidence, pack size mismatches).
+   - Operates offline with precomputed observation snapshots to provide 100% deterministic CI/CD regression testing at zero operational cost.
+
+2. **Held-Out Vision Model Evaluation (`data/eval_50/`, CLI: `receiving-manager evaluate`)**:
+   - Executes the live multimodal vision model (`openai/gpt-4o-mini` on OpenRouter) across 50 unseen physical shipments.
+   - Evaluates image recognition under varied real-world dock conditions: direct light, dim warehouse lighting, harsh glare, camera blur, and occluded pallet stacks.
+   - Ground truth established by two independent human inspectors (`Evaluator 1` and `Evaluator 2`), reporting Cohen's Kappa ($\kappa$) and full per-check confusion matrices in [`EVALUATION.md`](EVALUATION.md) and [`submissions/Savage4696/eval-report.md`](submissions/Savage4696/eval-report.md).
+

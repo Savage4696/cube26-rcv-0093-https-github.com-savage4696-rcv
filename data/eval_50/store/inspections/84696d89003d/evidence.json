@@ -1,0 +1,490 @@
+{
+  "schema_version": "1.1",
+  "record_id": "RCV-84696d89003d",
+  "organization_id": "org_demo_alpha",
+  "client_id": "dock_station_01",
+  "agent": "receiving-manager/openrouter:openai/gpt-4o-mini",
+  "subject": {
+    "sku": "SKU-BOTTLE-750",
+    "po_number": "PO-9044",
+    "expected_quantity": 24
+  },
+  "captured_at": "2026-10-04T19:19:28.023329Z",
+  "operator_label": "op_dock",
+  "images": [
+    {
+      "photo_id": "P1",
+      "sha256": "3f17dc57d3d78e2a9edf2d42920050a257e824c2f362c37d9acdb96155ba3992",
+      "filename": "P1.png"
+    },
+    {
+      "photo_id": "P2",
+      "sha256": "b34d6559e5decc5ae65e00575aa7c505a6ad48bd1efeddcae614d8d2e2424673",
+      "filename": "P2.png"
+    },
+    {
+      "photo_id": "P3",
+      "sha256": "af6ed9804755df5ce0322c2081254f1d4649d9ba2e1eab9344f1298c18e3ed45",
+      "filename": "P3.png"
+    }
+  ],
+  "contract_checks": [
+    {
+      "check_key": "sku_identity",
+      "verdict": "PASS",
+      "confidence": 0.9,
+      "detail": "Ordered SKU identifier read on the shipment",
+      "model_version": "openrouter:openai/gpt-4o-mini",
+      "latency_ms": 120.0
+    },
+    {
+      "check_key": "variant",
+      "verdict": "PASS",
+      "confidence": 0.9,
+      "detail": "Observed variant matches the order",
+      "model_version": "openrouter:openai/gpt-4o-mini",
+      "latency_ms": 120.0
+    },
+    {
+      "check_key": "quantity",
+      "verdict": "UNCERTAIN",
+      "confidence": null,
+      "detail": "Quantity cannot be verified: units could not be counted",
+      "model_version": "openrouter:openai/gpt-4o-mini",
+      "latency_ms": 120.0
+    },
+    {
+      "check_key": "carton_count",
+      "verdict": "UNCERTAIN",
+      "confidence": 0.9,
+      "detail": "Carton count not verifiable (not all cartons visible or low confidence)",
+      "model_version": "openrouter:openai/gpt-4o-mini",
+      "latency_ms": 120.0
+    },
+    {
+      "check_key": "units_per_carton",
+      "verdict": "PASS",
+      "confidence": 0.9,
+      "detail": "Carton label matches expected pack size",
+      "model_version": "openrouter:openai/gpt-4o-mini",
+      "latency_ms": 120.0
+    },
+    {
+      "check_key": "damage",
+      "verdict": "UNCERTAIN",
+      "confidence": null,
+      "detail": "No damage observed, but photo coverage is 'partial'; absence of evidence is not evidence of absence",
+      "model_version": "openrouter:openai/gpt-4o-mini",
+      "latency_ms": 120.0
+    },
+    {
+      "check_key": "components",
+      "verdict": "PASS",
+      "confidence": 0.9,
+      "detail": "All expected components observed",
+      "model_version": "openrouter:openai/gpt-4o-mini",
+      "latency_ms": 120.0
+    },
+    {
+      "check_key": "other_quality",
+      "verdict": "PASS",
+      "confidence": null,
+      "detail": "No other quality issues observed",
+      "model_version": "openrouter:openai/gpt-4o-mini",
+      "latency_ms": 120.0
+    }
+  ],
+  "outcome": {
+    "decision": "UNCERTAIN",
+    "decided_by": "rules_engine+reasoning_audit",
+    "decided_at": "2026-10-04T19:19:28.023329+00:00"
+  },
+  "overrides": [],
+  "status": "uncertain",
+  "content_hash": "36f8fb3893630b1f094099cfca7fce56aa23a00cd3a8e42c66af7cbc88100339",
+  "report": {
+    "inspection_id": "84696d89003d",
+    "created_at": "2026-10-04T19:19:28.023329Z",
+    "po_number": "PO-9044",
+    "sku": "SKU-BOTTLE-750",
+    "decision": "UNCERTAIN",
+    "decision_reason": "No failures, but evidence is insufficient for: quantity, carton_count, damage. Manual review required",
+    "checks": [
+      {
+        "check": "sku_identity",
+        "verdict": "PASS",
+        "expected": "SKU-BOTTLE-750",
+        "observed": "sku 'SKU-BOTTLE-750'",
+        "confidence": 0.9,
+        "reason": "Ordered SKU identifier read on the shipment",
+        "issues": [],
+        "evidence": [
+          {
+            "photo_id": "P2",
+            "sha256": "b34d6559e5decc5ae65e00575aa7c505a6ad48bd1efeddcae614d8d2e2424673",
+            "detail": "sku 'SKU-BOTTLE-750' read (conf 0.90)"
+          }
+        ]
+      },
+      {
+        "check": "variant",
+        "verdict": "PASS",
+        "expected": "color=black",
+        "observed": "color=black",
+        "confidence": 0.9,
+        "reason": "Observed variant matches the order",
+        "issues": [],
+        "evidence": [
+          {
+            "photo_id": "P2",
+            "sha256": "b34d6559e5decc5ae65e00575aa7c505a6ad48bd1efeddcae614d8d2e2424673",
+            "detail": "variant observed: color=black (conf 0.90)"
+          }
+        ]
+      },
+      {
+        "check": "quantity",
+        "verdict": "UNCERTAIN",
+        "expected": 24,
+        "observed": null,
+        "confidence": null,
+        "reason": "Quantity cannot be verified: units could not be counted",
+        "issues": [
+          {
+            "code": "QUANTITY_UNVERIFIED",
+            "description": "Quantity not verifiable from photos",
+            "photo_ids": [
+              "P3"
+            ]
+          }
+        ],
+        "evidence": [
+          {
+            "photo_id": "P3",
+            "sha256": "af6ed9804755df5ce0322c2081254f1d4649d9ba2e1eab9344f1298c18e3ed45",
+            "detail": "partial unit count"
+          }
+        ]
+      },
+      {
+        "check": "carton_count",
+        "verdict": "UNCERTAIN",
+        "expected": 2,
+        "observed": null,
+        "confidence": 0.9,
+        "reason": "Carton count not verifiable (not all cartons visible or low confidence)",
+        "issues": [
+          {
+            "code": "CARTON_COUNT_UNVERIFIED",
+            "description": "Carton count not verifiable",
+            "photo_ids": []
+          }
+        ],
+        "evidence": []
+      },
+      {
+        "check": "units_per_carton",
+        "verdict": "PASS",
+        "expected": 12,
+        "observed": 12,
+        "confidence": 0.9,
+        "reason": "Carton label matches expected pack size",
+        "issues": [],
+        "evidence": [
+          {
+            "photo_id": "P2",
+            "sha256": "b34d6559e5decc5ae65e00575aa7c505a6ad48bd1efeddcae614d8d2e2424673",
+            "detail": "carton label: 12 units/carton"
+          }
+        ]
+      },
+      {
+        "check": "damage",
+        "verdict": "UNCERTAIN",
+        "expected": "no visible damage",
+        "observed": "no damage observed",
+        "confidence": null,
+        "reason": "No damage observed, but photo coverage is 'partial'; absence of evidence is not evidence of absence",
+        "issues": [
+          {
+            "code": "DAMAGE_COVERAGE_INCOMPLETE",
+            "description": "Not all cartons/products visible",
+            "photo_ids": []
+          }
+        ],
+        "evidence": []
+      },
+      {
+        "check": "components",
+        "verdict": "PASS",
+        "expected": "bottle, lid",
+        "observed": "bottle, lid",
+        "confidence": 0.9,
+        "reason": "All expected components observed",
+        "issues": [],
+        "evidence": [
+          {
+            "photo_id": "P3",
+            "sha256": "af6ed9804755df5ce0322c2081254f1d4649d9ba2e1eab9344f1298c18e3ed45",
+            "detail": "bottle: present (conf 0.90)"
+          },
+          {
+            "photo_id": "P3",
+            "sha256": "af6ed9804755df5ce0322c2081254f1d4649d9ba2e1eab9344f1298c18e3ed45",
+            "detail": "lid: present (conf 0.90)"
+          }
+        ]
+      },
+      {
+        "check": "other_quality",
+        "verdict": "PASS",
+        "expected": null,
+        "observed": "none observed",
+        "confidence": null,
+        "reason": "No other quality issues observed",
+        "issues": [],
+        "evidence": []
+      }
+    ],
+    "issues": [
+      {
+        "code": "QUANTITY_UNVERIFIED",
+        "description": "Quantity not verifiable from photos",
+        "photo_ids": [
+          "P3"
+        ]
+      },
+      {
+        "code": "CARTON_COUNT_UNVERIFIED",
+        "description": "Carton count not verifiable",
+        "photo_ids": []
+      },
+      {
+        "code": "DAMAGE_COVERAGE_INCOMPLETE",
+        "description": "Not all cartons/products visible",
+        "photo_ids": []
+      }
+    ],
+    "warnings": [
+      "Photo 'P1' marked unusable; its evidence is excluded",
+      "Carton count discarded: no valid photo evidence"
+    ],
+    "confidence_threshold": 0.7,
+    "risk_score": 15.0,
+    "risk_level": "MEDIUM"
+  },
+  "purchase_order": {
+    "po_number": "PO-9044",
+    "supplier": "Acme Global Freight (DUMMY)",
+    "lines": [
+      {
+        "sku": "SKU-BOTTLE-750",
+        "expected_quantity": 24,
+        "variant": {
+          "color": "black"
+        },
+        "expected_cartons": 2,
+        "units_per_carton": 12
+      }
+    ]
+  },
+  "po_line": {
+    "sku": "SKU-BOTTLE-750",
+    "expected_quantity": 24,
+    "variant": {
+      "color": "black"
+    },
+    "expected_cartons": 2,
+    "units_per_carton": 12
+  },
+  "catalog_item": {
+    "sku": "SKU-BOTTLE-750",
+    "name": "Steel Water Bottle 750ml",
+    "asin": null,
+    "barcodes": [],
+    "variant": {},
+    "units_per_carton": null,
+    "components": [
+      "bottle",
+      "lid"
+    ],
+    "description": null
+  },
+  "photos": [
+    {
+      "photo_id": "P1",
+      "filename": "P1.png",
+      "content_type": "image/png",
+      "sha256": "3f17dc57d3d78e2a9edf2d42920050a257e824c2f362c37d9acdb96155ba3992",
+      "size_bytes": 4627,
+      "stored_path": "/Users/krish/Desktop/rcv ai/RCV/data/eval_50/store/inspections/84696d89003d/photos/P1__P1.png"
+    },
+    {
+      "photo_id": "P2",
+      "filename": "P2.png",
+      "content_type": "image/png",
+      "sha256": "b34d6559e5decc5ae65e00575aa7c505a6ad48bd1efeddcae614d8d2e2424673",
+      "size_bytes": 16660,
+      "stored_path": "/Users/krish/Desktop/rcv ai/RCV/data/eval_50/store/inspections/84696d89003d/photos/P2__P2.png"
+    },
+    {
+      "photo_id": "P3",
+      "filename": "P3.png",
+      "content_type": "image/png",
+      "sha256": "af6ed9804755df5ce0322c2081254f1d4649d9ba2e1eab9344f1298c18e3ed45",
+      "size_bytes": 11354,
+      "stored_path": "/Users/krish/Desktop/rcv ai/RCV/data/eval_50/store/inspections/84696d89003d/photos/P3__P3.png"
+    }
+  ],
+  "observations": {
+    "photos": [
+      {
+        "photo_id": "P1",
+        "usable": false,
+        "shows": [
+          "cartons"
+        ],
+        "quality_issues": [
+          "blurry"
+        ]
+      },
+      {
+        "photo_id": "P2",
+        "usable": true,
+        "shows": [
+          "carton label"
+        ],
+        "quality_issues": []
+      },
+      {
+        "photo_id": "P3",
+        "usable": true,
+        "shows": [
+          "units"
+        ],
+        "quality_issues": []
+      }
+    ],
+    "identifiers": [
+      {
+        "kind": "sku",
+        "value": "SKU-BOTTLE-750",
+        "photo_ids": [
+          "P2"
+        ],
+        "confidence": 0.9
+      }
+    ],
+    "variant": {
+      "attributes": {
+        "color": "black"
+      },
+      "photo_ids": [
+        "P2"
+      ],
+      "confidence": 0.9,
+      "notes": null
+    },
+    "units": {
+      "count": null,
+      "all_visible": false,
+      "photo_ids": [
+        "P3"
+      ],
+      "confidence": 0.0,
+      "notes": "units inside sealed cartons"
+    },
+    "cartons": {
+      "count": {
+        "count": 2,
+        "all_visible": true,
+        "photo_ids": [
+          "P1"
+        ],
+        "confidence": 0.9,
+        "notes": null
+      },
+      "units_per_carton_label": 12,
+      "units_per_carton_label_photo_ids": [
+        "P2"
+      ],
+      "units_per_carton_label_confidence": 0.9,
+      "sealed": true
+    },
+    "damage": [],
+    "damage_coverage": "partial",
+    "components": [
+      {
+        "name": "bottle",
+        "present": true,
+        "photo_ids": [
+          "P3"
+        ],
+        "confidence": 0.9,
+        "notes": null
+      },
+      {
+        "name": "lid",
+        "present": true,
+        "photo_ids": [
+          "P3"
+        ],
+        "confidence": 0.9,
+        "notes": null
+      }
+    ],
+    "other_issues": [],
+    "notes": null
+  },
+  "observation_source": "openrouter:openai/gpt-4o-mini",
+  "ai_review": {
+    "model": "openai/gpt-4o-mini",
+    "summary": "The checks resulted in an UNCERTAIN decision due to insufficient evidence to verify quantity, carton count, and damage status. Most checks passed, but major aspects require manual review.",
+    "check_explanations": [
+      {
+        "check": "sku_identity",
+        "explanation": "The observed SKU matches the expected SKU 'SKU-BOTTLE-750' as verified by photo P2, resulting in a PASS."
+      },
+      {
+        "check": "variant",
+        "explanation": "The observed variant color matches the expected color black, supported by photo P2, leading to a PASS."
+      },
+      {
+        "check": "quantity",
+        "explanation": "The quantity check is UNCERTAIN because the units could not be fully counted; the evidence only allowed for a partial review as per photo P3."
+      },
+      {
+        "check": "carton_count",
+        "explanation": "The carton count is UNCERTAIN since not all cartons were visible or verifiable; therefore, no supporting evidence is available."
+      },
+      {
+        "check": "units_per_carton",
+        "explanation": "The units per carton check PASSes because the carton label indicates 12 units per carton, corroborated by photo P2."
+      },
+      {
+        "check": "damage",
+        "explanation": "The damage check is UNCERTAIN as no damage was seen, but the photo coverage is partial, leaving the potential for undetected issues."
+      },
+      {
+        "check": "components",
+        "explanation": "All expected components, the bottle and lid, were observed as present in photo P3, resulting in a PASS."
+      },
+      {
+        "check": "other_quality",
+        "explanation": "No other quality issues were noted, leading to a PASS."
+      }
+    ],
+    "concerns": [],
+    "recommended_actions": [
+      "Perform a manual review of the shipment to verify quantity and carton count.",
+      "Check the cartons and inspect for any potential damage."
+    ],
+    "supplier_claim_draft": null,
+    "agrees_with_decision": false,
+    "escalated": false,
+    "cost_usd": 0.00052995,
+    "cached": false
+  },
+  "llm_cost_usd": 0.012479,
+  "record_sha256": "36f8fb3893630b1f094099cfca7fce56aa23a00cd3a8e42c66af7cbc88100339"
+}

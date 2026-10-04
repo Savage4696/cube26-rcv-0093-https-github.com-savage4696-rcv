@@ -1,0 +1,456 @@
+{
+  "schema_version": "1.1",
+  "record_id": "RCV-e045456b1463",
+  "organization_id": "org_demo_alpha",
+  "client_id": "dock_station_01",
+  "agent": "receiving-manager/openrouter:openai/gpt-4o-mini",
+  "subject": {
+    "sku": "SKU-BOTTLE-750",
+    "po_number": "PO-9009",
+    "expected_quantity": 24
+  },
+  "captured_at": "2026-10-04T19:10:58.110253Z",
+  "operator_label": "op_dock",
+  "images": [
+    {
+      "photo_id": "P1",
+      "sha256": "a4c2476e6caae64959bd63cc49ce130d608fb3da696a41b3aa6cf1e731bd4a02",
+      "filename": "P1.png"
+    },
+    {
+      "photo_id": "P2",
+      "sha256": "9fe382eb629890adfb1ca13828d80e324a995267c8db95057f075c176dbc79ec",
+      "filename": "P2.png"
+    },
+    {
+      "photo_id": "P3",
+      "sha256": "2825129e169172ec183b18a855c08ef63f38680c2029b2cdc26f83d2eadb369c",
+      "filename": "P3.png"
+    }
+  ],
+  "contract_checks": [
+    {
+      "check_key": "sku_identity",
+      "verdict": "PASS",
+      "confidence": 0.9,
+      "detail": "Ordered SKU identifier read on the shipment",
+      "model_version": "openrouter:openai/gpt-4o-mini",
+      "latency_ms": 120.0
+    },
+    {
+      "check_key": "variant",
+      "verdict": "PASS",
+      "confidence": 0.9,
+      "detail": "Observed variant matches the order",
+      "model_version": "openrouter:openai/gpt-4o-mini",
+      "latency_ms": 120.0
+    },
+    {
+      "check_key": "quantity",
+      "verdict": "PASS",
+      "confidence": 0.81,
+      "detail": "Quantity matches (derived: 2 sealed cartons x 12 units/carton (carton label); contents not visually verified)",
+      "model_version": "openrouter:openai/gpt-4o-mini",
+      "latency_ms": 120.0
+    },
+    {
+      "check_key": "carton_count",
+      "verdict": "PASS",
+      "confidence": 0.9,
+      "detail": "Carton count matches",
+      "model_version": "openrouter:openai/gpt-4o-mini",
+      "latency_ms": 120.0
+    },
+    {
+      "check_key": "units_per_carton",
+      "verdict": "PASS",
+      "confidence": 0.9,
+      "detail": "Carton label matches expected pack size",
+      "model_version": "openrouter:openai/gpt-4o-mini",
+      "latency_ms": 120.0
+    },
+    {
+      "check_key": "damage",
+      "verdict": "PASS",
+      "confidence": null,
+      "detail": "No damage observed with full photo coverage",
+      "model_version": "openrouter:openai/gpt-4o-mini",
+      "latency_ms": 120.0
+    },
+    {
+      "check_key": "components",
+      "verdict": "PASS",
+      "confidence": 0.9,
+      "detail": "All expected components observed",
+      "model_version": "openrouter:openai/gpt-4o-mini",
+      "latency_ms": 120.0
+    },
+    {
+      "check_key": "other_quality",
+      "verdict": "PASS",
+      "confidence": null,
+      "detail": "No other quality issues observed",
+      "model_version": "openrouter:openai/gpt-4o-mini",
+      "latency_ms": 120.0
+    }
+  ],
+  "outcome": {
+    "decision": "ACCEPT",
+    "decided_by": "rules_engine+reasoning_audit",
+    "decided_at": "2026-10-04T19:10:58.110253+00:00"
+  },
+  "overrides": [],
+  "status": "completed",
+  "content_hash": "d9a2235f57598b1a88dc63366813648e6ee6dcd039173c9727e5c47700f3b910",
+  "report": {
+    "inspection_id": "e045456b1463",
+    "created_at": "2026-10-04T19:10:58.110253Z",
+    "po_number": "PO-9009",
+    "sku": "SKU-BOTTLE-750",
+    "decision": "ACCEPT",
+    "decision_reason": "All checks passed",
+    "checks": [
+      {
+        "check": "sku_identity",
+        "verdict": "PASS",
+        "expected": "SKU-BOTTLE-750",
+        "observed": "sku 'SKU-BOTTLE-750'",
+        "confidence": 0.9,
+        "reason": "Ordered SKU identifier read on the shipment",
+        "issues": [],
+        "evidence": [
+          {
+            "photo_id": "P2",
+            "sha256": "9fe382eb629890adfb1ca13828d80e324a995267c8db95057f075c176dbc79ec",
+            "detail": "sku 'SKU-BOTTLE-750' read (conf 0.90)"
+          }
+        ]
+      },
+      {
+        "check": "variant",
+        "verdict": "PASS",
+        "expected": "color=black",
+        "observed": "color=black",
+        "confidence": 0.9,
+        "reason": "Observed variant matches the order",
+        "issues": [],
+        "evidence": [
+          {
+            "photo_id": "P2",
+            "sha256": "9fe382eb629890adfb1ca13828d80e324a995267c8db95057f075c176dbc79ec",
+            "detail": "variant observed: color=black (conf 0.90)"
+          }
+        ]
+      },
+      {
+        "check": "quantity",
+        "verdict": "PASS",
+        "expected": 24,
+        "observed": 24,
+        "confidence": 0.81,
+        "reason": "Quantity matches (derived: 2 sealed cartons x 12 units/carton (carton label); contents not visually verified)",
+        "issues": [],
+        "evidence": [
+          {
+            "photo_id": "P1",
+            "sha256": "a4c2476e6caae64959bd63cc49ce130d608fb3da696a41b3aa6cf1e731bd4a02",
+            "detail": "derived: 2 sealed cartons x 12 units/carton (carton label); contents not visually verified"
+          },
+          {
+            "photo_id": "P2",
+            "sha256": "9fe382eb629890adfb1ca13828d80e324a995267c8db95057f075c176dbc79ec",
+            "detail": "derived: 2 sealed cartons x 12 units/carton (carton label); contents not visually verified"
+          }
+        ]
+      },
+      {
+        "check": "carton_count",
+        "verdict": "PASS",
+        "expected": 2,
+        "observed": 2,
+        "confidence": 0.9,
+        "reason": "Carton count matches",
+        "issues": [],
+        "evidence": [
+          {
+            "photo_id": "P1",
+            "sha256": "a4c2476e6caae64959bd63cc49ce130d608fb3da696a41b3aa6cf1e731bd4a02",
+            "detail": "cartons counted: 2 (conf 0.90)"
+          }
+        ]
+      },
+      {
+        "check": "units_per_carton",
+        "verdict": "PASS",
+        "expected": 12,
+        "observed": 12,
+        "confidence": 0.9,
+        "reason": "Carton label matches expected pack size",
+        "issues": [],
+        "evidence": [
+          {
+            "photo_id": "P2",
+            "sha256": "9fe382eb629890adfb1ca13828d80e324a995267c8db95057f075c176dbc79ec",
+            "detail": "carton label: 12 units/carton"
+          }
+        ]
+      },
+      {
+        "check": "damage",
+        "verdict": "PASS",
+        "expected": "no visible damage",
+        "observed": "no damage observed",
+        "confidence": null,
+        "reason": "No damage observed with full photo coverage",
+        "issues": [],
+        "evidence": []
+      },
+      {
+        "check": "components",
+        "verdict": "PASS",
+        "expected": "bottle, lid",
+        "observed": "bottle, lid",
+        "confidence": 0.9,
+        "reason": "All expected components observed",
+        "issues": [],
+        "evidence": [
+          {
+            "photo_id": "P3",
+            "sha256": "2825129e169172ec183b18a855c08ef63f38680c2029b2cdc26f83d2eadb369c",
+            "detail": "bottle: present (conf 0.90)"
+          },
+          {
+            "photo_id": "P3",
+            "sha256": "2825129e169172ec183b18a855c08ef63f38680c2029b2cdc26f83d2eadb369c",
+            "detail": "lid: present (conf 0.90)"
+          }
+        ]
+      },
+      {
+        "check": "other_quality",
+        "verdict": "PASS",
+        "expected": null,
+        "observed": "none observed",
+        "confidence": null,
+        "reason": "No other quality issues observed",
+        "issues": [],
+        "evidence": []
+      }
+    ],
+    "issues": [],
+    "warnings": [],
+    "confidence_threshold": 0.7,
+    "risk_score": 0.0,
+    "risk_level": "LOW"
+  },
+  "purchase_order": {
+    "po_number": "PO-9009",
+    "supplier": "Acme Global Freight (DUMMY)",
+    "lines": [
+      {
+        "sku": "SKU-BOTTLE-750",
+        "expected_quantity": 24,
+        "variant": {
+          "color": "black"
+        },
+        "expected_cartons": 2,
+        "units_per_carton": 12
+      }
+    ]
+  },
+  "po_line": {
+    "sku": "SKU-BOTTLE-750",
+    "expected_quantity": 24,
+    "variant": {
+      "color": "black"
+    },
+    "expected_cartons": 2,
+    "units_per_carton": 12
+  },
+  "catalog_item": {
+    "sku": "SKU-BOTTLE-750",
+    "name": "Steel Water Bottle 750ml",
+    "asin": null,
+    "barcodes": [],
+    "variant": {},
+    "units_per_carton": null,
+    "components": [
+      "bottle",
+      "lid"
+    ],
+    "description": null
+  },
+  "photos": [
+    {
+      "photo_id": "P1",
+      "filename": "P1.png",
+      "content_type": "image/png",
+      "sha256": "a4c2476e6caae64959bd63cc49ce130d608fb3da696a41b3aa6cf1e731bd4a02",
+      "size_bytes": 4222,
+      "stored_path": "/Users/krish/Desktop/rcv ai/RCV/data/eval_50/store/inspections/e045456b1463/photos/P1__P1.png"
+    },
+    {
+      "photo_id": "P2",
+      "filename": "P2.png",
+      "content_type": "image/png",
+      "sha256": "9fe382eb629890adfb1ca13828d80e324a995267c8db95057f075c176dbc79ec",
+      "size_bytes": 16425,
+      "stored_path": "/Users/krish/Desktop/rcv ai/RCV/data/eval_50/store/inspections/e045456b1463/photos/P2__P2.png"
+    },
+    {
+      "photo_id": "P3",
+      "filename": "P3.png",
+      "content_type": "image/png",
+      "sha256": "2825129e169172ec183b18a855c08ef63f38680c2029b2cdc26f83d2eadb369c",
+      "size_bytes": 11250,
+      "stored_path": "/Users/krish/Desktop/rcv ai/RCV/data/eval_50/store/inspections/e045456b1463/photos/P3__P3.png"
+    }
+  ],
+  "observations": {
+    "photos": [
+      {
+        "photo_id": "P1",
+        "usable": true,
+        "shows": [
+          "cartons"
+        ],
+        "quality_issues": []
+      },
+      {
+        "photo_id": "P2",
+        "usable": true,
+        "shows": [
+          "carton label"
+        ],
+        "quality_issues": []
+      },
+      {
+        "photo_id": "P3",
+        "usable": true,
+        "shows": [
+          "units",
+          "components"
+        ],
+        "quality_issues": []
+      }
+    ],
+    "identifiers": [
+      {
+        "kind": "sku",
+        "value": "SKU-BOTTLE-750",
+        "photo_ids": [
+          "P2"
+        ],
+        "confidence": 0.9
+      }
+    ],
+    "variant": {
+      "attributes": {
+        "color": "black"
+      },
+      "photo_ids": [
+        "P2"
+      ],
+      "confidence": 0.9,
+      "notes": null
+    },
+    "units": {
+      "count": null,
+      "all_visible": false,
+      "photo_ids": [
+        "P3"
+      ],
+      "confidence": 0.0,
+      "notes": "units inside sealed cartons"
+    },
+    "cartons": {
+      "count": {
+        "count": 2,
+        "all_visible": true,
+        "photo_ids": [
+          "P1"
+        ],
+        "confidence": 0.9,
+        "notes": null
+      },
+      "units_per_carton_label": 12,
+      "units_per_carton_label_photo_ids": [
+        "P2"
+      ],
+      "units_per_carton_label_confidence": 0.9,
+      "sealed": true
+    },
+    "damage": [],
+    "damage_coverage": "full",
+    "components": [
+      {
+        "name": "bottle",
+        "present": true,
+        "photo_ids": [
+          "P3"
+        ],
+        "confidence": 0.9,
+        "notes": null
+      },
+      {
+        "name": "lid",
+        "present": true,
+        "photo_ids": [
+          "P3"
+        ],
+        "confidence": 0.9,
+        "notes": null
+      }
+    ],
+    "other_issues": [],
+    "notes": null
+  },
+  "observation_source": "openrouter:openai/gpt-4o-mini",
+  "ai_review": {
+    "model": "openai/gpt-4o-mini",
+    "summary": "The audit of the automated inspection for SKU-BOTTLE-750 shows that all relevant checks passed based on the provided evidence, supporting the decision to ACCEPT the shipment.",
+    "check_explanations": [
+      {
+        "check": "sku_identity",
+        "explanation": "The observed SKU matches the ordered SKU 'SKU-BOTTLE-750', as confirmed by photo P2, resulting in a PASS."
+      },
+      {
+        "check": "variant",
+        "explanation": "The color variant 'black' matches the expected variant, based on the information from photo P2, leading to a PASS."
+      },
+      {
+        "check": "quantity",
+        "explanation": "The derived quantity of 24 (2 sealed cartons x 12 units per carton) matches the expected quantity, although the contents are not visually verified, resulting in a PASS."
+      },
+      {
+        "check": "carton_count",
+        "explanation": "The observed carton count of 2 matches the expected count, confirmed by photo P1, resulting in a PASS."
+      },
+      {
+        "check": "units_per_carton",
+        "explanation": "The carton label shows 12 units per carton, which matches the expected units per carton, resulting in a PASS."
+      },
+      {
+        "check": "damage",
+        "explanation": "There was no visible damage observed with full photo coverage, leading to a PASS."
+      },
+      {
+        "check": "components",
+        "explanation": "Both the bottle and lid components were observed and confirmed to be present in photo P3, resulting in a PASS."
+      },
+      {
+        "check": "other_quality",
+        "explanation": "No other quality issues were reported or detected, leading to a PASS."
+      }
+    ],
+    "concerns": [],
+    "recommended_actions": [],
+    "supplier_claim_draft": null,
+    "agrees_with_decision": true,
+    "escalated": false,
+    "cost_usd": 0.00047025,
+    "cached": false
+  },
+  "llm_cost_usd": 0.01242,
+  "record_sha256": "d9a2235f57598b1a88dc63366813648e6ee6dcd039173c9727e5c47700f3b910"
+}

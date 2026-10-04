@@ -1,0 +1,87 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "CUBE Fixed Evidence Record Contract (Receiving Manager)",
+  "description": "Cross-pod evidence contract shared across Stage 01 (Receiving) through Stage 05 (Recovery).",
+  "type": "object",
+  "required": [
+    "record_id",
+    "schema_version",
+    "organization_id",
+    "client_id",
+    "agent",
+    "subject",
+    "captured_at",
+    "operator_label",
+    "images",
+    "contract_checks",
+    "outcome",
+    "overrides",
+    "status",
+    "content_hash"
+  ],
+  "properties": {
+    "record_id": { "type": "string", "example": "RCV-a1b2c3d4e5f6" },
+    "schema_version": { "type": "string", "example": "1.1" },
+    "organization_id": { "type": "string", "example": "org_demo_alpha" },
+    "client_id": { "type": "string", "example": "dock_station_01" },
+    "agent": { "type": "string", "example": "receiving-manager/openrouter:openai/gpt-4o-mini" },
+    "subject": {
+      "type": "object",
+      "properties": {
+        "sku": { "type": "string" },
+        "po_number": { "type": "string" },
+        "expected_quantity": { "type": "integer" }
+      }
+    },
+    "captured_at": { "type": "string", "format": "date-time" },
+    "operator_label": { "type": "string", "example": "op_dock" },
+    "images": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "photo_id": { "type": "string" },
+          "sha256": { "type": "string" },
+          "filename": { "type": "string" }
+        }
+      }
+    },
+    "contract_checks": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "check_key": { "type": "string" },
+          "verdict": { "type": "string", "enum": ["PASS", "FAIL", "UNCERTAIN", "NOT_APPLICABLE"] },
+          "confidence": { "type": ["number", "null"] },
+          "detail": { "type": "string" },
+          "model_version": { "type": "string" },
+          "latency_ms": { "type": "number" }
+        }
+      }
+    },
+    "outcome": {
+      "type": "object",
+      "properties": {
+        "decision": { "type": "string", "enum": ["ACCEPT", "EXCEPTION", "UNCERTAIN"] },
+        "decided_by": { "type": "string" },
+        "decided_at": { "type": "string", "format": "date-time" }
+      }
+    },
+    "overrides": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "original_verdict": { "type": "string" },
+          "new_verdict": { "type": "string" },
+          "reason": { "type": "string" },
+          "operator": { "type": "string" },
+          "timestamp": { "type": "string", "format": "date-time" }
+        }
+      }
+    },
+    "status": { "type": "string", "enum": ["completed", "uncertain", "pending_review"] },
+    "content_hash": { "type": "string", "description": "Canonical SHA-256 seal digest over the entire record" }
+  }
+}

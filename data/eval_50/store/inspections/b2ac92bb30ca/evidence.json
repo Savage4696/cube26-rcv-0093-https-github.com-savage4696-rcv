@@ -1,0 +1,503 @@
+{
+  "schema_version": "1.1",
+  "record_id": "RCV-b2ac92bb30ca",
+  "organization_id": "org_demo_alpha",
+  "client_id": "dock_station_01",
+  "agent": "receiving-manager/openrouter:openai/gpt-4o-mini",
+  "subject": {
+    "sku": "SKU-CANDLE-3",
+    "po_number": "PO-9021",
+    "expected_quantity": 24
+  },
+  "captured_at": "2026-10-04T19:13:58.667955Z",
+  "operator_label": "op_dock",
+  "images": [
+    {
+      "photo_id": "P1",
+      "sha256": "2da1111f056fa3ccf94d81574382a9bab9b041e00b99aaaccf7dcbb6074c21cd",
+      "filename": "P1.png"
+    },
+    {
+      "photo_id": "P2",
+      "sha256": "cbb156871434f5ce728ebc16f9aad7cea2d36338f2c5e1fb25c74df4b00e680d",
+      "filename": "P2.png"
+    },
+    {
+      "photo_id": "P3",
+      "sha256": "cb563dd1ba8e203ff0ab709e61bce38c0bf98603e744ed3bf712529c98ee9393",
+      "filename": "P3.png"
+    }
+  ],
+  "contract_checks": [
+    {
+      "check_key": "sku_identity",
+      "verdict": "FAIL",
+      "confidence": 0.9,
+      "detail": "Identifiers read on the shipment do not match the ordered SKU",
+      "model_version": "openrouter:openai/gpt-4o-mini",
+      "latency_ms": 120.0
+    },
+    {
+      "check_key": "variant",
+      "verdict": "PASS",
+      "confidence": 0.9,
+      "detail": "Observed variant matches the order",
+      "model_version": "openrouter:openai/gpt-4o-mini",
+      "latency_ms": 120.0
+    },
+    {
+      "check_key": "quantity",
+      "verdict": "UNCERTAIN",
+      "confidence": null,
+      "detail": "Quantity cannot be verified: units could not be counted; product identity not confirmed, so carton contents cannot be assumed",
+      "model_version": "openrouter:openai/gpt-4o-mini",
+      "latency_ms": 120.0
+    },
+    {
+      "check_key": "carton_count",
+      "verdict": "PASS",
+      "confidence": 0.9,
+      "detail": "Carton count matches",
+      "model_version": "openrouter:openai/gpt-4o-mini",
+      "latency_ms": 120.0
+    },
+    {
+      "check_key": "units_per_carton",
+      "verdict": "PASS",
+      "confidence": 0.9,
+      "detail": "Carton label matches expected pack size",
+      "model_version": "openrouter:openai/gpt-4o-mini",
+      "latency_ms": 120.0
+    },
+    {
+      "check_key": "damage",
+      "verdict": "PASS",
+      "confidence": null,
+      "detail": "No damage observed with full photo coverage",
+      "model_version": "openrouter:openai/gpt-4o-mini",
+      "latency_ms": 120.0
+    },
+    {
+      "check_key": "components",
+      "verdict": "PASS",
+      "confidence": 0.9,
+      "detail": "All expected components observed",
+      "model_version": "openrouter:openai/gpt-4o-mini",
+      "latency_ms": 120.0
+    },
+    {
+      "check_key": "other_quality",
+      "verdict": "PASS",
+      "confidence": null,
+      "detail": "No other quality issues observed",
+      "model_version": "openrouter:openai/gpt-4o-mini",
+      "latency_ms": 120.0
+    }
+  ],
+  "outcome": {
+    "decision": "EXCEPTION",
+    "decided_by": "rules_engine+reasoning_audit",
+    "decided_at": "2026-10-04T19:13:58.667955+00:00"
+  },
+  "overrides": [],
+  "status": "completed",
+  "content_hash": "e26701f0e68924898deb3916438934f4c61e055bf59b2d9ecf5f8ab9b95341f2",
+  "report": {
+    "inspection_id": "b2ac92bb30ca",
+    "created_at": "2026-10-04T19:13:58.667955Z",
+    "po_number": "PO-9021",
+    "sku": "SKU-CANDLE-3",
+    "decision": "EXCEPTION",
+    "decision_reason": "Failed checks: sku_identity. Also unverified: quantity",
+    "checks": [
+      {
+        "check": "sku_identity",
+        "verdict": "FAIL",
+        "expected": "SKU-CANDLE-3",
+        "observed": "sku 'SKU-BOTTLE-750'",
+        "confidence": 0.9,
+        "reason": "Identifiers read on the shipment do not match the ordered SKU",
+        "issues": [
+          {
+            "code": "WRONG_SKU",
+            "description": "Received sku 'SKU-BOTTLE-750' instead of SKU-CANDLE-3",
+            "photo_ids": [
+              "P2"
+            ]
+          }
+        ],
+        "evidence": [
+          {
+            "photo_id": "P2",
+            "sha256": "cbb156871434f5ce728ebc16f9aad7cea2d36338f2c5e1fb25c74df4b00e680d",
+            "detail": "sku 'SKU-BOTTLE-750' read (conf 0.90)"
+          }
+        ]
+      },
+      {
+        "check": "variant",
+        "verdict": "PASS",
+        "expected": "color=cream",
+        "observed": "color=cream",
+        "confidence": 0.9,
+        "reason": "Observed variant matches the order",
+        "issues": [],
+        "evidence": [
+          {
+            "photo_id": "P2",
+            "sha256": "cbb156871434f5ce728ebc16f9aad7cea2d36338f2c5e1fb25c74df4b00e680d",
+            "detail": "variant observed: color=cream (conf 0.90)"
+          }
+        ]
+      },
+      {
+        "check": "quantity",
+        "verdict": "UNCERTAIN",
+        "expected": 24,
+        "observed": null,
+        "confidence": null,
+        "reason": "Quantity cannot be verified: units could not be counted; product identity not confirmed, so carton contents cannot be assumed",
+        "issues": [
+          {
+            "code": "QUANTITY_UNVERIFIED",
+            "description": "Quantity not verifiable from photos",
+            "photo_ids": [
+              "P3"
+            ]
+          }
+        ],
+        "evidence": [
+          {
+            "photo_id": "P3",
+            "sha256": "cb563dd1ba8e203ff0ab709e61bce38c0bf98603e744ed3bf712529c98ee9393",
+            "detail": "partial unit count"
+          }
+        ]
+      },
+      {
+        "check": "carton_count",
+        "verdict": "PASS",
+        "expected": 2,
+        "observed": 2,
+        "confidence": 0.9,
+        "reason": "Carton count matches",
+        "issues": [],
+        "evidence": [
+          {
+            "photo_id": "P1",
+            "sha256": "2da1111f056fa3ccf94d81574382a9bab9b041e00b99aaaccf7dcbb6074c21cd",
+            "detail": "cartons counted: 2 (conf 0.90)"
+          }
+        ]
+      },
+      {
+        "check": "units_per_carton",
+        "verdict": "PASS",
+        "expected": 12,
+        "observed": 12,
+        "confidence": 0.9,
+        "reason": "Carton label matches expected pack size",
+        "issues": [],
+        "evidence": [
+          {
+            "photo_id": "P2",
+            "sha256": "cbb156871434f5ce728ebc16f9aad7cea2d36338f2c5e1fb25c74df4b00e680d",
+            "detail": "carton label: 12 units/carton"
+          }
+        ]
+      },
+      {
+        "check": "damage",
+        "verdict": "PASS",
+        "expected": "no visible damage",
+        "observed": "no damage observed",
+        "confidence": null,
+        "reason": "No damage observed with full photo coverage",
+        "issues": [],
+        "evidence": []
+      },
+      {
+        "check": "components",
+        "verdict": "PASS",
+        "expected": "candle x3, gift box",
+        "observed": "candle x3, gift box",
+        "confidence": 0.9,
+        "reason": "All expected components observed",
+        "issues": [],
+        "evidence": [
+          {
+            "photo_id": "P3",
+            "sha256": "cb563dd1ba8e203ff0ab709e61bce38c0bf98603e744ed3bf712529c98ee9393",
+            "detail": "candle x3: present (conf 0.90)"
+          },
+          {
+            "photo_id": "P3",
+            "sha256": "cb563dd1ba8e203ff0ab709e61bce38c0bf98603e744ed3bf712529c98ee9393",
+            "detail": "gift box: present (conf 0.90)"
+          }
+        ]
+      },
+      {
+        "check": "other_quality",
+        "verdict": "PASS",
+        "expected": null,
+        "observed": "none observed",
+        "confidence": null,
+        "reason": "No other quality issues observed",
+        "issues": [],
+        "evidence": []
+      }
+    ],
+    "issues": [
+      {
+        "code": "WRONG_SKU",
+        "description": "Received sku 'SKU-BOTTLE-750' instead of SKU-CANDLE-3",
+        "photo_ids": [
+          "P2"
+        ]
+      },
+      {
+        "code": "QUANTITY_UNVERIFIED",
+        "description": "Quantity not verifiable from photos",
+        "photo_ids": [
+          "P3"
+        ]
+      }
+    ],
+    "warnings": [],
+    "confidence_threshold": 0.7,
+    "risk_score": 50.0,
+    "risk_level": "HIGH"
+  },
+  "purchase_order": {
+    "po_number": "PO-9021",
+    "supplier": "Acme Global Freight (DUMMY)",
+    "lines": [
+      {
+        "sku": "SKU-CANDLE-3",
+        "expected_quantity": 24,
+        "variant": {
+          "color": "cream"
+        },
+        "expected_cartons": 2,
+        "units_per_carton": 12
+      }
+    ]
+  },
+  "po_line": {
+    "sku": "SKU-CANDLE-3",
+    "expected_quantity": 24,
+    "variant": {
+      "color": "cream"
+    },
+    "expected_cartons": 2,
+    "units_per_carton": 12
+  },
+  "catalog_item": {
+    "sku": "SKU-CANDLE-3",
+    "name": "Soy Candle Trio Gift Box",
+    "asin": null,
+    "barcodes": [],
+    "variant": {},
+    "units_per_carton": null,
+    "components": [
+      "candle x3",
+      "gift box"
+    ],
+    "description": null
+  },
+  "photos": [
+    {
+      "photo_id": "P1",
+      "filename": "P1.png",
+      "content_type": "image/png",
+      "sha256": "2da1111f056fa3ccf94d81574382a9bab9b041e00b99aaaccf7dcbb6074c21cd",
+      "size_bytes": 4423,
+      "stored_path": "/Users/krish/Desktop/rcv ai/RCV/data/eval_50/store/inspections/b2ac92bb30ca/photos/P1__P1.png"
+    },
+    {
+      "photo_id": "P2",
+      "filename": "P2.png",
+      "content_type": "image/png",
+      "sha256": "cbb156871434f5ce728ebc16f9aad7cea2d36338f2c5e1fb25c74df4b00e680d",
+      "size_bytes": 16396,
+      "stored_path": "/Users/krish/Desktop/rcv ai/RCV/data/eval_50/store/inspections/b2ac92bb30ca/photos/P2__P2.png"
+    },
+    {
+      "photo_id": "P3",
+      "filename": "P3.png",
+      "content_type": "image/png",
+      "sha256": "cb563dd1ba8e203ff0ab709e61bce38c0bf98603e744ed3bf712529c98ee9393",
+      "size_bytes": 10359,
+      "stored_path": "/Users/krish/Desktop/rcv ai/RCV/data/eval_50/store/inspections/b2ac92bb30ca/photos/P3__P3.png"
+    }
+  ],
+  "observations": {
+    "photos": [
+      {
+        "photo_id": "P1",
+        "usable": true,
+        "shows": [
+          "cartons"
+        ],
+        "quality_issues": []
+      },
+      {
+        "photo_id": "P2",
+        "usable": true,
+        "shows": [
+          "carton label"
+        ],
+        "quality_issues": []
+      },
+      {
+        "photo_id": "P3",
+        "usable": true,
+        "shows": [
+          "product units"
+        ],
+        "quality_issues": []
+      }
+    ],
+    "identifiers": [
+      {
+        "kind": "sku",
+        "value": "SKU-BOTTLE-750",
+        "photo_ids": [
+          "P2"
+        ],
+        "confidence": 0.9
+      }
+    ],
+    "variant": {
+      "attributes": {
+        "color": "cream"
+      },
+      "photo_ids": [
+        "P2"
+      ],
+      "confidence": 0.9,
+      "notes": null
+    },
+    "units": {
+      "count": null,
+      "all_visible": false,
+      "photo_ids": [
+        "P3"
+      ],
+      "confidence": 0.0,
+      "notes": "units inside sealed packaging"
+    },
+    "cartons": {
+      "count": {
+        "count": 2,
+        "all_visible": true,
+        "photo_ids": [
+          "P1"
+        ],
+        "confidence": 0.9,
+        "notes": null
+      },
+      "units_per_carton_label": 12,
+      "units_per_carton_label_photo_ids": [
+        "P2"
+      ],
+      "units_per_carton_label_confidence": 0.9,
+      "sealed": true
+    },
+    "damage": [],
+    "damage_coverage": "full",
+    "components": [
+      {
+        "name": "candle x3",
+        "present": true,
+        "photo_ids": [
+          "P3"
+        ],
+        "confidence": 0.9,
+        "notes": null
+      },
+      {
+        "name": "gift box",
+        "present": true,
+        "photo_ids": [
+          "P3"
+        ],
+        "confidence": 0.9,
+        "notes": null
+      }
+    ],
+    "other_issues": [],
+    "notes": null
+  },
+  "observation_source": "openrouter:openai/gpt-4o-mini",
+  "ai_review": {
+    "model": "openai/gpt-4o-mini",
+    "summary": "The inspection resulted in an exception due to a failed SKU identity check and an uncertain quantity check.",
+    "check_explanations": [
+      {
+        "check": "sku_identity",
+        "explanation": "The expected SKU was SKU-CANDLE-3, but the observed SKU was SKU-BOTTLE-750 as shown in photo P2, leading to a FAIL."
+      },
+      {
+        "check": "variant",
+        "explanation": "The observed variant color matched the expected color cream as evidenced by photo P2, resulting in a PASS."
+      },
+      {
+        "check": "quantity",
+        "explanation": "The quantity check is UNCERTAIN because the units could not be verified as they were inside sealed packaging (photo P3), and the product identity is not confirmed."
+      },
+      {
+        "check": "carton_count",
+        "explanation": "The count of cartons was 2, which matched the expected quantity, as shown in photo P1, resulting in a PASS."
+      },
+      {
+        "check": "units_per_carton",
+        "explanation": "The label on the carton confirmed that there are 12 units per carton, matching the expected number from photo P2, leading to a PASS."
+      },
+      {
+        "check": "damage",
+        "explanation": "There was no visible damage observed with full photo coverage, resulting in a PASS."
+      },
+      {
+        "check": "components",
+        "explanation": "All expected components (candle x3 and gift box) were present as confirmed by photo P3, leading to a PASS."
+      },
+      {
+        "check": "other_quality",
+        "explanation": "No other quality issues were observed, resulting in a PASS."
+      }
+    ],
+    "concerns": [
+      {
+        "description": "The SKU identity check failed, which raises concerns regarding the actual product received.",
+        "checks": [
+          "sku_identity"
+        ],
+        "photo_ids": [
+          "P2"
+        ]
+      },
+      {
+        "description": "The quantity check is uncertain due to the inability to verify the contents of the sealed packaging.",
+        "checks": [
+          "quantity"
+        ],
+        "photo_ids": [
+          "P3"
+        ]
+      }
+    ],
+    "recommended_actions": [
+      "Contact the supplier regarding the SKU identity failure.",
+      "Open the sealed packaging for quantity verification."
+    ],
+    "supplier_claim_draft": "Discrepancy observed: Expected SKU SKU-CANDLE-3 but found SKU-BOTTLE-750 (P2). Quantity cannot be verified as units are sealed (P3).",
+    "agrees_with_decision": false,
+    "escalated": false,
+    "cost_usd": 0.00059775,
+    "cached": false
+  },
+  "llm_cost_usd": 0.0125,
+  "record_sha256": "e26701f0e68924898deb3916438934f4c61e055bf59b2d9ecf5f8ab9b95341f2"
+}

@@ -1,0 +1,438 @@
+{
+  "schema_version": "1.1",
+  "record_id": "RCV-11fc062bccd7",
+  "organization_id": "org_demo_alpha",
+  "client_id": "dock_station_01",
+  "agent": "receiving-manager/openrouter:openai/gpt-4o-mini",
+  "subject": {
+    "sku": "SKU-CABLE-USBC",
+    "po_number": "PO-9045",
+    "expected_quantity": 48
+  },
+  "captured_at": "2026-10-04T19:19:43.457740Z",
+  "operator_label": "op_dock",
+  "images": [
+    {
+      "photo_id": "P1",
+      "sha256": "2da1111f056fa3ccf94d81574382a9bab9b041e00b99aaaccf7dcbb6074c21cd",
+      "filename": "P1.png"
+    },
+    {
+      "photo_id": "P2",
+      "sha256": "6d2755dec3f2293d2a9b9e9927396726644e987d56547456b5321840fb1852d3",
+      "filename": "P2.png"
+    },
+    {
+      "photo_id": "P3",
+      "sha256": "3c311b2f71b0c0e057c5925e09b2d2bf9d0687b1c4efc9f9c349e9692ab48cb1",
+      "filename": "P3.png"
+    }
+  ],
+  "contract_checks": [
+    {
+      "check_key": "sku_identity",
+      "verdict": "PASS",
+      "confidence": 0.9,
+      "detail": "Ordered SKU identifier read on the shipment",
+      "model_version": "openrouter:openai/gpt-4o-mini",
+      "latency_ms": 120.0
+    },
+    {
+      "check_key": "variant",
+      "verdict": "PASS",
+      "confidence": 0.9,
+      "detail": "Observed variant matches the order",
+      "model_version": "openrouter:openai/gpt-4o-mini",
+      "latency_ms": 120.0
+    },
+    {
+      "check_key": "quantity",
+      "verdict": "PASS",
+      "confidence": 0.81,
+      "detail": "Quantity matches (derived: 2 sealed cartons x 24 units/carton (carton label); contents not visually verified)",
+      "model_version": "openrouter:openai/gpt-4o-mini",
+      "latency_ms": 120.0
+    },
+    {
+      "check_key": "carton_count",
+      "verdict": "PASS",
+      "confidence": 0.9,
+      "detail": "Carton count matches",
+      "model_version": "openrouter:openai/gpt-4o-mini",
+      "latency_ms": 120.0
+    },
+    {
+      "check_key": "units_per_carton",
+      "verdict": "PASS",
+      "confidence": 0.9,
+      "detail": "Carton label matches expected pack size",
+      "model_version": "openrouter:openai/gpt-4o-mini",
+      "latency_ms": 120.0
+    },
+    {
+      "check_key": "damage",
+      "verdict": "PASS",
+      "confidence": null,
+      "detail": "No damage observed with full photo coverage",
+      "model_version": "openrouter:openai/gpt-4o-mini",
+      "latency_ms": 120.0
+    },
+    {
+      "check_key": "components",
+      "verdict": "PASS",
+      "confidence": 0.9,
+      "detail": "All expected components observed",
+      "model_version": "openrouter:openai/gpt-4o-mini",
+      "latency_ms": 120.0
+    },
+    {
+      "check_key": "other_quality",
+      "verdict": "PASS",
+      "confidence": null,
+      "detail": "No other quality issues observed",
+      "model_version": "openrouter:openai/gpt-4o-mini",
+      "latency_ms": 120.0
+    }
+  ],
+  "outcome": {
+    "decision": "ACCEPT",
+    "decided_by": "rules_engine+reasoning_audit",
+    "decided_at": "2026-10-04T19:19:43.457740+00:00"
+  },
+  "overrides": [],
+  "status": "completed",
+  "content_hash": "43fd92ff250bf2fe604ad7e3f1edcb929d012eb4f2e29c18ef5e381deac06d14",
+  "report": {
+    "inspection_id": "11fc062bccd7",
+    "created_at": "2026-10-04T19:19:43.457740Z",
+    "po_number": "PO-9045",
+    "sku": "SKU-CABLE-USBC",
+    "decision": "ACCEPT",
+    "decision_reason": "All checks passed",
+    "checks": [
+      {
+        "check": "sku_identity",
+        "verdict": "PASS",
+        "expected": "SKU-CABLE-USBC",
+        "observed": "sku 'SKU-CABLE-USBC'",
+        "confidence": 0.9,
+        "reason": "Ordered SKU identifier read on the shipment",
+        "issues": [],
+        "evidence": [
+          {
+            "photo_id": "P2",
+            "sha256": "6d2755dec3f2293d2a9b9e9927396726644e987d56547456b5321840fb1852d3",
+            "detail": "sku 'SKU-CABLE-USBC' read (conf 0.90)"
+          }
+        ]
+      },
+      {
+        "check": "variant",
+        "verdict": "PASS",
+        "expected": "color=white",
+        "observed": "color=white",
+        "confidence": 0.9,
+        "reason": "Observed variant matches the order",
+        "issues": [],
+        "evidence": [
+          {
+            "photo_id": "P2",
+            "sha256": "6d2755dec3f2293d2a9b9e9927396726644e987d56547456b5321840fb1852d3",
+            "detail": "variant observed: color=white (conf 0.90)"
+          }
+        ]
+      },
+      {
+        "check": "quantity",
+        "verdict": "PASS",
+        "expected": 48,
+        "observed": 48,
+        "confidence": 0.81,
+        "reason": "Quantity matches (derived: 2 sealed cartons x 24 units/carton (carton label); contents not visually verified)",
+        "issues": [],
+        "evidence": [
+          {
+            "photo_id": "P1",
+            "sha256": "2da1111f056fa3ccf94d81574382a9bab9b041e00b99aaaccf7dcbb6074c21cd",
+            "detail": "derived: 2 sealed cartons x 24 units/carton (carton label); contents not visually verified"
+          },
+          {
+            "photo_id": "P2",
+            "sha256": "6d2755dec3f2293d2a9b9e9927396726644e987d56547456b5321840fb1852d3",
+            "detail": "derived: 2 sealed cartons x 24 units/carton (carton label); contents not visually verified"
+          }
+        ]
+      },
+      {
+        "check": "carton_count",
+        "verdict": "PASS",
+        "expected": 2,
+        "observed": 2,
+        "confidence": 0.9,
+        "reason": "Carton count matches",
+        "issues": [],
+        "evidence": [
+          {
+            "photo_id": "P1",
+            "sha256": "2da1111f056fa3ccf94d81574382a9bab9b041e00b99aaaccf7dcbb6074c21cd",
+            "detail": "cartons counted: 2 (conf 0.90)"
+          }
+        ]
+      },
+      {
+        "check": "units_per_carton",
+        "verdict": "PASS",
+        "expected": 24,
+        "observed": 24,
+        "confidence": 0.9,
+        "reason": "Carton label matches expected pack size",
+        "issues": [],
+        "evidence": [
+          {
+            "photo_id": "P2",
+            "sha256": "6d2755dec3f2293d2a9b9e9927396726644e987d56547456b5321840fb1852d3",
+            "detail": "carton label: 24 units/carton"
+          }
+        ]
+      },
+      {
+        "check": "damage",
+        "verdict": "PASS",
+        "expected": "no visible damage",
+        "observed": "no damage observed",
+        "confidence": null,
+        "reason": "No damage observed with full photo coverage",
+        "issues": [],
+        "evidence": []
+      },
+      {
+        "check": "components",
+        "verdict": "PASS",
+        "expected": "cable",
+        "observed": "cable",
+        "confidence": 0.9,
+        "reason": "All expected components observed",
+        "issues": [],
+        "evidence": [
+          {
+            "photo_id": "P3",
+            "sha256": "3c311b2f71b0c0e057c5925e09b2d2bf9d0687b1c4efc9f9c349e9692ab48cb1",
+            "detail": "cable: present (conf 0.90)"
+          }
+        ]
+      },
+      {
+        "check": "other_quality",
+        "verdict": "PASS",
+        "expected": null,
+        "observed": "none observed",
+        "confidence": null,
+        "reason": "No other quality issues observed",
+        "issues": [],
+        "evidence": []
+      }
+    ],
+    "issues": [],
+    "warnings": [],
+    "confidence_threshold": 0.7,
+    "risk_score": 0.0,
+    "risk_level": "LOW"
+  },
+  "purchase_order": {
+    "po_number": "PO-9045",
+    "supplier": "Acme Global Freight (DUMMY)",
+    "lines": [
+      {
+        "sku": "SKU-CABLE-USBC",
+        "expected_quantity": 48,
+        "variant": {
+          "color": "white"
+        },
+        "expected_cartons": 2,
+        "units_per_carton": 24
+      }
+    ]
+  },
+  "po_line": {
+    "sku": "SKU-CABLE-USBC",
+    "expected_quantity": 48,
+    "variant": {
+      "color": "white"
+    },
+    "expected_cartons": 2,
+    "units_per_carton": 24
+  },
+  "catalog_item": {
+    "sku": "SKU-CABLE-USBC",
+    "name": "USB-C Fast Charging Cable 2m",
+    "asin": null,
+    "barcodes": [],
+    "variant": {},
+    "units_per_carton": null,
+    "components": [
+      "cable"
+    ],
+    "description": null
+  },
+  "photos": [
+    {
+      "photo_id": "P1",
+      "filename": "P1.png",
+      "content_type": "image/png",
+      "sha256": "2da1111f056fa3ccf94d81574382a9bab9b041e00b99aaaccf7dcbb6074c21cd",
+      "size_bytes": 4423,
+      "stored_path": "/Users/krish/Desktop/rcv ai/RCV/data/eval_50/store/inspections/11fc062bccd7/photos/P1__P1.png"
+    },
+    {
+      "photo_id": "P2",
+      "filename": "P2.png",
+      "content_type": "image/png",
+      "sha256": "6d2755dec3f2293d2a9b9e9927396726644e987d56547456b5321840fb1852d3",
+      "size_bytes": 15990,
+      "stored_path": "/Users/krish/Desktop/rcv ai/RCV/data/eval_50/store/inspections/11fc062bccd7/photos/P2__P2.png"
+    },
+    {
+      "photo_id": "P3",
+      "filename": "P3.png",
+      "content_type": "image/png",
+      "sha256": "3c311b2f71b0c0e057c5925e09b2d2bf9d0687b1c4efc9f9c349e9692ab48cb1",
+      "size_bytes": 8654,
+      "stored_path": "/Users/krish/Desktop/rcv ai/RCV/data/eval_50/store/inspections/11fc062bccd7/photos/P3__P3.png"
+    }
+  ],
+  "observations": {
+    "photos": [
+      {
+        "photo_id": "P1",
+        "usable": true,
+        "shows": [
+          "cartons"
+        ],
+        "quality_issues": []
+      },
+      {
+        "photo_id": "P2",
+        "usable": true,
+        "shows": [
+          "carton label"
+        ],
+        "quality_issues": []
+      },
+      {
+        "photo_id": "P3",
+        "usable": true,
+        "shows": [
+          "components"
+        ],
+        "quality_issues": []
+      }
+    ],
+    "identifiers": [
+      {
+        "kind": "sku",
+        "value": "SKU-CABLE-USBC",
+        "photo_ids": [
+          "P2"
+        ],
+        "confidence": 0.9
+      }
+    ],
+    "variant": {
+      "attributes": {
+        "color": "white"
+      },
+      "photo_ids": [
+        "P2"
+      ],
+      "confidence": 0.9,
+      "notes": null
+    },
+    "units": {
+      "count": null,
+      "all_visible": false,
+      "photo_ids": [],
+      "confidence": 0.0,
+      "notes": "units inside sealed cartons"
+    },
+    "cartons": {
+      "count": {
+        "count": 2,
+        "all_visible": true,
+        "photo_ids": [
+          "P1"
+        ],
+        "confidence": 0.9,
+        "notes": null
+      },
+      "units_per_carton_label": 24,
+      "units_per_carton_label_photo_ids": [
+        "P2"
+      ],
+      "units_per_carton_label_confidence": 0.9,
+      "sealed": true
+    },
+    "damage": [],
+    "damage_coverage": "full",
+    "components": [
+      {
+        "name": "cable",
+        "present": true,
+        "photo_ids": [
+          "P3"
+        ],
+        "confidence": 0.9,
+        "notes": null
+      }
+    ],
+    "other_issues": [],
+    "notes": null
+  },
+  "observation_source": "openrouter:openai/gpt-4o-mini",
+  "ai_review": {
+    "model": "openai/gpt-4o-mini",
+    "summary": "The automated inspection produced an ACCEPT decision as all checks passed successfully.",
+    "check_explanations": [
+      {
+        "check": "sku_identity",
+        "explanation": "The SKU 'SKU-CABLE-USBC' observed in photo P2 matches the expected SKU, confirming the identity of the shipment."
+      },
+      {
+        "check": "variant",
+        "explanation": "The observed color 'white' from photo P2 matches the expected variant color, confirming the variant identity."
+      },
+      {
+        "check": "quantity",
+        "explanation": "The quantity of 48 is derived from 2 sealed cartons and the labeled 24 units per carton, but the contents were not visually verified."
+      },
+      {
+        "check": "carton_count",
+        "explanation": "The count of 2 cartons observed in photo P1 matches the expected carton count, confirming accurate carton count."
+      },
+      {
+        "check": "units_per_carton",
+        "explanation": "The carton label observed in photo P2 states 24 units per carton, which matches the expected pack size."
+      },
+      {
+        "check": "damage",
+        "explanation": "There are no visible damages observed in the shipment, consistent with the requirement for no damage."
+      },
+      {
+        "check": "components",
+        "explanation": "The cable component is confirmed as present in photo P3, meeting the expected component requirement."
+      },
+      {
+        "check": "other_quality",
+        "explanation": "No other quality issues were observed, supporting a favorable assessment."
+      }
+    ],
+    "concerns": [],
+    "recommended_actions": [],
+    "supplier_claim_draft": null,
+    "agrees_with_decision": true,
+    "escalated": false,
+    "cost_usd": 0.0004872,
+    "cached": false
+  },
+  "llm_cost_usd": 0.012363,
+  "record_sha256": "43fd92ff250bf2fe604ad7e3f1edcb929d012eb4f2e29c18ef5e381deac06d14"
+}

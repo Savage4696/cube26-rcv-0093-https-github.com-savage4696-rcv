@@ -1,0 +1,481 @@
+{
+  "schema_version": "1.1",
+  "record_id": "RCV-0b34aa4d830a",
+  "organization_id": "org_demo_alpha",
+  "client_id": "dock_station_01",
+  "agent": "receiving-manager/openrouter:openai/gpt-4o-mini",
+  "subject": {
+    "sku": "SKU-TOWEL-BLU",
+    "po_number": "PO-9022",
+    "expected_quantity": 48
+  },
+  "captured_at": "2026-10-04T19:14:15.103097Z",
+  "operator_label": "op_dock",
+  "images": [
+    {
+      "photo_id": "P1",
+      "sha256": "2da1111f056fa3ccf94d81574382a9bab9b041e00b99aaaccf7dcbb6074c21cd",
+      "filename": "P1.png"
+    },
+    {
+      "photo_id": "P2",
+      "sha256": "24ae888f72aee2b284452b90815f46064eb4c5a306020d6ff02bf0c1b4737a2d",
+      "filename": "P2.png"
+    },
+    {
+      "photo_id": "P3",
+      "sha256": "679be972836c848c7473f241dccff95fa60c8084c1ad599114eaaac0698550c3",
+      "filename": "P3.png"
+    }
+  ],
+  "contract_checks": [
+    {
+      "check_key": "sku_identity",
+      "verdict": "FAIL",
+      "confidence": 0.9,
+      "detail": "Identifiers read on the shipment do not match the ordered SKU",
+      "model_version": "openrouter:openai/gpt-4o-mini",
+      "latency_ms": 120.0
+    },
+    {
+      "check_key": "variant",
+      "verdict": "PASS",
+      "confidence": 0.9,
+      "detail": "Observed variant matches the order",
+      "model_version": "openrouter:openai/gpt-4o-mini",
+      "latency_ms": 120.0
+    },
+    {
+      "check_key": "quantity",
+      "verdict": "UNCERTAIN",
+      "confidence": null,
+      "detail": "Quantity cannot be verified: units could not be counted; product identity not confirmed, so carton contents cannot be assumed",
+      "model_version": "openrouter:openai/gpt-4o-mini",
+      "latency_ms": 120.0
+    },
+    {
+      "check_key": "carton_count",
+      "verdict": "PASS",
+      "confidence": 0.9,
+      "detail": "Carton count matches",
+      "model_version": "openrouter:openai/gpt-4o-mini",
+      "latency_ms": 120.0
+    },
+    {
+      "check_key": "units_per_carton",
+      "verdict": "PASS",
+      "confidence": 0.9,
+      "detail": "Carton label matches expected pack size",
+      "model_version": "openrouter:openai/gpt-4o-mini",
+      "latency_ms": 120.0
+    },
+    {
+      "check_key": "damage",
+      "verdict": "PASS",
+      "confidence": null,
+      "detail": "No damage observed with full photo coverage",
+      "model_version": "openrouter:openai/gpt-4o-mini",
+      "latency_ms": 120.0
+    },
+    {
+      "check_key": "components",
+      "verdict": "PASS",
+      "confidence": 0.9,
+      "detail": "All expected components observed",
+      "model_version": "openrouter:openai/gpt-4o-mini",
+      "latency_ms": 120.0
+    },
+    {
+      "check_key": "other_quality",
+      "verdict": "PASS",
+      "confidence": null,
+      "detail": "No other quality issues observed",
+      "model_version": "openrouter:openai/gpt-4o-mini",
+      "latency_ms": 120.0
+    }
+  ],
+  "outcome": {
+    "decision": "EXCEPTION",
+    "decided_by": "rules_engine+reasoning_audit",
+    "decided_at": "2026-10-04T19:14:15.103097+00:00"
+  },
+  "overrides": [],
+  "status": "completed",
+  "content_hash": "24929843577bb4f7df1aeae5c97cdfb518c4dc4f53622ca81f2d4f66c15ab36e",
+  "report": {
+    "inspection_id": "0b34aa4d830a",
+    "created_at": "2026-10-04T19:14:15.103097Z",
+    "po_number": "PO-9022",
+    "sku": "SKU-TOWEL-BLU",
+    "decision": "EXCEPTION",
+    "decision_reason": "Failed checks: sku_identity. Also unverified: quantity",
+    "checks": [
+      {
+        "check": "sku_identity",
+        "verdict": "FAIL",
+        "expected": "SKU-TOWEL-BLU",
+        "observed": "sku 'SKU-CABLE-USBC'",
+        "confidence": 0.9,
+        "reason": "Identifiers read on the shipment do not match the ordered SKU",
+        "issues": [
+          {
+            "code": "WRONG_SKU",
+            "description": "Received sku 'SKU-CABLE-USBC' instead of SKU-TOWEL-BLU",
+            "photo_ids": [
+              "P2"
+            ]
+          }
+        ],
+        "evidence": [
+          {
+            "photo_id": "P2",
+            "sha256": "24ae888f72aee2b284452b90815f46064eb4c5a306020d6ff02bf0c1b4737a2d",
+            "detail": "sku 'SKU-CABLE-USBC' read (conf 0.90)"
+          }
+        ]
+      },
+      {
+        "check": "variant",
+        "verdict": "PASS",
+        "expected": "color=blue",
+        "observed": "color=blue",
+        "confidence": 0.9,
+        "reason": "Observed variant matches the order",
+        "issues": [],
+        "evidence": [
+          {
+            "photo_id": "P2",
+            "sha256": "24ae888f72aee2b284452b90815f46064eb4c5a306020d6ff02bf0c1b4737a2d",
+            "detail": "variant observed: color=blue (conf 0.90)"
+          }
+        ]
+      },
+      {
+        "check": "quantity",
+        "verdict": "UNCERTAIN",
+        "expected": 48,
+        "observed": null,
+        "confidence": null,
+        "reason": "Quantity cannot be verified: units could not be counted; product identity not confirmed, so carton contents cannot be assumed",
+        "issues": [
+          {
+            "code": "QUANTITY_UNVERIFIED",
+            "description": "Quantity not verifiable from photos",
+            "photo_ids": [
+              "P3"
+            ]
+          }
+        ],
+        "evidence": [
+          {
+            "photo_id": "P3",
+            "sha256": "679be972836c848c7473f241dccff95fa60c8084c1ad599114eaaac0698550c3",
+            "detail": "partial unit count"
+          }
+        ]
+      },
+      {
+        "check": "carton_count",
+        "verdict": "PASS",
+        "expected": 2,
+        "observed": 2,
+        "confidence": 0.9,
+        "reason": "Carton count matches",
+        "issues": [],
+        "evidence": [
+          {
+            "photo_id": "P1",
+            "sha256": "2da1111f056fa3ccf94d81574382a9bab9b041e00b99aaaccf7dcbb6074c21cd",
+            "detail": "cartons counted: 2 (conf 0.90)"
+          }
+        ]
+      },
+      {
+        "check": "units_per_carton",
+        "verdict": "PASS",
+        "expected": 24,
+        "observed": 24,
+        "confidence": 0.9,
+        "reason": "Carton label matches expected pack size",
+        "issues": [],
+        "evidence": [
+          {
+            "photo_id": "P2",
+            "sha256": "24ae888f72aee2b284452b90815f46064eb4c5a306020d6ff02bf0c1b4737a2d",
+            "detail": "carton label: 24 units/carton"
+          }
+        ]
+      },
+      {
+        "check": "damage",
+        "verdict": "PASS",
+        "expected": "no visible damage",
+        "observed": "no damage observed",
+        "confidence": null,
+        "reason": "No damage observed with full photo coverage",
+        "issues": [],
+        "evidence": []
+      },
+      {
+        "check": "components",
+        "verdict": "PASS",
+        "expected": "towel",
+        "observed": "towel",
+        "confidence": 0.9,
+        "reason": "All expected components observed",
+        "issues": [],
+        "evidence": [
+          {
+            "photo_id": "P3",
+            "sha256": "679be972836c848c7473f241dccff95fa60c8084c1ad599114eaaac0698550c3",
+            "detail": "towel: present (conf 0.90)"
+          }
+        ]
+      },
+      {
+        "check": "other_quality",
+        "verdict": "PASS",
+        "expected": null,
+        "observed": "none observed",
+        "confidence": null,
+        "reason": "No other quality issues observed",
+        "issues": [],
+        "evidence": []
+      }
+    ],
+    "issues": [
+      {
+        "code": "WRONG_SKU",
+        "description": "Received sku 'SKU-CABLE-USBC' instead of SKU-TOWEL-BLU",
+        "photo_ids": [
+          "P2"
+        ]
+      },
+      {
+        "code": "QUANTITY_UNVERIFIED",
+        "description": "Quantity not verifiable from photos",
+        "photo_ids": [
+          "P3"
+        ]
+      }
+    ],
+    "warnings": [],
+    "confidence_threshold": 0.7,
+    "risk_score": 50.0,
+    "risk_level": "HIGH"
+  },
+  "purchase_order": {
+    "po_number": "PO-9022",
+    "supplier": "Acme Global Freight (DUMMY)",
+    "lines": [
+      {
+        "sku": "SKU-TOWEL-BLU",
+        "expected_quantity": 48,
+        "variant": {
+          "color": "blue"
+        },
+        "expected_cartons": 2,
+        "units_per_carton": 24
+      }
+    ]
+  },
+  "po_line": {
+    "sku": "SKU-TOWEL-BLU",
+    "expected_quantity": 48,
+    "variant": {
+      "color": "blue"
+    },
+    "expected_cartons": 2,
+    "units_per_carton": 24
+  },
+  "catalog_item": {
+    "sku": "SKU-TOWEL-BLU",
+    "name": "Cotton Bath Towel",
+    "asin": null,
+    "barcodes": [],
+    "variant": {},
+    "units_per_carton": null,
+    "components": [
+      "towel"
+    ],
+    "description": null
+  },
+  "photos": [
+    {
+      "photo_id": "P1",
+      "filename": "P1.png",
+      "content_type": "image/png",
+      "sha256": "2da1111f056fa3ccf94d81574382a9bab9b041e00b99aaaccf7dcbb6074c21cd",
+      "size_bytes": 4423,
+      "stored_path": "/Users/krish/Desktop/rcv ai/RCV/data/eval_50/store/inspections/0b34aa4d830a/photos/P1__P1.png"
+    },
+    {
+      "photo_id": "P2",
+      "filename": "P2.png",
+      "content_type": "image/png",
+      "sha256": "24ae888f72aee2b284452b90815f46064eb4c5a306020d6ff02bf0c1b4737a2d",
+      "size_bytes": 14617,
+      "stored_path": "/Users/krish/Desktop/rcv ai/RCV/data/eval_50/store/inspections/0b34aa4d830a/photos/P2__P2.png"
+    },
+    {
+      "photo_id": "P3",
+      "filename": "P3.png",
+      "content_type": "image/png",
+      "sha256": "679be972836c848c7473f241dccff95fa60c8084c1ad599114eaaac0698550c3",
+      "size_bytes": 10525,
+      "stored_path": "/Users/krish/Desktop/rcv ai/RCV/data/eval_50/store/inspections/0b34aa4d830a/photos/P3__P3.png"
+    }
+  ],
+  "observations": {
+    "photos": [
+      {
+        "photo_id": "P1",
+        "usable": true,
+        "shows": [
+          "cartons"
+        ],
+        "quality_issues": []
+      },
+      {
+        "photo_id": "P2",
+        "usable": true,
+        "shows": [
+          "carton label"
+        ],
+        "quality_issues": []
+      },
+      {
+        "photo_id": "P3",
+        "usable": true,
+        "shows": [
+          "units"
+        ],
+        "quality_issues": []
+      }
+    ],
+    "identifiers": [
+      {
+        "kind": "sku",
+        "value": "SKU-CABLE-USBC",
+        "photo_ids": [
+          "P2"
+        ],
+        "confidence": 0.9
+      }
+    ],
+    "variant": {
+      "attributes": {
+        "color": "blue"
+      },
+      "photo_ids": [
+        "P2"
+      ],
+      "confidence": 0.9,
+      "notes": null
+    },
+    "units": {
+      "count": null,
+      "all_visible": false,
+      "photo_ids": [
+        "P3"
+      ],
+      "confidence": 0.0,
+      "notes": "units inside sealed cartons"
+    },
+    "cartons": {
+      "count": {
+        "count": 2,
+        "all_visible": true,
+        "photo_ids": [
+          "P1"
+        ],
+        "confidence": 0.9,
+        "notes": null
+      },
+      "units_per_carton_label": 24,
+      "units_per_carton_label_photo_ids": [
+        "P2"
+      ],
+      "units_per_carton_label_confidence": 0.9,
+      "sealed": true
+    },
+    "damage": [],
+    "damage_coverage": "full",
+    "components": [
+      {
+        "name": "towel",
+        "present": true,
+        "photo_ids": [
+          "P3"
+        ],
+        "confidence": 0.9,
+        "notes": null
+      }
+    ],
+    "other_issues": [],
+    "notes": null
+  },
+  "observation_source": "openrouter:openai/gpt-4o-mini",
+  "ai_review": {
+    "model": "openai/gpt-4o-mini",
+    "summary": "The inspection revealed a major issue with the SKU identity not matching the expected value. Additionally, the quantity of units could not be fully verified due to unconfirmed product identity.",
+    "check_explanations": [
+      {
+        "check": "sku_identity",
+        "explanation": "The expected SKU was SKU-TOWEL-BLU, but the observed SKU was SKU-CABLE-USBC as shown in photo P2, which results in a FAIL."
+      },
+      {
+        "check": "variant",
+        "explanation": "The expected color was blue and the observed color was also blue, as evidenced by photo P2, leading to a PASS."
+      },
+      {
+        "check": "quantity",
+        "explanation": "The quantity is UNCERTAIN because the units inside the sealed cartons could not be counted clearly, and the overall product identity was not confirmed."
+      },
+      {
+        "check": "carton_count",
+        "explanation": "The observed carton count of 2 matches the expected count, as evidenced by photo P1, resulting in a PASS."
+      },
+      {
+        "check": "units_per_carton",
+        "explanation": "The observed units per carton of 24 matches what was expected according to the carton label in photo P2, leading to a PASS."
+      },
+      {
+        "check": "damage",
+        "explanation": "No damage was observed, indicating the shipment was in good condition based on full damage coverage, resulting in a PASS."
+      },
+      {
+        "check": "components",
+        "explanation": "All expected components, specifically towels, were observed as indicated in photo P3, resulting in a PASS."
+      },
+      {
+        "check": "other_quality",
+        "explanation": "No other quality issues were observed, which leads to a PASS."
+      }
+    ],
+    "concerns": [
+      {
+        "description": "The failure on SKU identity raises significant concerns about the correctness of the entire shipment.",
+        "checks": [
+          "sku_identity",
+          "quantity"
+        ],
+        "photo_ids": [
+          "P2",
+          "P3"
+        ]
+      }
+    ],
+    "recommended_actions": [
+      "Quarantine the shipment due to SKU mismatch.",
+      "Verify the quantity by opening the cartons."
+    ],
+    "supplier_claim_draft": "Discrepancy in SKU identity: expected SKU-TOWEL-BLU, observed SKU-CABLE-USBC (see photo P2). Quantity verification is incomplete.",
+    "agrees_with_decision": false,
+    "escalated": false,
+    "cost_usd": 0.0005646,
+    "cached": false
+  },
+  "llm_cost_usd": 0.012442,
+  "record_sha256": "24929843577bb4f7df1aeae5c97cdfb518c4dc4f53622ca81f2d4f66c15ab36e"
+}

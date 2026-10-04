@@ -298,7 +298,8 @@ th { font-size: 11px; text-transform: uppercase; color: var(--muted); letter-spa
   </div>
   <nav>
     <button data-page="inspect" class="active">Inspect</button>
-    <button data-page="bench">Scenario benchmark</button>
+    <button data-page="eval">Held-out vision eval (50)</button>
+    <button data-page="bench">Rules regression (24)</button>
     <button data-page="suppliers">Supplier quality</button>
     <button data-page="defs">How decisions work</button>
     <button data-page="history">History</button>
@@ -354,11 +355,28 @@ th { font-size: 11px; text-transform: uppercase; color: var(--muted); letter-spa
   </div>
 </section>
 
+<section class="page" id="page-eval">
+  <div class="card">
+    <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-bottom:12px;">
+      <div>
+        <h2 style="margin:0">Held-Out 50-Unit Vision Model Evaluation</h2>
+        <p class="hint" style="margin:4px 0 0">Official held-out evaluation on 50 unseen units using live OpenRouter vision model (openai/gpt-4o-mini). Evaluated against independent dual-human ground truth with Cohen's Kappa, per-check breakdown, and calibrated UNCERTAIN handling.</p>
+      </div>
+      <div style="display:flex; gap:8px;">
+        <button class="primary" id="eval-refresh">Refresh Results</button>
+      </div>
+    </div>
+    <div id="eval-summary-cards" style="margin-top:14px"></div>
+    <div id="eval-checks-out" style="margin-top:16px"></div>
+    <div id="eval-table-out" style="margin-top:16px"></div>
+  </div>
+</section>
+
 <section class="page" id="page-bench">
   <div class="card">
-    <h2>Scenario benchmark: rules engine vs expected outcome</h2>
-    <p class="hint">Runs every bundled scenario through the deterministic rules engine using its recorded observations. No model calls, no cost.</p>
-    <button class="sec" id="bench-run">Run all scenarios</button>
+    <h2>Deterministic Rules Regression Suite (24 scenarios)</h2>
+    <p class="hint">Runs all 24 bundled scenarios through the deterministic rules engine using recorded observations. Verifies pure business logic, carton math, and check precedence offline with 0 API cost.</p>
+    <button class="sec" id="bench-run">Run rules regression</button>
     <div id="bench-out" style="margin-top:14px"></div>
   </div>
 </section>
@@ -436,6 +454,7 @@ let files = [], selected = null, filter = "ALL", scenarioSearchQuery = "", histo
 document.querySelectorAll("nav button").forEach((b) => b.onclick = () => {
   document.querySelectorAll("nav button").forEach((x) => x.classList.toggle("active", x === b));
   document.querySelectorAll(".page").forEach((p) => p.classList.toggle("active", p.id === "page-" + b.dataset.page));
+  if (b.dataset.page === "eval") loadEvaluation();
   if (b.dataset.page === "history") loadHistory();
   if (b.dataset.page === "suppliers") loadSupplierStats();
 });
@@ -649,7 +668,98 @@ async function loadSupplierStats() {
     </tbody></table>`;
 }
 
-$("export-json").onclick = () => { window.open("/api/inspections/export?fmt=json"); showToast("Exporting inspections JSON"); };
+async function loadEvaluation() {
+  $("eval-summary-cards").innerHTML = '<span class="hint">Loading 50-unit vision evaluation metrics...</span>';
+  try {
+    const data = await (await fetch("/api/evaluation")).json();
+    if (data.status === "pending") {
+      $("eval-summary-cards").innerHTML = '<div class="card"><p class="hint">Evaluation in progress or running. Refresh in a few moments.</p></div>';
+      return;
+    }
+    const matchedCount = data.results.filter(r => r.matches_consensus).length;
+    $("eval-summary-cards").innerHTML = `
+      <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(180px, 1fr)); gap:12px;">
+        <div class="card" style="margin:0; text-align:center;">
+          <span class="hint" style="font-size:11px; font-weight:700; text-transform:uppercase;">Overall Accuracy</span>
+          <div style="font-size:24px; font-weight:800; color:var(--pass); margin-top:4px;">${data.accuracy_percent}</div>
+          <small class="hint">${matchedCount}/${data.total_units} units matched</small>
+        </div>
+        <div class="card" style="margin:0; text-align:center;">
+          <span class="hint" style="font-size:11px; font-weight:700; text-transform:uppercase;">Dual-Human Kappa</span>
+          <div style="font-size:24px; font-weight:800; color:var(--brand); margin-top:4px;">${data.human_evaluator_kappa}</div>
+          <small class="hint">Inter-rater reliability (E1 vs E2)</small>
+        </div>
+        <div class="card" style="margin:0; text-align:center;">
+          <span class="hint" style="font-size:11px; font-weight:700; text-transform:uppercase;">Agent-Human Kappa</span>
+          <div style="font-size:24px; font-weight:800; color:#3b82f6; margin-top:4px;">${data.agent_consensus_kappa}</div>
+          <small class="hint">Agent vs Ground Truth agreement</small>
+        </div>
+        <div class="card" style="margin:0; text-align:center;">
+          <span class="hint" style="font-size:11px; font-weight:700; text-transform:uppercase;">UNCERTAIN Rate</span>
+          <div style="font-size:24px; font-weight:800; color:var(--unc); margin-top:4px;">${data.uncertain_rate_percent}</div>
+          <small class="hint">${data.uncertain_count} ambiguous / occluded cases</small>
+        </div>
+        <div class="card" style="margin:0; text-align:center;">
+          <span class="hint" style="font-size:11px; font-weight:700; text-transform:uppercase;">Avg Cost / Latency</span>
+          <div style="font-size:24px; font-weight:800; color:#6366f1; margin-top:4px;">$${(data.avg_cost_per_unit_usd || 0).toFixed(4)}</div>
+          <small class="hint">${Math.round(data.avg_latency_ms || 0)} ms average latency</small>
+        </div>
+      </div>
+    `;
+
+    const chk = data.check_metrics || {};
+    $("eval-checks-out").innerHTML = `
+      <h3 style="font-size:12px; text-transform:uppercase; letter-spacing:0.06em; color:var(--muted); margin:18px 0 8px;">Per-Check Performance Matrix (Engineering Honesty Rule)</h3>
+      <table>
+        <thead>
+          <tr><th>Check Key</th><th>True Pos (TP)</th><th>False Pos (FP)</th><th>True Neg (TN)</th><th>False Neg (FN)</th><th>Uncertain Count</th></tr>
+        </thead>
+        <tbody>
+          ${Object.entries(chk).map(([k, v]) => `
+            <tr>
+              <td><code>${k}</code></td>
+              <td><b style="color:var(--pass)">${v.TP}</b></td>
+              <td><b style="color:${v.FP > 0 ? 'var(--fail)' : 'var(--muted)'}">${v.FP}</b></td>
+              <td><b style="color:var(--pass)">${v.TN}</b></td>
+              <td><b style="color:${v.FN > 0 ? 'var(--fail)' : 'var(--muted)'}">${v.FN}</b></td>
+              <td><b style="color:var(--unc)">${v.UNCERTAIN}</b></td>
+            </tr>
+          `).join("")}
+        </tbody>
+      </table>
+    `;
+
+    $("eval-table-out").innerHTML = `
+      <h3 style="font-size:12px; text-transform:uppercase; letter-spacing:0.06em; color:var(--muted); margin:18px 0 8px;">50 Held-Out Units Evaluation Table</h3>
+      <table>
+        <thead>
+          <tr>
+            <th>Unit ID</th><th>Condition</th><th>Human 1</th><th>Human 2</th><th>Consensus</th><th>Agent Result</th><th>Status</th><th>Cost</th><th>Notes &amp; Failure Modes</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${data.results.map(r => `
+            <tr>
+              <td><code>${r.unit_id}</code></td>
+              <td><span class="hint">${r.condition}</span></td>
+              <td><span class="dec ${r.human_1}">${r.human_1}</span></td>
+              <td><span class="dec ${r.human_2}">${r.human_2}</span></td>
+              <td><span class="dec ${r.consensus}">${r.consensus}</span></td>
+              <td><span class="dec ${r.agent_decision}">${r.agent_decision}</span></td>
+              <td>${r.matches_consensus ? '<b style="color:var(--pass)">✓ MATCH</b>' : '<b style="color:var(--fail)">✗ MISMATCH</b>'}</td>
+              <td><span class="hint">$${(r.cost_usd || 0).toFixed(4)}</span></td>
+              <td><small class="hint">${esc(r.notes || "")}</small></td>
+            </tr>
+          `).join("")}
+        </tbody>
+      </table>
+    `;
+  } catch (err) {
+    $("eval-summary-cards").innerHTML = `<div class="card"><p class="hint">Failed to load evaluation: ${err.message}</p></div>`;
+  }
+}
+
+$("eval-refresh").onclick = () => loadEvaluation();
 $("export-csv").onclick = () => { window.open("/api/inspections/export?fmt=csv"); showToast("Exporting inspections CSV"); };
 
 $("hist-search").oninput = (e) => {

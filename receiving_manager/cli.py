@@ -111,6 +111,25 @@ def cmd_scenarios(args: argparse.Namespace) -> int:
     return 1 if failures else 0
 
 
+def cmd_evaluate(args: argparse.Namespace) -> int:
+    results_path = Path(__file__).resolve().parent.parent / "data" / "eval_50" / "eval_results.json"
+    if args.run or not results_path.exists():
+        from scripts.run_held_out_evaluation import run_evaluation
+        summary = run_evaluation(limit=args.limit)
+    else:
+        summary = json.loads(results_path.read_text())
+        print("=== Loaded Latest 50-Unit Vision Evaluation Results ===")
+        print(f"Overall Accuracy: {summary['accuracy_percent']} ({summary['total_units']})")
+        print(f"Human Evaluator Agreement (Cohen's Kappa): {summary['human_evaluator_kappa']}")
+        print(f"Agent vs. Consensus Agreement (Cohen's Kappa): {summary['agent_consensus_kappa']}")
+        print(f"UNCERTAIN Rate: {summary['uncertain_rate_percent']} ({summary['uncertain_count']} units)")
+        print(f"Total API Cost: ${summary['total_cost_usd']:.4f} (Avg ${summary['avg_cost_per_unit_usd']:.4f}/unit)")
+        print(f"Avg Latency: {summary['avg_latency_ms']} ms/unit")
+    if args.json:
+        print(json.dumps(summary, indent=2))
+    return 0
+
+
 def cmd_serve(args: argparse.Namespace) -> int:
     uvicorn.run("receiving_manager.api:app", host=args.host, port=args.port)
     return 0
@@ -131,11 +150,17 @@ def main(argv: list[str] | None = None) -> int:
     p.add_argument("photos", nargs="*", help="Photo files")
     p.set_defaults(func=cmd_inspect)
 
-    p = sub.add_parser("scenarios", help="Run the bundled test scenarios")
+    p = sub.add_parser("scenarios", help="Run the bundled test scenarios (Deterministic Rules Regression)")
     p.add_argument("name", nargs="?", help="Run a single scenario")
     p.add_argument("--threshold", type=float, default=0.7)
     p.add_argument("--json", action="store_true")
     p.set_defaults(func=cmd_scenarios)
+
+    p = sub.add_parser("evaluate", help="Run the 50-unit held-out vision model evaluation suite")
+    p.add_argument("--run", action="store_true", help="Force re-running vision model on held-out units")
+    p.add_argument("--limit", type=int, help="Limit number of units evaluated")
+    p.add_argument("--json", action="store_true")
+    p.set_defaults(func=cmd_evaluate)
 
     p = sub.add_parser("serve", help="Run the web app")
     p.add_argument("--host", default="127.0.0.1")

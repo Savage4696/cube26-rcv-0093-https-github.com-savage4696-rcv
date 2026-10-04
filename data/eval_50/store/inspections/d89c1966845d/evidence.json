@@ -1,0 +1,503 @@
+{
+  "schema_version": "1.1",
+  "record_id": "RCV-d89c1966845d",
+  "organization_id": "org_demo_alpha",
+  "client_id": "dock_station_01",
+  "agent": "receiving-manager/openrouter:openai/gpt-4o-mini",
+  "subject": {
+    "sku": "SKU-BOTTLE-750",
+    "po_number": "PO-9023",
+    "expected_quantity": 24
+  },
+  "captured_at": "2026-10-04T19:14:29.898647Z",
+  "operator_label": "op_dock",
+  "images": [
+    {
+      "photo_id": "P1",
+      "sha256": "2da1111f056fa3ccf94d81574382a9bab9b041e00b99aaaccf7dcbb6074c21cd",
+      "filename": "P1.png"
+    },
+    {
+      "photo_id": "P2",
+      "sha256": "0edf99f92f619f404487ebde3fa3185bd745f3b3124ff3d0a7b2f52b84b20635",
+      "filename": "P2.png"
+    },
+    {
+      "photo_id": "P3",
+      "sha256": "af6ed9804755df5ce0322c2081254f1d4649d9ba2e1eab9344f1298c18e3ed45",
+      "filename": "P3.png"
+    }
+  ],
+  "contract_checks": [
+    {
+      "check_key": "sku_identity",
+      "verdict": "FAIL",
+      "confidence": 0.9,
+      "detail": "Identifiers read on the shipment do not match the ordered SKU",
+      "model_version": "openrouter:openai/gpt-4o-mini",
+      "latency_ms": 120.0
+    },
+    {
+      "check_key": "variant",
+      "verdict": "PASS",
+      "confidence": 0.8,
+      "detail": "Observed variant matches the order",
+      "model_version": "openrouter:openai/gpt-4o-mini",
+      "latency_ms": 120.0
+    },
+    {
+      "check_key": "quantity",
+      "verdict": "UNCERTAIN",
+      "confidence": null,
+      "detail": "Quantity cannot be verified: units could not be counted; product identity not confirmed, so carton contents cannot be assumed",
+      "model_version": "openrouter:openai/gpt-4o-mini",
+      "latency_ms": 120.0
+    },
+    {
+      "check_key": "carton_count",
+      "verdict": "PASS",
+      "confidence": 0.9,
+      "detail": "Carton count matches",
+      "model_version": "openrouter:openai/gpt-4o-mini",
+      "latency_ms": 120.0
+    },
+    {
+      "check_key": "units_per_carton",
+      "verdict": "PASS",
+      "confidence": 0.85,
+      "detail": "Carton label matches expected pack size",
+      "model_version": "openrouter:openai/gpt-4o-mini",
+      "latency_ms": 120.0
+    },
+    {
+      "check_key": "damage",
+      "verdict": "PASS",
+      "confidence": null,
+      "detail": "No damage observed with full photo coverage",
+      "model_version": "openrouter:openai/gpt-4o-mini",
+      "latency_ms": 120.0
+    },
+    {
+      "check_key": "components",
+      "verdict": "PASS",
+      "confidence": 0.9,
+      "detail": "All expected components observed",
+      "model_version": "openrouter:openai/gpt-4o-mini",
+      "latency_ms": 120.0
+    },
+    {
+      "check_key": "other_quality",
+      "verdict": "PASS",
+      "confidence": null,
+      "detail": "No other quality issues observed",
+      "model_version": "openrouter:openai/gpt-4o-mini",
+      "latency_ms": 120.0
+    }
+  ],
+  "outcome": {
+    "decision": "EXCEPTION",
+    "decided_by": "rules_engine+reasoning_audit",
+    "decided_at": "2026-10-04T19:14:29.898647+00:00"
+  },
+  "overrides": [],
+  "status": "completed",
+  "content_hash": "17dbc5939826e5ae9367c5df71c1d295162a30265fd97b5c7b77335abf3cb10e",
+  "report": {
+    "inspection_id": "d89c1966845d",
+    "created_at": "2026-10-04T19:14:29.898647Z",
+    "po_number": "PO-9023",
+    "sku": "SKU-BOTTLE-750",
+    "decision": "EXCEPTION",
+    "decision_reason": "Failed checks: sku_identity. Also unverified: quantity",
+    "checks": [
+      {
+        "check": "sku_identity",
+        "verdict": "FAIL",
+        "expected": "SKU-BOTTLE-750",
+        "observed": "sku 'SKU-LAMP-LED'",
+        "confidence": 0.9,
+        "reason": "Identifiers read on the shipment do not match the ordered SKU",
+        "issues": [
+          {
+            "code": "WRONG_SKU",
+            "description": "Received sku 'SKU-LAMP-LED' instead of SKU-BOTTLE-750",
+            "photo_ids": [
+              "P2"
+            ]
+          }
+        ],
+        "evidence": [
+          {
+            "photo_id": "P2",
+            "sha256": "0edf99f92f619f404487ebde3fa3185bd745f3b3124ff3d0a7b2f52b84b20635",
+            "detail": "sku 'SKU-LAMP-LED' read (conf 0.90)"
+          }
+        ]
+      },
+      {
+        "check": "variant",
+        "verdict": "PASS",
+        "expected": "color=black",
+        "observed": "color=black",
+        "confidence": 0.8,
+        "reason": "Observed variant matches the order",
+        "issues": [],
+        "evidence": [
+          {
+            "photo_id": "P2",
+            "sha256": "0edf99f92f619f404487ebde3fa3185bd745f3b3124ff3d0a7b2f52b84b20635",
+            "detail": "variant observed: color=black (conf 0.80)"
+          }
+        ]
+      },
+      {
+        "check": "quantity",
+        "verdict": "UNCERTAIN",
+        "expected": 24,
+        "observed": null,
+        "confidence": null,
+        "reason": "Quantity cannot be verified: units could not be counted; product identity not confirmed, so carton contents cannot be assumed",
+        "issues": [
+          {
+            "code": "QUANTITY_UNVERIFIED",
+            "description": "Quantity not verifiable from photos",
+            "photo_ids": [
+              "P3"
+            ]
+          }
+        ],
+        "evidence": [
+          {
+            "photo_id": "P3",
+            "sha256": "af6ed9804755df5ce0322c2081254f1d4649d9ba2e1eab9344f1298c18e3ed45",
+            "detail": "partial unit count"
+          }
+        ]
+      },
+      {
+        "check": "carton_count",
+        "verdict": "PASS",
+        "expected": 2,
+        "observed": 2,
+        "confidence": 0.9,
+        "reason": "Carton count matches",
+        "issues": [],
+        "evidence": [
+          {
+            "photo_id": "P1",
+            "sha256": "2da1111f056fa3ccf94d81574382a9bab9b041e00b99aaaccf7dcbb6074c21cd",
+            "detail": "cartons counted: 2 (conf 0.90)"
+          }
+        ]
+      },
+      {
+        "check": "units_per_carton",
+        "verdict": "PASS",
+        "expected": 12,
+        "observed": 12,
+        "confidence": 0.85,
+        "reason": "Carton label matches expected pack size",
+        "issues": [],
+        "evidence": [
+          {
+            "photo_id": "P2",
+            "sha256": "0edf99f92f619f404487ebde3fa3185bd745f3b3124ff3d0a7b2f52b84b20635",
+            "detail": "carton label: 12 units/carton"
+          }
+        ]
+      },
+      {
+        "check": "damage",
+        "verdict": "PASS",
+        "expected": "no visible damage",
+        "observed": "no damage observed",
+        "confidence": null,
+        "reason": "No damage observed with full photo coverage",
+        "issues": [],
+        "evidence": []
+      },
+      {
+        "check": "components",
+        "verdict": "PASS",
+        "expected": "bottle, lid",
+        "observed": "bottle, lid",
+        "confidence": 0.9,
+        "reason": "All expected components observed",
+        "issues": [],
+        "evidence": [
+          {
+            "photo_id": "P3",
+            "sha256": "af6ed9804755df5ce0322c2081254f1d4649d9ba2e1eab9344f1298c18e3ed45",
+            "detail": "bottle: present (conf 0.90)"
+          },
+          {
+            "photo_id": "P3",
+            "sha256": "af6ed9804755df5ce0322c2081254f1d4649d9ba2e1eab9344f1298c18e3ed45",
+            "detail": "lid: present (conf 0.90)"
+          }
+        ]
+      },
+      {
+        "check": "other_quality",
+        "verdict": "PASS",
+        "expected": null,
+        "observed": "none observed",
+        "confidence": null,
+        "reason": "No other quality issues observed",
+        "issues": [],
+        "evidence": []
+      }
+    ],
+    "issues": [
+      {
+        "code": "WRONG_SKU",
+        "description": "Received sku 'SKU-LAMP-LED' instead of SKU-BOTTLE-750",
+        "photo_ids": [
+          "P2"
+        ]
+      },
+      {
+        "code": "QUANTITY_UNVERIFIED",
+        "description": "Quantity not verifiable from photos",
+        "photo_ids": [
+          "P3"
+        ]
+      }
+    ],
+    "warnings": [],
+    "confidence_threshold": 0.7,
+    "risk_score": 50.0,
+    "risk_level": "HIGH"
+  },
+  "purchase_order": {
+    "po_number": "PO-9023",
+    "supplier": "Acme Global Freight (DUMMY)",
+    "lines": [
+      {
+        "sku": "SKU-BOTTLE-750",
+        "expected_quantity": 24,
+        "variant": {
+          "color": "black"
+        },
+        "expected_cartons": 2,
+        "units_per_carton": 12
+      }
+    ]
+  },
+  "po_line": {
+    "sku": "SKU-BOTTLE-750",
+    "expected_quantity": 24,
+    "variant": {
+      "color": "black"
+    },
+    "expected_cartons": 2,
+    "units_per_carton": 12
+  },
+  "catalog_item": {
+    "sku": "SKU-BOTTLE-750",
+    "name": "Steel Water Bottle 750ml",
+    "asin": null,
+    "barcodes": [],
+    "variant": {},
+    "units_per_carton": null,
+    "components": [
+      "bottle",
+      "lid"
+    ],
+    "description": null
+  },
+  "photos": [
+    {
+      "photo_id": "P1",
+      "filename": "P1.png",
+      "content_type": "image/png",
+      "sha256": "2da1111f056fa3ccf94d81574382a9bab9b041e00b99aaaccf7dcbb6074c21cd",
+      "size_bytes": 4423,
+      "stored_path": "/Users/krish/Desktop/rcv ai/RCV/data/eval_50/store/inspections/d89c1966845d/photos/P1__P1.png"
+    },
+    {
+      "photo_id": "P2",
+      "filename": "P2.png",
+      "content_type": "image/png",
+      "sha256": "0edf99f92f619f404487ebde3fa3185bd745f3b3124ff3d0a7b2f52b84b20635",
+      "size_bytes": 16054,
+      "stored_path": "/Users/krish/Desktop/rcv ai/RCV/data/eval_50/store/inspections/d89c1966845d/photos/P2__P2.png"
+    },
+    {
+      "photo_id": "P3",
+      "filename": "P3.png",
+      "content_type": "image/png",
+      "sha256": "af6ed9804755df5ce0322c2081254f1d4649d9ba2e1eab9344f1298c18e3ed45",
+      "size_bytes": 11354,
+      "stored_path": "/Users/krish/Desktop/rcv ai/RCV/data/eval_50/store/inspections/d89c1966845d/photos/P3__P3.png"
+    }
+  ],
+  "observations": {
+    "photos": [
+      {
+        "photo_id": "P1",
+        "usable": true,
+        "shows": [
+          "cartons"
+        ],
+        "quality_issues": []
+      },
+      {
+        "photo_id": "P2",
+        "usable": true,
+        "shows": [
+          "carton label"
+        ],
+        "quality_issues": []
+      },
+      {
+        "photo_id": "P3",
+        "usable": true,
+        "shows": [
+          "units"
+        ],
+        "quality_issues": []
+      }
+    ],
+    "identifiers": [
+      {
+        "kind": "sku",
+        "value": "SKU-LAMP-LED",
+        "photo_ids": [
+          "P2"
+        ],
+        "confidence": 0.9
+      }
+    ],
+    "variant": {
+      "attributes": {
+        "color": "black"
+      },
+      "photo_ids": [
+        "P2"
+      ],
+      "confidence": 0.8,
+      "notes": null
+    },
+    "units": {
+      "count": null,
+      "all_visible": false,
+      "photo_ids": [
+        "P3"
+      ],
+      "confidence": 0.0,
+      "notes": "units inside sealed cartons"
+    },
+    "cartons": {
+      "count": {
+        "count": 2,
+        "all_visible": true,
+        "photo_ids": [
+          "P1"
+        ],
+        "confidence": 0.9,
+        "notes": null
+      },
+      "units_per_carton_label": 12,
+      "units_per_carton_label_photo_ids": [
+        "P2"
+      ],
+      "units_per_carton_label_confidence": 0.85,
+      "sealed": true
+    },
+    "damage": [],
+    "damage_coverage": "full",
+    "components": [
+      {
+        "name": "bottle",
+        "present": true,
+        "photo_ids": [
+          "P3"
+        ],
+        "confidence": 0.9,
+        "notes": null
+      },
+      {
+        "name": "lid",
+        "present": true,
+        "photo_ids": [
+          "P3"
+        ],
+        "confidence": 0.9,
+        "notes": null
+      }
+    ],
+    "other_issues": [],
+    "notes": null
+  },
+  "observation_source": "openrouter:openai/gpt-4o-mini",
+  "ai_review": {
+    "model": "openai/gpt-4o-mini",
+    "summary": "The automated inspection revealed a critical discrepancy: the SKU identified ('SKU-LAMP-LED') does not match the ordered SKU ('SKU-BOTTLE-750'), which results in a failed check. Additionally, the quantity of units could not be fully verified due to unconfirmed product identity.",
+    "check_explanations": [
+      {
+        "check": "sku_identity",
+        "explanation": "The expected SKU was 'SKU-BOTTLE-750', but the observed SKU was 'SKU-LAMP-LED' as shown in photo P2, resulting in a FAIL."
+      },
+      {
+        "check": "variant",
+        "explanation": "The expected variant color is black, which matches the observed variant in photo P2, resulting in a PASS."
+      },
+      {
+        "check": "quantity",
+        "explanation": "The quantity is UNCERTAIN because the units inside the sealed cartons could not be counted (photo P3). The product identity is also unconfirmed, so assumptions about carton contents cannot be made."
+      },
+      {
+        "check": "carton_count",
+        "explanation": "The expected carton count was 2, and the observed count in photo P1 also shows 2 cartons, resulting in a PASS."
+      },
+      {
+        "check": "units_per_carton",
+        "explanation": "The expected units per carton is 12, and this matches the 12 noted on the carton label in photo P2, resulting in a PASS."
+      },
+      {
+        "check": "damage",
+        "explanation": "The expectation was for no visible damage, and the inspection showed no damage, resulting in a PASS."
+      },
+      {
+        "check": "components",
+        "explanation": "All expected components, a bottle and lid, were present as shown in photo P3, resulting in a PASS."
+      },
+      {
+        "check": "other_quality",
+        "explanation": "No other quality issues were observed during the inspection, resulting in a PASS."
+      }
+    ],
+    "concerns": [
+      {
+        "description": "The identified SKU does not match the ordered SKU, which raises a concern about potential mix-ups in the shipment.",
+        "checks": [
+          "sku_identity"
+        ],
+        "photo_ids": [
+          "P2"
+        ]
+      },
+      {
+        "description": "The quantity check is UNCERTAIN because units could not be confirmed.",
+        "checks": [
+          "quantity"
+        ],
+        "photo_ids": [
+          "P3"
+        ]
+      }
+    ],
+    "recommended_actions": [
+      "Contact the supplier to clarify the SKU discrepancy.",
+      "Open carton 1 and count units to verify the actual quantity."
+    ],
+    "supplier_claim_draft": "Discrepancies: SKU mismatch with SKU-LAMP-LED shown in photo P2; quantity verification unclear due to unit count not being possible (photo P3).",
+    "agrees_with_decision": false,
+    "escalated": false,
+    "cost_usd": 0.00063315,
+    "cached": false
+  },
+  "llm_cost_usd": 0.012532,
+  "record_sha256": "17dbc5939826e5ae9367c5df71c1d295162a30265fd97b5c7b77335abf3cb10e"
+}

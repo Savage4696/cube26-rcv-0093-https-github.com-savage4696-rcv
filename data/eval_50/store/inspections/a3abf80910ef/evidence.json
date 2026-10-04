@@ -1,0 +1,453 @@
+{
+  "schema_version": "1.1",
+  "record_id": "RCV-a3abf80910ef",
+  "organization_id": "org_demo_alpha",
+  "client_id": "dock_station_01",
+  "agent": "receiving-manager/openrouter:openai/gpt-4o-mini",
+  "subject": {
+    "sku": "SKU-LEASH-6FT",
+    "po_number": "PO-9006",
+    "expected_quantity": 24
+  },
+  "captured_at": "2026-10-04T19:10:16.034244Z",
+  "operator_label": "op_dock",
+  "images": [
+    {
+      "photo_id": "P1",
+      "sha256": "a4c2476e6caae64959bd63cc49ce130d608fb3da696a41b3aa6cf1e731bd4a02",
+      "filename": "P1.png"
+    },
+    {
+      "photo_id": "P2",
+      "sha256": "d1226f98951a593526ad899025c61bb72ea4bcc20a07cf7ae1d053c23825aeab",
+      "filename": "P2.png"
+    },
+    {
+      "photo_id": "P3",
+      "sha256": "6c7bb802b39fed3c48a7cc5cc63ee723f859f1b421c36aca3d572ee49ac10cbe",
+      "filename": "P3.png"
+    }
+  ],
+  "contract_checks": [
+    {
+      "check_key": "sku_identity",
+      "verdict": "PASS",
+      "confidence": 0.9,
+      "detail": "Ordered SKU identifier read on the shipment",
+      "model_version": "openrouter:openai/gpt-4o-mini",
+      "latency_ms": 120.0
+    },
+    {
+      "check_key": "variant",
+      "verdict": "PASS",
+      "confidence": 0.9,
+      "detail": "Observed variant matches the order",
+      "model_version": "openrouter:openai/gpt-4o-mini",
+      "latency_ms": 120.0
+    },
+    {
+      "check_key": "quantity",
+      "verdict": "FAIL",
+      "confidence": 0.9,
+      "detail": "Short by 16 unit(s) (direct count of units (all units visible))",
+      "model_version": "openrouter:openai/gpt-4o-mini",
+      "latency_ms": 120.0
+    },
+    {
+      "check_key": "carton_count",
+      "verdict": "PASS",
+      "confidence": 0.9,
+      "detail": "Carton count matches",
+      "model_version": "openrouter:openai/gpt-4o-mini",
+      "latency_ms": 120.0
+    },
+    {
+      "check_key": "units_per_carton",
+      "verdict": "PASS",
+      "confidence": 0.9,
+      "detail": "Carton label matches expected pack size",
+      "model_version": "openrouter:openai/gpt-4o-mini",
+      "latency_ms": 120.0
+    },
+    {
+      "check_key": "damage",
+      "verdict": "PASS",
+      "confidence": null,
+      "detail": "No damage observed with full photo coverage",
+      "model_version": "openrouter:openai/gpt-4o-mini",
+      "latency_ms": 120.0
+    },
+    {
+      "check_key": "components",
+      "verdict": "PASS",
+      "confidence": 0.9,
+      "detail": "All expected components observed",
+      "model_version": "openrouter:openai/gpt-4o-mini",
+      "latency_ms": 120.0
+    },
+    {
+      "check_key": "other_quality",
+      "verdict": "PASS",
+      "confidence": null,
+      "detail": "No other quality issues observed",
+      "model_version": "openrouter:openai/gpt-4o-mini",
+      "latency_ms": 120.0
+    }
+  ],
+  "outcome": {
+    "decision": "EXCEPTION",
+    "decided_by": "rules_engine+reasoning_audit",
+    "decided_at": "2026-10-04T19:10:16.034244+00:00"
+  },
+  "overrides": [],
+  "status": "completed",
+  "content_hash": "682f3808baf6fe03cf70abf18f85d440160c63961ece2401b23f9799407f6715",
+  "report": {
+    "inspection_id": "a3abf80910ef",
+    "created_at": "2026-10-04T19:10:16.034244Z",
+    "po_number": "PO-9006",
+    "sku": "SKU-LEASH-6FT",
+    "decision": "EXCEPTION",
+    "decision_reason": "Failed checks: quantity",
+    "checks": [
+      {
+        "check": "sku_identity",
+        "verdict": "PASS",
+        "expected": "SKU-LEASH-6FT",
+        "observed": "sku 'SKU-LEASH-6FT'",
+        "confidence": 0.9,
+        "reason": "Ordered SKU identifier read on the shipment",
+        "issues": [],
+        "evidence": [
+          {
+            "photo_id": "P2",
+            "sha256": "d1226f98951a593526ad899025c61bb72ea4bcc20a07cf7ae1d053c23825aeab",
+            "detail": "sku 'SKU-LEASH-6FT' read (conf 0.90)"
+          }
+        ]
+      },
+      {
+        "check": "variant",
+        "verdict": "PASS",
+        "expected": "color=red",
+        "observed": "color=red",
+        "confidence": 0.9,
+        "reason": "Observed variant matches the order",
+        "issues": [],
+        "evidence": [
+          {
+            "photo_id": "P2",
+            "sha256": "d1226f98951a593526ad899025c61bb72ea4bcc20a07cf7ae1d053c23825aeab",
+            "detail": "variant observed: color=red (conf 0.90)"
+          }
+        ]
+      },
+      {
+        "check": "quantity",
+        "verdict": "FAIL",
+        "expected": 24,
+        "observed": 8,
+        "confidence": 0.9,
+        "reason": "Short by 16 unit(s) (direct count of units (all units visible))",
+        "issues": [
+          {
+            "code": "SHORT_SHIPMENT",
+            "description": "Expected 24, observed 8",
+            "photo_ids": [
+              "P3"
+            ]
+          }
+        ],
+        "evidence": [
+          {
+            "photo_id": "P3",
+            "sha256": "6c7bb802b39fed3c48a7cc5cc63ee723f859f1b421c36aca3d572ee49ac10cbe",
+            "detail": "direct count of units (all units visible)"
+          }
+        ]
+      },
+      {
+        "check": "carton_count",
+        "verdict": "PASS",
+        "expected": 2,
+        "observed": 2,
+        "confidence": 0.9,
+        "reason": "Carton count matches",
+        "issues": [],
+        "evidence": [
+          {
+            "photo_id": "P1",
+            "sha256": "a4c2476e6caae64959bd63cc49ce130d608fb3da696a41b3aa6cf1e731bd4a02",
+            "detail": "cartons counted: 2 (conf 0.90)"
+          }
+        ]
+      },
+      {
+        "check": "units_per_carton",
+        "verdict": "PASS",
+        "expected": 12,
+        "observed": 12,
+        "confidence": 0.9,
+        "reason": "Carton label matches expected pack size",
+        "issues": [],
+        "evidence": [
+          {
+            "photo_id": "P2",
+            "sha256": "d1226f98951a593526ad899025c61bb72ea4bcc20a07cf7ae1d053c23825aeab",
+            "detail": "carton label: 12 units/carton"
+          }
+        ]
+      },
+      {
+        "check": "damage",
+        "verdict": "PASS",
+        "expected": "no visible damage",
+        "observed": "no damage observed",
+        "confidence": null,
+        "reason": "No damage observed with full photo coverage",
+        "issues": [],
+        "evidence": []
+      },
+      {
+        "check": "components",
+        "verdict": "PASS",
+        "expected": "leash",
+        "observed": "leash",
+        "confidence": 0.9,
+        "reason": "All expected components observed",
+        "issues": [],
+        "evidence": [
+          {
+            "photo_id": "P3",
+            "sha256": "6c7bb802b39fed3c48a7cc5cc63ee723f859f1b421c36aca3d572ee49ac10cbe",
+            "detail": "leash: present (conf 0.90)"
+          }
+        ]
+      },
+      {
+        "check": "other_quality",
+        "verdict": "PASS",
+        "expected": null,
+        "observed": "none observed",
+        "confidence": null,
+        "reason": "No other quality issues observed",
+        "issues": [],
+        "evidence": []
+      }
+    ],
+    "issues": [
+      {
+        "code": "SHORT_SHIPMENT",
+        "description": "Expected 24, observed 8",
+        "photo_ids": [
+          "P3"
+        ]
+      }
+    ],
+    "warnings": [],
+    "confidence_threshold": 0.7,
+    "risk_score": 20.0,
+    "risk_level": "MEDIUM"
+  },
+  "purchase_order": {
+    "po_number": "PO-9006",
+    "supplier": "Acme Global Freight (DUMMY)",
+    "lines": [
+      {
+        "sku": "SKU-LEASH-6FT",
+        "expected_quantity": 24,
+        "variant": {
+          "color": "red"
+        },
+        "expected_cartons": 2,
+        "units_per_carton": 12
+      }
+    ]
+  },
+  "po_line": {
+    "sku": "SKU-LEASH-6FT",
+    "expected_quantity": 24,
+    "variant": {
+      "color": "red"
+    },
+    "expected_cartons": 2,
+    "units_per_carton": 12
+  },
+  "catalog_item": {
+    "sku": "SKU-LEASH-6FT",
+    "name": "Nylon Heavy Duty Dog Leash",
+    "asin": null,
+    "barcodes": [],
+    "variant": {},
+    "units_per_carton": null,
+    "components": [
+      "leash"
+    ],
+    "description": null
+  },
+  "photos": [
+    {
+      "photo_id": "P1",
+      "filename": "P1.png",
+      "content_type": "image/png",
+      "sha256": "a4c2476e6caae64959bd63cc49ce130d608fb3da696a41b3aa6cf1e731bd4a02",
+      "size_bytes": 4222,
+      "stored_path": "/Users/krish/Desktop/rcv ai/RCV/data/eval_50/store/inspections/a3abf80910ef/photos/P1__P1.png"
+    },
+    {
+      "photo_id": "P2",
+      "filename": "P2.png",
+      "content_type": "image/png",
+      "sha256": "d1226f98951a593526ad899025c61bb72ea4bcc20a07cf7ae1d053c23825aeab",
+      "size_bytes": 14937,
+      "stored_path": "/Users/krish/Desktop/rcv ai/RCV/data/eval_50/store/inspections/a3abf80910ef/photos/P2__P2.png"
+    },
+    {
+      "photo_id": "P3",
+      "filename": "P3.png",
+      "content_type": "image/png",
+      "sha256": "6c7bb802b39fed3c48a7cc5cc63ee723f859f1b421c36aca3d572ee49ac10cbe",
+      "size_bytes": 10931,
+      "stored_path": "/Users/krish/Desktop/rcv ai/RCV/data/eval_50/store/inspections/a3abf80910ef/photos/P3__P3.png"
+    }
+  ],
+  "observations": {
+    "photos": [
+      {
+        "photo_id": "P1",
+        "usable": true,
+        "shows": [
+          "cartons"
+        ],
+        "quality_issues": []
+      },
+      {
+        "photo_id": "P2",
+        "usable": true,
+        "shows": [
+          "carton label"
+        ],
+        "quality_issues": []
+      },
+      {
+        "photo_id": "P3",
+        "usable": true,
+        "shows": [
+          "units"
+        ],
+        "quality_issues": []
+      }
+    ],
+    "identifiers": [
+      {
+        "kind": "sku",
+        "value": "SKU-LEASH-6FT",
+        "photo_ids": [
+          "P2"
+        ],
+        "confidence": 0.9
+      }
+    ],
+    "variant": {
+      "attributes": {
+        "color": "red"
+      },
+      "photo_ids": [
+        "P2"
+      ],
+      "confidence": 0.9,
+      "notes": null
+    },
+    "units": {
+      "count": 8,
+      "all_visible": true,
+      "photo_ids": [
+        "P3"
+      ],
+      "confidence": 0.9,
+      "notes": null
+    },
+    "cartons": {
+      "count": {
+        "count": 2,
+        "all_visible": true,
+        "photo_ids": [
+          "P1"
+        ],
+        "confidence": 0.9,
+        "notes": null
+      },
+      "units_per_carton_label": 12,
+      "units_per_carton_label_photo_ids": [
+        "P2"
+      ],
+      "units_per_carton_label_confidence": 0.9,
+      "sealed": true
+    },
+    "damage": [],
+    "damage_coverage": "full",
+    "components": [
+      {
+        "name": "leash",
+        "present": true,
+        "photo_ids": [
+          "P3"
+        ],
+        "confidence": 0.9,
+        "notes": null
+      }
+    ],
+    "other_issues": [],
+    "notes": null
+  },
+  "observation_source": "openrouter:openai/gpt-4o-mini",
+  "ai_review": {
+    "model": "openai/gpt-4o-mini",
+    "summary": "The inspection revealed a quantity failure, as only 8 units were counted instead of the expected 24. All other checks passed.",
+    "check_explanations": [
+      {
+        "check": "sku_identity",
+        "explanation": "The scanned SKU 'SKU-LEASH-6FT' matches what was ordered, leading to a PASS."
+      },
+      {
+        "check": "variant",
+        "explanation": "The observed color of the leashes is red, which matches the expected variant, resulting in a PASS."
+      },
+      {
+        "check": "quantity",
+        "explanation": "Only 8 units were counted, which is short by 16 units compared to the expected 24, resulting in a FAIL."
+      },
+      {
+        "check": "carton_count",
+        "explanation": "The count of 2 cartons matches the expected number, leading to a PASS."
+      },
+      {
+        "check": "units_per_carton",
+        "explanation": "The carton label indicates 12 units per carton, which aligns with the expectation, resulting in a PASS."
+      },
+      {
+        "check": "damage",
+        "explanation": "There was no visible damage observed, so this check passes."
+      },
+      {
+        "check": "components",
+        "explanation": "The expected component, which is the leash, was observed, leading to a PASS."
+      },
+      {
+        "check": "other_quality",
+        "explanation": "No other quality issues were reported, resulting in a PASS."
+      }
+    ],
+    "concerns": [],
+    "recommended_actions": [
+      "Contact the supplier regarding the shortfall of 16 units."
+    ],
+    "supplier_claim_draft": "Quantity discrepancy: 8 units counted instead of 24; photo evidence: P3.",
+    "agrees_with_decision": true,
+    "escalated": false,
+    "cost_usd": 0.00048945,
+    "cached": false
+  },
+  "llm_cost_usd": 0.012473,
+  "record_sha256": "682f3808baf6fe03cf70abf18f85d440160c63961ece2401b23f9799407f6715"
+}

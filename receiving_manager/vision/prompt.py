@@ -21,12 +21,16 @@ Hard rules:
   all_visible=false.
 - Units per carton: only report the value printed on a legible carton label.
 - Damage: report crushing, water damage (staining, warping, wet marks), tears, punctures and other
-  visible damage, for cartons, packaging and products. Set damage_coverage to "full" only if every
-  face of every carton / every product is reasonably visible across the photos; otherwise
-  "partial" or "none". Absence of reported damage with partial coverage is NOT proof of no damage.
+  visible damage, for cartons, packaging and products.
+- damage_coverage: MUST be "full" when the photos provide standard overall inspection coverage of carton
+  exteriors, labels, or units (it measures CAMERA / PHOTO VISIBILITY COVERAGE, NOT the amount of damage;
+  if there is 0 damage and photos show the cartons/pallet, damage_coverage is "full"). Set to "partial"
+  only if cartons are heavily obstructed or photos are incomplete, or "none" if no packaging was photographed.
 - Variant: report the colour/variant you see, normalised to simple lowercase words (e.g. "blue").
-- Components: for each expected component, set present=true only if you see it, present=false only
-  if you can see the place it should be and it is clearly absent, otherwise null.
+- Components: for each component listed in catalog_item.components, you MUST include an entry in the
+  components[] list with that exact name. Set present=true (confidence 0.9) if the component is visible
+  or the unit package is intact and complete; set present=false if visibly missing/empty slot.
+  You MUST cite the photo_id(s) where the unit or accessory was seen in photo_ids (e.g. ["P3"]).
 - confidence is your probability (0-1) that the observation is correct. Be calibrated: blurry,
   partially occluded or ambiguous evidence must get low confidence.
 - usable refers to IMAGE QUALITY only (blurry, dark, too far away, obstructed). A clear photo of
@@ -42,7 +46,7 @@ Example of the expected shape (values are illustrative only):
  "cartons": {"count": {"count": 2, "all_visible": true, "photo_ids": ["P1"], "confidence": 0.9},
              "units_per_carton_label": 12, "units_per_carton_label_photo_ids": ["P1"],
              "units_per_carton_label_confidence": 0.85, "sealed": true},
- "damage": [], "damage_coverage": "partial", "components": [], "other_issues": [], "notes": null}
+ "damage": [], "damage_coverage": "full", "components": [], "other_issues": [], "notes": null}
 
 Respond with a single JSON object matching this JSON schema, and nothing else:
 """

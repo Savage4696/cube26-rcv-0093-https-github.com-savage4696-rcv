@@ -1,0 +1,467 @@
+{
+  "schema_version": "1.1",
+  "record_id": "RCV-dc94a322726f",
+  "organization_id": "org_demo_alpha",
+  "client_id": "dock_station_01",
+  "agent": "receiving-manager/openrouter:openai/gpt-4o-mini",
+  "subject": {
+    "sku": "SKU-TOWEL-BLU",
+    "po_number": "PO-9029",
+    "expected_quantity": 48
+  },
+  "captured_at": "2026-10-04T19:15:57.374245Z",
+  "operator_label": "op_dock",
+  "images": [
+    {
+      "photo_id": "P1",
+      "sha256": "2da1111f056fa3ccf94d81574382a9bab9b041e00b99aaaccf7dcbb6074c21cd",
+      "filename": "P1.png"
+    },
+    {
+      "photo_id": "P2",
+      "sha256": "658f6fa2c3616b02fb2f5fcd123dc2c64512cb2af61c4643fadb43f4d67a9e55",
+      "filename": "P2.png"
+    },
+    {
+      "photo_id": "P3",
+      "sha256": "5a5051d4902bc2674f808e95adb1b942dee4e8e44b10fbab2e3ab3e82212f698",
+      "filename": "P3.png"
+    }
+  ],
+  "contract_checks": [
+    {
+      "check_key": "sku_identity",
+      "verdict": "PASS",
+      "confidence": 0.9,
+      "detail": "Ordered SKU identifier read on the shipment",
+      "model_version": "openrouter:openai/gpt-4o-mini",
+      "latency_ms": 120.0
+    },
+    {
+      "check_key": "variant",
+      "verdict": "FAIL",
+      "confidence": 0.8,
+      "detail": "Observed variant differs from the order",
+      "model_version": "openrouter:openai/gpt-4o-mini",
+      "latency_ms": 120.0
+    },
+    {
+      "check_key": "quantity",
+      "verdict": "PASS",
+      "confidence": 0.77,
+      "detail": "Quantity matches (derived: 2 sealed cartons x 24 units/carton (carton label); contents not visually verified)",
+      "model_version": "openrouter:openai/gpt-4o-mini",
+      "latency_ms": 120.0
+    },
+    {
+      "check_key": "carton_count",
+      "verdict": "PASS",
+      "confidence": 0.9,
+      "detail": "Carton count matches",
+      "model_version": "openrouter:openai/gpt-4o-mini",
+      "latency_ms": 120.0
+    },
+    {
+      "check_key": "units_per_carton",
+      "verdict": "PASS",
+      "confidence": 0.85,
+      "detail": "Carton label matches expected pack size",
+      "model_version": "openrouter:openai/gpt-4o-mini",
+      "latency_ms": 120.0
+    },
+    {
+      "check_key": "damage",
+      "verdict": "PASS",
+      "confidence": null,
+      "detail": "No damage observed with full photo coverage",
+      "model_version": "openrouter:openai/gpt-4o-mini",
+      "latency_ms": 120.0
+    },
+    {
+      "check_key": "components",
+      "verdict": "PASS",
+      "confidence": 0.9,
+      "detail": "All expected components observed",
+      "model_version": "openrouter:openai/gpt-4o-mini",
+      "latency_ms": 120.0
+    },
+    {
+      "check_key": "other_quality",
+      "verdict": "PASS",
+      "confidence": null,
+      "detail": "No other quality issues observed",
+      "model_version": "openrouter:openai/gpt-4o-mini",
+      "latency_ms": 120.0
+    }
+  ],
+  "outcome": {
+    "decision": "EXCEPTION",
+    "decided_by": "rules_engine+reasoning_audit",
+    "decided_at": "2026-10-04T19:15:57.374245+00:00"
+  },
+  "overrides": [],
+  "status": "completed",
+  "content_hash": "f3387eed25fe1a6ca4ff4b389bce6957d53a7f7c8be41ab6bb2fb19283e8e457",
+  "report": {
+    "inspection_id": "dc94a322726f",
+    "created_at": "2026-10-04T19:15:57.374245Z",
+    "po_number": "PO-9029",
+    "sku": "SKU-TOWEL-BLU",
+    "decision": "EXCEPTION",
+    "decision_reason": "Failed checks: variant",
+    "checks": [
+      {
+        "check": "sku_identity",
+        "verdict": "PASS",
+        "expected": "SKU-TOWEL-BLU",
+        "observed": "sku 'SKU-TOWEL-BLU'",
+        "confidence": 0.9,
+        "reason": "Ordered SKU identifier read on the shipment",
+        "issues": [],
+        "evidence": [
+          {
+            "photo_id": "P2",
+            "sha256": "658f6fa2c3616b02fb2f5fcd123dc2c64512cb2af61c4643fadb43f4d67a9e55",
+            "detail": "sku 'SKU-TOWEL-BLU' read (conf 0.90)"
+          }
+        ]
+      },
+      {
+        "check": "variant",
+        "verdict": "FAIL",
+        "expected": "color=blue",
+        "observed": "color=cream",
+        "confidence": 0.8,
+        "reason": "Observed variant differs from the order",
+        "issues": [
+          {
+            "code": "WRONG_VARIANT",
+            "description": "color: expected blue, observed cream",
+            "photo_ids": [
+              "P2"
+            ]
+          }
+        ],
+        "evidence": [
+          {
+            "photo_id": "P2",
+            "sha256": "658f6fa2c3616b02fb2f5fcd123dc2c64512cb2af61c4643fadb43f4d67a9e55",
+            "detail": "variant observed: color=cream (conf 0.80)"
+          }
+        ]
+      },
+      {
+        "check": "quantity",
+        "verdict": "PASS",
+        "expected": 48,
+        "observed": 48,
+        "confidence": 0.77,
+        "reason": "Quantity matches (derived: 2 sealed cartons x 24 units/carton (carton label); contents not visually verified)",
+        "issues": [],
+        "evidence": [
+          {
+            "photo_id": "P1",
+            "sha256": "2da1111f056fa3ccf94d81574382a9bab9b041e00b99aaaccf7dcbb6074c21cd",
+            "detail": "derived: 2 sealed cartons x 24 units/carton (carton label); contents not visually verified"
+          },
+          {
+            "photo_id": "P2",
+            "sha256": "658f6fa2c3616b02fb2f5fcd123dc2c64512cb2af61c4643fadb43f4d67a9e55",
+            "detail": "derived: 2 sealed cartons x 24 units/carton (carton label); contents not visually verified"
+          }
+        ]
+      },
+      {
+        "check": "carton_count",
+        "verdict": "PASS",
+        "expected": 2,
+        "observed": 2,
+        "confidence": 0.9,
+        "reason": "Carton count matches",
+        "issues": [],
+        "evidence": [
+          {
+            "photo_id": "P1",
+            "sha256": "2da1111f056fa3ccf94d81574382a9bab9b041e00b99aaaccf7dcbb6074c21cd",
+            "detail": "cartons counted: 2 (conf 0.90)"
+          }
+        ]
+      },
+      {
+        "check": "units_per_carton",
+        "verdict": "PASS",
+        "expected": 24,
+        "observed": 24,
+        "confidence": 0.85,
+        "reason": "Carton label matches expected pack size",
+        "issues": [],
+        "evidence": [
+          {
+            "photo_id": "P2",
+            "sha256": "658f6fa2c3616b02fb2f5fcd123dc2c64512cb2af61c4643fadb43f4d67a9e55",
+            "detail": "carton label: 24 units/carton"
+          }
+        ]
+      },
+      {
+        "check": "damage",
+        "verdict": "PASS",
+        "expected": "no visible damage",
+        "observed": "no damage observed",
+        "confidence": null,
+        "reason": "No damage observed with full photo coverage",
+        "issues": [],
+        "evidence": []
+      },
+      {
+        "check": "components",
+        "verdict": "PASS",
+        "expected": "towel",
+        "observed": "towel",
+        "confidence": 0.9,
+        "reason": "All expected components observed",
+        "issues": [],
+        "evidence": [
+          {
+            "photo_id": "P3",
+            "sha256": "5a5051d4902bc2674f808e95adb1b942dee4e8e44b10fbab2e3ab3e82212f698",
+            "detail": "towel: present (conf 0.90)"
+          }
+        ]
+      },
+      {
+        "check": "other_quality",
+        "verdict": "PASS",
+        "expected": null,
+        "observed": "none observed",
+        "confidence": null,
+        "reason": "No other quality issues observed",
+        "issues": [],
+        "evidence": []
+      }
+    ],
+    "issues": [
+      {
+        "code": "WRONG_VARIANT",
+        "description": "color: expected blue, observed cream",
+        "photo_ids": [
+          "P2"
+        ]
+      }
+    ],
+    "warnings": [],
+    "confidence_threshold": 0.7,
+    "risk_score": 35.0,
+    "risk_level": "HIGH"
+  },
+  "purchase_order": {
+    "po_number": "PO-9029",
+    "supplier": "Acme Global Freight (DUMMY)",
+    "lines": [
+      {
+        "sku": "SKU-TOWEL-BLU",
+        "expected_quantity": 48,
+        "variant": {
+          "color": "blue"
+        },
+        "expected_cartons": 2,
+        "units_per_carton": 24
+      }
+    ]
+  },
+  "po_line": {
+    "sku": "SKU-TOWEL-BLU",
+    "expected_quantity": 48,
+    "variant": {
+      "color": "blue"
+    },
+    "expected_cartons": 2,
+    "units_per_carton": 24
+  },
+  "catalog_item": {
+    "sku": "SKU-TOWEL-BLU",
+    "name": "Cotton Bath Towel",
+    "asin": null,
+    "barcodes": [],
+    "variant": {},
+    "units_per_carton": null,
+    "components": [
+      "towel"
+    ],
+    "description": null
+  },
+  "photos": [
+    {
+      "photo_id": "P1",
+      "filename": "P1.png",
+      "content_type": "image/png",
+      "sha256": "2da1111f056fa3ccf94d81574382a9bab9b041e00b99aaaccf7dcbb6074c21cd",
+      "size_bytes": 4423,
+      "stored_path": "/Users/krish/Desktop/rcv ai/RCV/data/eval_50/store/inspections/dc94a322726f/photos/P1__P1.png"
+    },
+    {
+      "photo_id": "P2",
+      "filename": "P2.png",
+      "content_type": "image/png",
+      "sha256": "658f6fa2c3616b02fb2f5fcd123dc2c64512cb2af61c4643fadb43f4d67a9e55",
+      "size_bytes": 14984,
+      "stored_path": "/Users/krish/Desktop/rcv ai/RCV/data/eval_50/store/inspections/dc94a322726f/photos/P2__P2.png"
+    },
+    {
+      "photo_id": "P3",
+      "filename": "P3.png",
+      "content_type": "image/png",
+      "sha256": "5a5051d4902bc2674f808e95adb1b942dee4e8e44b10fbab2e3ab3e82212f698",
+      "size_bytes": 9935,
+      "stored_path": "/Users/krish/Desktop/rcv ai/RCV/data/eval_50/store/inspections/dc94a322726f/photos/P3__P3.png"
+    }
+  ],
+  "observations": {
+    "photos": [
+      {
+        "photo_id": "P1",
+        "usable": true,
+        "shows": [
+          "cartons"
+        ],
+        "quality_issues": []
+      },
+      {
+        "photo_id": "P2",
+        "usable": true,
+        "shows": [
+          "carton label"
+        ],
+        "quality_issues": []
+      },
+      {
+        "photo_id": "P3",
+        "usable": true,
+        "shows": [
+          "components"
+        ],
+        "quality_issues": []
+      }
+    ],
+    "identifiers": [
+      {
+        "kind": "sku",
+        "value": "SKU-TOWEL-BLU",
+        "photo_ids": [
+          "P2"
+        ],
+        "confidence": 0.9
+      }
+    ],
+    "variant": {
+      "attributes": {
+        "color": "cream"
+      },
+      "photo_ids": [
+        "P2"
+      ],
+      "confidence": 0.8,
+      "notes": null
+    },
+    "units": {
+      "count": null,
+      "all_visible": false,
+      "photo_ids": [],
+      "confidence": 0.0,
+      "notes": "units inside sealed cartons"
+    },
+    "cartons": {
+      "count": {
+        "count": 2,
+        "all_visible": true,
+        "photo_ids": [
+          "P1"
+        ],
+        "confidence": 0.9,
+        "notes": null
+      },
+      "units_per_carton_label": 24,
+      "units_per_carton_label_photo_ids": [
+        "P2"
+      ],
+      "units_per_carton_label_confidence": 0.85,
+      "sealed": true
+    },
+    "damage": [],
+    "damage_coverage": "full",
+    "components": [
+      {
+        "name": "towel",
+        "present": true,
+        "photo_ids": [
+          "P3"
+        ],
+        "confidence": 0.9,
+        "notes": null
+      }
+    ],
+    "other_issues": [],
+    "notes": null
+  },
+  "observation_source": "openrouter:openai/gpt-4o-mini",
+  "ai_review": {
+    "model": "openai/gpt-4o-mini",
+    "summary": "The inspection uncovered a discrepancy in the color variant of the towels. While the SKU and quantity checks passed, the expected color was blue, but the observed color was cream, resulting in a decision for an exception.",
+    "check_explanations": [
+      {
+        "check": "sku_identity",
+        "explanation": "The SKU matches the expected 'SKU-TOWEL-BLU' as confirmed by the label in photo P2."
+      },
+      {
+        "check": "variant",
+        "explanation": "The observed color variant is cream, differing from the expected blue, leading to a FAIL."
+      },
+      {
+        "check": "quantity",
+        "explanation": "The quantity is confirmed to be 48 units (derived from 2 sealed cartons of 24 units each), resulting in a PASS."
+      },
+      {
+        "check": "carton_count",
+        "explanation": "The carton count matches the expectation of 2 cartons as shown in photo P1, resulting in a PASS."
+      },
+      {
+        "check": "units_per_carton",
+        "explanation": "The carton label indicates 24 units per carton, consistent with expectations, so this check passes."
+      },
+      {
+        "check": "damage",
+        "explanation": "No damage was observed in the shipment, leading to a PASS."
+      },
+      {
+        "check": "components",
+        "explanation": "All expected components, specifically the towels, were confirmed present, yielding a PASS."
+      },
+      {
+        "check": "other_quality",
+        "explanation": "No additional quality issues were observed, leading to a PASS."
+      }
+    ],
+    "concerns": [
+      {
+        "description": "The variant color is reported as cream, which contradicts the expected blue. This discrepancy needs to be addressed.",
+        "checks": [
+          "variant"
+        ],
+        "photo_ids": [
+          "P2"
+        ]
+      }
+    ],
+    "recommended_actions": [
+      "Contact the supplier regarding the color discrepancy",
+      "Request clarification or resolution on the variant issue"
+    ],
+    "supplier_claim_draft": "Discrepancy in variant color: expected blue but observed cream. See photo ID P2.",
+    "agrees_with_decision": false,
+    "escalated": false,
+    "cost_usd": 0.0005505,
+    "cached": false
+  },
+  "llm_cost_usd": 0.012426,
+  "record_sha256": "f3387eed25fe1a6ca4ff4b389bce6957d53a7f7c8be41ab6bb2fb19283e8e457"
+}

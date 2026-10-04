@@ -74,7 +74,7 @@ def get_definitions() -> dict:
 
 @app.get("/api/benchmark")
 def benchmark() -> dict:
-    """Run every bundled scenario through the rules engine (no model calls, no cost)."""
+    """Run the 24 deterministic rules regression scenarios (pure business logic, offline, 0-cost)."""
     catalog = load_catalog()
     rows = []
     for s in load_scenarios():
@@ -91,7 +91,34 @@ def benchmark() -> dict:
                 "passed": not mismatches,
             }
         )
-    return {"total": len(rows), "passed": sum(r["passed"] for r in rows), "results": rows}
+    return {
+        "suite": "rules_regression",
+        "description": "24 deterministic business logic regression scenarios",
+        "total": len(rows),
+        "passed": sum(r["passed"] for r in rows),
+        "results": rows,
+    }
+
+
+@app.get("/api/evaluation")
+def evaluation_metrics() -> dict:
+    """Retrieve official 50-unit held-out vision model evaluation metrics (Cohen's Kappa, FP/FN)."""
+    results_path = Path(__file__).resolve().parent.parent / "data" / "eval_50" / "eval_results.json"
+    if not results_path.exists():
+        return {
+            "status": "pending",
+            "message": "Held-out evaluation running or not yet executed.",
+        }
+    return json.loads(results_path.read_text())
+
+
+@app.get("/api/evaluation/photos/{unit_id}/{photo_id}")
+def evaluation_photo(unit_id: str, photo_id: str) -> FileResponse:
+    base = Path(__file__).resolve().parent.parent / "data" / "eval_50" / "photos"
+    path = base / unit_id / f"{photo_id}.png"
+    if not path.exists():
+        raise HTTPException(404, "Evaluation photo not found")
+    return FileResponse(path, media_type="image/png")
 
 
 @app.get("/api/scenarios/{name}/photos/{photo_id}")

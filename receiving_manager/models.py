@@ -247,9 +247,22 @@ class AIReview(BaseModel):
 
 
 class EvidenceRecord(BaseModel):
-    """Self-contained, tamper-evident record of an inspection."""
+    """Self-contained, tamper-evident record of an inspection matching CUBE contract."""
 
     schema_version: str = "1.1"
+    record_id: str | None = None
+    organization_id: str = "org_demo_alpha"
+    client_id: str = "client_dock_01"
+    agent: str = "receiving_manager_v1"
+    subject: dict | None = None
+    captured_at: datetime | None = None
+    operator_label: str = "op_dock"
+    images: list[dict] = Field(default_factory=list)
+    contract_checks: list[dict] = Field(default_factory=list)
+    outcome: dict | None = None
+    overrides: list[dict] = Field(default_factory=list)
+    status: str = "completed"
+    content_hash: str | None = None
     report: InspectionReport
     purchase_order: PurchaseOrder
     po_line: POLine

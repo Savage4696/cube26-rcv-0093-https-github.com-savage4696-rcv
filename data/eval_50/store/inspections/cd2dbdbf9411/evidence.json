@@ -1,0 +1,469 @@
+{
+  "schema_version": "1.1",
+  "record_id": "RCV-cd2dbdbf9411",
+  "organization_id": "org_demo_alpha",
+  "client_id": "dock_station_01",
+  "agent": "receiving-manager/openrouter:openai/gpt-4o-mini",
+  "subject": {
+    "sku": "SKU-MUG-11",
+    "po_number": "PO-9026",
+    "expected_quantity": 24
+  },
+  "captured_at": "2026-10-04T19:15:17.877431Z",
+  "operator_label": "op_dock",
+  "images": [
+    {
+      "photo_id": "P1",
+      "sha256": "2da1111f056fa3ccf94d81574382a9bab9b041e00b99aaaccf7dcbb6074c21cd",
+      "filename": "P1.png"
+    },
+    {
+      "photo_id": "P2",
+      "sha256": "7ca1d6626db5506c04b8eb7345133edde33605d1b4d2bcbd9235c13ef81bd3f2",
+      "filename": "P2.png"
+    },
+    {
+      "photo_id": "P3",
+      "sha256": "2a36d83f03f31dc46259bdabf3051f047038484eab21d7cb6d7c1f17914b6f65",
+      "filename": "P3.png"
+    }
+  ],
+  "contract_checks": [
+    {
+      "check_key": "sku_identity",
+      "verdict": "PASS",
+      "confidence": 0.9,
+      "detail": "Ordered SKU identifier read on the shipment",
+      "model_version": "openrouter:openai/gpt-4o-mini",
+      "latency_ms": 120.0
+    },
+    {
+      "check_key": "variant",
+      "verdict": "FAIL",
+      "confidence": 0.8,
+      "detail": "Observed variant differs from the order",
+      "model_version": "openrouter:openai/gpt-4o-mini",
+      "latency_ms": 120.0
+    },
+    {
+      "check_key": "quantity",
+      "verdict": "PASS",
+      "confidence": 0.81,
+      "detail": "Quantity matches (derived: 2 sealed cartons x 12 units/carton (carton label); contents not visually verified)",
+      "model_version": "openrouter:openai/gpt-4o-mini",
+      "latency_ms": 120.0
+    },
+    {
+      "check_key": "carton_count",
+      "verdict": "PASS",
+      "confidence": 0.9,
+      "detail": "Carton count matches",
+      "model_version": "openrouter:openai/gpt-4o-mini",
+      "latency_ms": 120.0
+    },
+    {
+      "check_key": "units_per_carton",
+      "verdict": "PASS",
+      "confidence": 0.9,
+      "detail": "Carton label matches expected pack size",
+      "model_version": "openrouter:openai/gpt-4o-mini",
+      "latency_ms": 120.0
+    },
+    {
+      "check_key": "damage",
+      "verdict": "PASS",
+      "confidence": null,
+      "detail": "No damage observed with full photo coverage",
+      "model_version": "openrouter:openai/gpt-4o-mini",
+      "latency_ms": 120.0
+    },
+    {
+      "check_key": "components",
+      "verdict": "PASS",
+      "confidence": 0.9,
+      "detail": "All expected components observed",
+      "model_version": "openrouter:openai/gpt-4o-mini",
+      "latency_ms": 120.0
+    },
+    {
+      "check_key": "other_quality",
+      "verdict": "PASS",
+      "confidence": null,
+      "detail": "No other quality issues observed",
+      "model_version": "openrouter:openai/gpt-4o-mini",
+      "latency_ms": 120.0
+    }
+  ],
+  "outcome": {
+    "decision": "EXCEPTION",
+    "decided_by": "rules_engine+reasoning_audit",
+    "decided_at": "2026-10-04T19:15:17.877431+00:00"
+  },
+  "overrides": [],
+  "status": "completed",
+  "content_hash": "634289c63d21adf2d6ddca6db88c9ac6536f4c4c6ffb855b67cfb9aa803ab8f8",
+  "report": {
+    "inspection_id": "cd2dbdbf9411",
+    "created_at": "2026-10-04T19:15:17.877431Z",
+    "po_number": "PO-9026",
+    "sku": "SKU-MUG-11",
+    "decision": "EXCEPTION",
+    "decision_reason": "Failed checks: variant",
+    "checks": [
+      {
+        "check": "sku_identity",
+        "verdict": "PASS",
+        "expected": "SKU-MUG-11",
+        "observed": "sku 'SKU-MUG-11'",
+        "confidence": 0.9,
+        "reason": "Ordered SKU identifier read on the shipment",
+        "issues": [],
+        "evidence": [
+          {
+            "photo_id": "P2",
+            "sha256": "7ca1d6626db5506c04b8eb7345133edde33605d1b4d2bcbd9235c13ef81bd3f2",
+            "detail": "sku 'SKU-MUG-11' read (conf 0.90)"
+          }
+        ]
+      },
+      {
+        "check": "variant",
+        "verdict": "FAIL",
+        "expected": "color=white",
+        "observed": "color=green",
+        "confidence": 0.8,
+        "reason": "Observed variant differs from the order",
+        "issues": [
+          {
+            "code": "WRONG_VARIANT",
+            "description": "color: expected white, observed green",
+            "photo_ids": [
+              "P2"
+            ]
+          }
+        ],
+        "evidence": [
+          {
+            "photo_id": "P2",
+            "sha256": "7ca1d6626db5506c04b8eb7345133edde33605d1b4d2bcbd9235c13ef81bd3f2",
+            "detail": "variant observed: color=green (conf 0.80)"
+          }
+        ]
+      },
+      {
+        "check": "quantity",
+        "verdict": "PASS",
+        "expected": 24,
+        "observed": 24,
+        "confidence": 0.81,
+        "reason": "Quantity matches (derived: 2 sealed cartons x 12 units/carton (carton label); contents not visually verified)",
+        "issues": [],
+        "evidence": [
+          {
+            "photo_id": "P1",
+            "sha256": "2da1111f056fa3ccf94d81574382a9bab9b041e00b99aaaccf7dcbb6074c21cd",
+            "detail": "derived: 2 sealed cartons x 12 units/carton (carton label); contents not visually verified"
+          },
+          {
+            "photo_id": "P2",
+            "sha256": "7ca1d6626db5506c04b8eb7345133edde33605d1b4d2bcbd9235c13ef81bd3f2",
+            "detail": "derived: 2 sealed cartons x 12 units/carton (carton label); contents not visually verified"
+          }
+        ]
+      },
+      {
+        "check": "carton_count",
+        "verdict": "PASS",
+        "expected": 2,
+        "observed": 2,
+        "confidence": 0.9,
+        "reason": "Carton count matches",
+        "issues": [],
+        "evidence": [
+          {
+            "photo_id": "P1",
+            "sha256": "2da1111f056fa3ccf94d81574382a9bab9b041e00b99aaaccf7dcbb6074c21cd",
+            "detail": "cartons counted: 2 (conf 0.90)"
+          }
+        ]
+      },
+      {
+        "check": "units_per_carton",
+        "verdict": "PASS",
+        "expected": 12,
+        "observed": 12,
+        "confidence": 0.9,
+        "reason": "Carton label matches expected pack size",
+        "issues": [],
+        "evidence": [
+          {
+            "photo_id": "P2",
+            "sha256": "7ca1d6626db5506c04b8eb7345133edde33605d1b4d2bcbd9235c13ef81bd3f2",
+            "detail": "carton label: 12 units/carton"
+          }
+        ]
+      },
+      {
+        "check": "damage",
+        "verdict": "PASS",
+        "expected": "no visible damage",
+        "observed": "no damage observed",
+        "confidence": null,
+        "reason": "No damage observed with full photo coverage",
+        "issues": [],
+        "evidence": []
+      },
+      {
+        "check": "components",
+        "verdict": "PASS",
+        "expected": "mug x2",
+        "observed": "mug x2",
+        "confidence": 0.9,
+        "reason": "All expected components observed",
+        "issues": [],
+        "evidence": [
+          {
+            "photo_id": "P3",
+            "sha256": "2a36d83f03f31dc46259bdabf3051f047038484eab21d7cb6d7c1f17914b6f65",
+            "detail": "mug x2: present (conf 0.90)"
+          }
+        ]
+      },
+      {
+        "check": "other_quality",
+        "verdict": "PASS",
+        "expected": null,
+        "observed": "none observed",
+        "confidence": null,
+        "reason": "No other quality issues observed",
+        "issues": [],
+        "evidence": []
+      }
+    ],
+    "issues": [
+      {
+        "code": "WRONG_VARIANT",
+        "description": "color: expected white, observed green",
+        "photo_ids": [
+          "P2"
+        ]
+      }
+    ],
+    "warnings": [],
+    "confidence_threshold": 0.7,
+    "risk_score": 35.0,
+    "risk_level": "HIGH"
+  },
+  "purchase_order": {
+    "po_number": "PO-9026",
+    "supplier": "Acme Global Freight (DUMMY)",
+    "lines": [
+      {
+        "sku": "SKU-MUG-11",
+        "expected_quantity": 24,
+        "variant": {
+          "color": "white"
+        },
+        "expected_cartons": 2,
+        "units_per_carton": 12
+      }
+    ]
+  },
+  "po_line": {
+    "sku": "SKU-MUG-11",
+    "expected_quantity": 24,
+    "variant": {
+      "color": "white"
+    },
+    "expected_cartons": 2,
+    "units_per_carton": 12
+  },
+  "catalog_item": {
+    "sku": "SKU-MUG-11",
+    "name": "Ceramic Mug 11oz Set of 2",
+    "asin": null,
+    "barcodes": [],
+    "variant": {},
+    "units_per_carton": null,
+    "components": [
+      "mug x2"
+    ],
+    "description": null
+  },
+  "photos": [
+    {
+      "photo_id": "P1",
+      "filename": "P1.png",
+      "content_type": "image/png",
+      "sha256": "2da1111f056fa3ccf94d81574382a9bab9b041e00b99aaaccf7dcbb6074c21cd",
+      "size_bytes": 4423,
+      "stored_path": "/Users/krish/Desktop/rcv ai/RCV/data/eval_50/store/inspections/cd2dbdbf9411/photos/P1__P1.png"
+    },
+    {
+      "photo_id": "P2",
+      "filename": "P2.png",
+      "content_type": "image/png",
+      "sha256": "7ca1d6626db5506c04b8eb7345133edde33605d1b4d2bcbd9235c13ef81bd3f2",
+      "size_bytes": 15391,
+      "stored_path": "/Users/krish/Desktop/rcv ai/RCV/data/eval_50/store/inspections/cd2dbdbf9411/photos/P2__P2.png"
+    },
+    {
+      "photo_id": "P3",
+      "filename": "P3.png",
+      "content_type": "image/png",
+      "sha256": "2a36d83f03f31dc46259bdabf3051f047038484eab21d7cb6d7c1f17914b6f65",
+      "size_bytes": 11493,
+      "stored_path": "/Users/krish/Desktop/rcv ai/RCV/data/eval_50/store/inspections/cd2dbdbf9411/photos/P3__P3.png"
+    }
+  ],
+  "observations": {
+    "photos": [
+      {
+        "photo_id": "P1",
+        "usable": true,
+        "shows": [
+          "cartons"
+        ],
+        "quality_issues": []
+      },
+      {
+        "photo_id": "P2",
+        "usable": true,
+        "shows": [
+          "carton label"
+        ],
+        "quality_issues": []
+      },
+      {
+        "photo_id": "P3",
+        "usable": true,
+        "shows": [
+          "units"
+        ],
+        "quality_issues": []
+      }
+    ],
+    "identifiers": [
+      {
+        "kind": "sku",
+        "value": "SKU-MUG-11",
+        "photo_ids": [
+          "P2"
+        ],
+        "confidence": 0.9
+      }
+    ],
+    "variant": {
+      "attributes": {
+        "color": "green"
+      },
+      "photo_ids": [
+        "P2"
+      ],
+      "confidence": 0.8,
+      "notes": null
+    },
+    "units": {
+      "count": 8,
+      "all_visible": false,
+      "photo_ids": [
+        "P3"
+      ],
+      "confidence": 0.9,
+      "notes": "units are visible but not all are counted due to partial visibility"
+    },
+    "cartons": {
+      "count": {
+        "count": 2,
+        "all_visible": true,
+        "photo_ids": [
+          "P1"
+        ],
+        "confidence": 0.9,
+        "notes": null
+      },
+      "units_per_carton_label": 12,
+      "units_per_carton_label_photo_ids": [
+        "P2"
+      ],
+      "units_per_carton_label_confidence": 0.9,
+      "sealed": true
+    },
+    "damage": [],
+    "damage_coverage": "full",
+    "components": [
+      {
+        "name": "mug x2",
+        "present": true,
+        "photo_ids": [
+          "P3"
+        ],
+        "confidence": 0.9,
+        "notes": null
+      }
+    ],
+    "other_issues": [],
+    "notes": null
+  },
+  "observation_source": "openrouter:openai/gpt-4o-mini",
+  "ai_review": {
+    "model": "openai/gpt-4o-mini",
+    "summary": "The automated inspection has identified a variant mismatch while all other checks passed. A discrepancy was noted between the expected color (white) and the observed color (green).",
+    "check_explanations": [
+      {
+        "check": "sku_identity",
+        "explanation": "The SKU identifier 'SKU-MUG-11' matched the ordered SKU, demonstrating that the correct product was received."
+      },
+      {
+        "check": "variant",
+        "explanation": "The expected color was white, but the observed color was green, resulting in a FAIL."
+      },
+      {
+        "check": "quantity",
+        "explanation": "The quantity of 24 units was derived from 2 sealed cartons of 12 units each, which met the expected amount."
+      },
+      {
+        "check": "carton_count",
+        "explanation": "The count of 2 cartons matched the expectation, thus this check passed."
+      },
+      {
+        "check": "units_per_carton",
+        "explanation": "The carton label indicated 12 units per carton, which was the expected pack size."
+      },
+      {
+        "check": "damage",
+        "explanation": "No damage was observed, and the full coverage indicated the products were received in good condition."
+      },
+      {
+        "check": "components",
+        "explanation": "All expected components (mug x2) were present as verified by the evidence."
+      },
+      {
+        "check": "other_quality",
+        "explanation": "No additional quality issues were noted."
+      }
+    ],
+    "concerns": [
+      {
+        "description": "The variant check failed due to discrepancies regarding the expected color.",
+        "checks": [
+          "variant"
+        ],
+        "photo_ids": [
+          "P2"
+        ]
+      }
+    ],
+    "recommended_actions": [
+      "Inform the supplier about the variant color issue",
+      "Quarantine the shipment until the supplier's response is received"
+    ],
+    "supplier_claim_draft": "Discrepancy: Expected color white; observed color green (Photo P2).",
+    "agrees_with_decision": true,
+    "escalated": false,
+    "cost_usd": 0.0004755,
+    "cached": false
+  },
+  "llm_cost_usd": 0.012361,
+  "record_sha256": "634289c63d21adf2d6ddca6db88c9ac6536f4c4c6ffb855b67cfb9aa803ab8f8"
+}

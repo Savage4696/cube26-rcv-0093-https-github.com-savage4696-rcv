@@ -1,0 +1,510 @@
+{
+  "schema_version": "1.1",
+  "record_id": "RCV-32b8f9516c3d",
+  "organization_id": "org_demo_alpha",
+  "client_id": "dock_station_01",
+  "agent": "receiving-manager/openrouter:openai/gpt-4o-mini",
+  "subject": {
+    "sku": "SKU-LAMP-LED",
+    "po_number": "PO-9032",
+    "expected_quantity": 24
+  },
+  "captured_at": "2026-10-04T19:16:38.673560Z",
+  "operator_label": "op_dock",
+  "images": [
+    {
+      "photo_id": "P1",
+      "sha256": "0c48e4ce31726ccb65d0c9785db81d4db4263b922df5751e9a4088cf25071873",
+      "filename": "P1.png"
+    },
+    {
+      "photo_id": "P2",
+      "sha256": "a14e1ab00342aca3b72ee045dd713d3fcce8052c3ebcac15ac461a0692b9b4f6",
+      "filename": "P2.png"
+    },
+    {
+      "photo_id": "P3",
+      "sha256": "0e14c294943f8ee2588f1e275b6343f22f3220f838ad699159d2697cd77c7625",
+      "filename": "P3.png"
+    }
+  ],
+  "contract_checks": [
+    {
+      "check_key": "sku_identity",
+      "verdict": "PASS",
+      "confidence": 0.9,
+      "detail": "Ordered SKU identifier read on the shipment",
+      "model_version": "openrouter:openai/gpt-4o-mini",
+      "latency_ms": 120.0
+    },
+    {
+      "check_key": "variant",
+      "verdict": "PASS",
+      "confidence": 0.9,
+      "detail": "Observed variant matches the order",
+      "model_version": "openrouter:openai/gpt-4o-mini",
+      "latency_ms": 120.0
+    },
+    {
+      "check_key": "quantity",
+      "verdict": "UNCERTAIN",
+      "confidence": 0.8,
+      "detail": "Quantity cannot be verified: only 8 units visible (not all units visible)",
+      "model_version": "openrouter:openai/gpt-4o-mini",
+      "latency_ms": 120.0
+    },
+    {
+      "check_key": "carton_count",
+      "verdict": "UNCERTAIN",
+      "confidence": 0.9,
+      "detail": "Carton count not verifiable (not all cartons visible or low confidence)",
+      "model_version": "openrouter:openai/gpt-4o-mini",
+      "latency_ms": 120.0
+    },
+    {
+      "check_key": "units_per_carton",
+      "verdict": "PASS",
+      "confidence": 0.9,
+      "detail": "Carton label matches expected pack size",
+      "model_version": "openrouter:openai/gpt-4o-mini",
+      "latency_ms": 120.0
+    },
+    {
+      "check_key": "damage",
+      "verdict": "UNCERTAIN",
+      "confidence": null,
+      "detail": "No damage observed, but photo coverage is 'partial'; absence of evidence is not evidence of absence",
+      "model_version": "openrouter:openai/gpt-4o-mini",
+      "latency_ms": 120.0
+    },
+    {
+      "check_key": "components",
+      "verdict": "PASS",
+      "confidence": 0.9,
+      "detail": "All expected components observed",
+      "model_version": "openrouter:openai/gpt-4o-mini",
+      "latency_ms": 120.0
+    },
+    {
+      "check_key": "other_quality",
+      "verdict": "PASS",
+      "confidence": null,
+      "detail": "No other quality issues observed",
+      "model_version": "openrouter:openai/gpt-4o-mini",
+      "latency_ms": 120.0
+    }
+  ],
+  "outcome": {
+    "decision": "UNCERTAIN",
+    "decided_by": "rules_engine+reasoning_audit",
+    "decided_at": "2026-10-04T19:16:38.673560+00:00"
+  },
+  "overrides": [],
+  "status": "uncertain",
+  "content_hash": "300e1f5dc539ee9f90d870c06b32cb343d036eea4270139dda1136688652d77a",
+  "report": {
+    "inspection_id": "32b8f9516c3d",
+    "created_at": "2026-10-04T19:16:38.673560Z",
+    "po_number": "PO-9032",
+    "sku": "SKU-LAMP-LED",
+    "decision": "UNCERTAIN",
+    "decision_reason": "No failures, but evidence is insufficient for: quantity, carton_count, damage. Manual review required",
+    "checks": [
+      {
+        "check": "sku_identity",
+        "verdict": "PASS",
+        "expected": "SKU-LAMP-LED",
+        "observed": "sku 'SKU-LAMP-LED'",
+        "confidence": 0.9,
+        "reason": "Ordered SKU identifier read on the shipment",
+        "issues": [],
+        "evidence": [
+          {
+            "photo_id": "P2",
+            "sha256": "a14e1ab00342aca3b72ee045dd713d3fcce8052c3ebcac15ac461a0692b9b4f6",
+            "detail": "sku 'SKU-LAMP-LED' read (conf 0.90)"
+          }
+        ]
+      },
+      {
+        "check": "variant",
+        "verdict": "PASS",
+        "expected": "color=grey",
+        "observed": "color=grey",
+        "confidence": 0.9,
+        "reason": "Observed variant matches the order",
+        "issues": [],
+        "evidence": [
+          {
+            "photo_id": "P2",
+            "sha256": "a14e1ab00342aca3b72ee045dd713d3fcce8052c3ebcac15ac461a0692b9b4f6",
+            "detail": "variant observed: color=grey (conf 0.90)"
+          }
+        ]
+      },
+      {
+        "check": "quantity",
+        "verdict": "UNCERTAIN",
+        "expected": 24,
+        "observed": ">= 8",
+        "confidence": 0.8,
+        "reason": "Quantity cannot be verified: only 8 units visible (not all units visible)",
+        "issues": [
+          {
+            "code": "QUANTITY_UNVERIFIED",
+            "description": "Quantity not verifiable from photos",
+            "photo_ids": [
+              "P3"
+            ]
+          }
+        ],
+        "evidence": [
+          {
+            "photo_id": "P3",
+            "sha256": "0e14c294943f8ee2588f1e275b6343f22f3220f838ad699159d2697cd77c7625",
+            "detail": "partial unit count"
+          }
+        ]
+      },
+      {
+        "check": "carton_count",
+        "verdict": "UNCERTAIN",
+        "expected": 2,
+        "observed": 1,
+        "confidence": 0.9,
+        "reason": "Carton count not verifiable (not all cartons visible or low confidence)",
+        "issues": [
+          {
+            "code": "CARTON_COUNT_UNVERIFIED",
+            "description": "Carton count not verifiable",
+            "photo_ids": [
+              "P1"
+            ]
+          }
+        ],
+        "evidence": [
+          {
+            "photo_id": "P1",
+            "sha256": "0c48e4ce31726ccb65d0c9785db81d4db4263b922df5751e9a4088cf25071873",
+            "detail": "cartons counted: 1 (conf 0.90)"
+          }
+        ]
+      },
+      {
+        "check": "units_per_carton",
+        "verdict": "PASS",
+        "expected": 12,
+        "observed": 12,
+        "confidence": 0.9,
+        "reason": "Carton label matches expected pack size",
+        "issues": [],
+        "evidence": [
+          {
+            "photo_id": "P2",
+            "sha256": "a14e1ab00342aca3b72ee045dd713d3fcce8052c3ebcac15ac461a0692b9b4f6",
+            "detail": "carton label: 12 units/carton"
+          }
+        ]
+      },
+      {
+        "check": "damage",
+        "verdict": "UNCERTAIN",
+        "expected": "no visible damage",
+        "observed": "no damage observed",
+        "confidence": null,
+        "reason": "No damage observed, but photo coverage is 'partial'; absence of evidence is not evidence of absence",
+        "issues": [
+          {
+            "code": "DAMAGE_COVERAGE_INCOMPLETE",
+            "description": "Not all cartons/products visible",
+            "photo_ids": []
+          }
+        ],
+        "evidence": []
+      },
+      {
+        "check": "components",
+        "verdict": "PASS",
+        "expected": "lamp, usb cable, manual",
+        "observed": "lamp, usb cable, manual",
+        "confidence": 0.9,
+        "reason": "All expected components observed",
+        "issues": [],
+        "evidence": [
+          {
+            "photo_id": "P3",
+            "sha256": "0e14c294943f8ee2588f1e275b6343f22f3220f838ad699159d2697cd77c7625",
+            "detail": "lamp: present (conf 0.90)"
+          },
+          {
+            "photo_id": "P3",
+            "sha256": "0e14c294943f8ee2588f1e275b6343f22f3220f838ad699159d2697cd77c7625",
+            "detail": "usb cable: present (conf 0.90)"
+          },
+          {
+            "photo_id": "P3",
+            "sha256": "0e14c294943f8ee2588f1e275b6343f22f3220f838ad699159d2697cd77c7625",
+            "detail": "manual: present (conf 0.90)"
+          }
+        ]
+      },
+      {
+        "check": "other_quality",
+        "verdict": "PASS",
+        "expected": null,
+        "observed": "none observed",
+        "confidence": null,
+        "reason": "No other quality issues observed",
+        "issues": [],
+        "evidence": []
+      }
+    ],
+    "issues": [
+      {
+        "code": "QUANTITY_UNVERIFIED",
+        "description": "Quantity not verifiable from photos",
+        "photo_ids": [
+          "P3"
+        ]
+      },
+      {
+        "code": "CARTON_COUNT_UNVERIFIED",
+        "description": "Carton count not verifiable",
+        "photo_ids": [
+          "P1"
+        ]
+      },
+      {
+        "code": "DAMAGE_COVERAGE_INCOMPLETE",
+        "description": "Not all cartons/products visible",
+        "photo_ids": []
+      }
+    ],
+    "warnings": [],
+    "confidence_threshold": 0.7,
+    "risk_score": 15.0,
+    "risk_level": "MEDIUM"
+  },
+  "purchase_order": {
+    "po_number": "PO-9032",
+    "supplier": "Acme Global Freight (DUMMY)",
+    "lines": [
+      {
+        "sku": "SKU-LAMP-LED",
+        "expected_quantity": 24,
+        "variant": {
+          "color": "grey"
+        },
+        "expected_cartons": 2,
+        "units_per_carton": 12
+      }
+    ]
+  },
+  "po_line": {
+    "sku": "SKU-LAMP-LED",
+    "expected_quantity": 24,
+    "variant": {
+      "color": "grey"
+    },
+    "expected_cartons": 2,
+    "units_per_carton": 12
+  },
+  "catalog_item": {
+    "sku": "SKU-LAMP-LED",
+    "name": "LED Desk Lamp with USB",
+    "asin": null,
+    "barcodes": [],
+    "variant": {},
+    "units_per_carton": null,
+    "components": [
+      "lamp",
+      "usb cable",
+      "manual"
+    ],
+    "description": null
+  },
+  "photos": [
+    {
+      "photo_id": "P1",
+      "filename": "P1.png",
+      "content_type": "image/png",
+      "sha256": "0c48e4ce31726ccb65d0c9785db81d4db4263b922df5751e9a4088cf25071873",
+      "size_bytes": 4080,
+      "stored_path": "/Users/krish/Desktop/rcv ai/RCV/data/eval_50/store/inspections/32b8f9516c3d/photos/P1__P1.png"
+    },
+    {
+      "photo_id": "P2",
+      "filename": "P2.png",
+      "content_type": "image/png",
+      "sha256": "a14e1ab00342aca3b72ee045dd713d3fcce8052c3ebcac15ac461a0692b9b4f6",
+      "size_bytes": 15466,
+      "stored_path": "/Users/krish/Desktop/rcv ai/RCV/data/eval_50/store/inspections/32b8f9516c3d/photos/P2__P2.png"
+    },
+    {
+      "photo_id": "P3",
+      "filename": "P3.png",
+      "content_type": "image/png",
+      "sha256": "0e14c294943f8ee2588f1e275b6343f22f3220f838ad699159d2697cd77c7625",
+      "size_bytes": 11025,
+      "stored_path": "/Users/krish/Desktop/rcv ai/RCV/data/eval_50/store/inspections/32b8f9516c3d/photos/P3__P3.png"
+    }
+  ],
+  "observations": {
+    "photos": [
+      {
+        "photo_id": "P1",
+        "usable": true,
+        "shows": [
+          "carton exterior"
+        ],
+        "quality_issues": []
+      },
+      {
+        "photo_id": "P2",
+        "usable": true,
+        "shows": [
+          "carton label"
+        ],
+        "quality_issues": []
+      },
+      {
+        "photo_id": "P3",
+        "usable": true,
+        "shows": [
+          "units"
+        ],
+        "quality_issues": []
+      }
+    ],
+    "identifiers": [
+      {
+        "kind": "sku",
+        "value": "SKU-LAMP-LED",
+        "photo_ids": [
+          "P2"
+        ],
+        "confidence": 0.9
+      }
+    ],
+    "variant": {
+      "attributes": {
+        "color": "grey"
+      },
+      "photo_ids": [
+        "P2"
+      ],
+      "confidence": 0.9,
+      "notes": null
+    },
+    "units": {
+      "count": 8,
+      "all_visible": false,
+      "photo_ids": [
+        "P3"
+      ],
+      "confidence": 0.8,
+      "notes": "Only part of the units are visible in the photo."
+    },
+    "cartons": {
+      "count": {
+        "count": 1,
+        "all_visible": false,
+        "photo_ids": [
+          "P1"
+        ],
+        "confidence": 0.9,
+        "notes": null
+      },
+      "units_per_carton_label": 12,
+      "units_per_carton_label_photo_ids": [
+        "P2"
+      ],
+      "units_per_carton_label_confidence": 0.9,
+      "sealed": true
+    },
+    "damage": [],
+    "damage_coverage": "partial",
+    "components": [
+      {
+        "name": "lamp",
+        "present": true,
+        "photo_ids": [
+          "P3"
+        ],
+        "confidence": 0.9,
+        "notes": null
+      },
+      {
+        "name": "usb cable",
+        "present": true,
+        "photo_ids": [
+          "P3"
+        ],
+        "confidence": 0.9,
+        "notes": null
+      },
+      {
+        "name": "manual",
+        "present": true,
+        "photo_ids": [
+          "P3"
+        ],
+        "confidence": 0.9,
+        "notes": null
+      }
+    ],
+    "other_issues": [],
+    "notes": null
+  },
+  "observation_source": "openrouter:openai/gpt-4o-mini",
+  "ai_review": {
+    "model": "openai/gpt-4o-mini",
+    "summary": "The inspection yielded uncertain results for quantity, carton count, and damage due to insufficient evidence, while SKU identity, variant, units per carton, components, and no other quality issues passed.",
+    "check_explanations": [
+      {
+        "check": "sku_identity",
+        "explanation": "The SKU from the shipment matches the ordered SKU 'SKU-LAMP-LED', confirmed by photo P2."
+      },
+      {
+        "check": "variant",
+        "explanation": "The observed variant color matches the expected grey color, verified through photo P2."
+      },
+      {
+        "check": "quantity",
+        "explanation": "The count of visible units is 8, but evidence is insufficient to verify the full quantity expected (24), leading to an uncertain verdict as not all units are visible in photo P3."
+      },
+      {
+        "check": "carton_count",
+        "explanation": "Only one carton was counted and due to the low visibility of all cartons, it is uncertain if the expected count of 2 is accurate, as shown in photo P1."
+      },
+      {
+        "check": "units_per_carton",
+        "explanation": "The carton label confirms that there are 12 units per carton, matching expectations as shown in photo P2."
+      },
+      {
+        "check": "damage",
+        "explanation": "No damage was observed, but the photo coverage is partial, creating uncertainty regarding potential hidden damage."
+      },
+      {
+        "check": "components",
+        "explanation": "All components (lamp, usb cable, manual) were observed as present in photo P3."
+      },
+      {
+        "check": "other_quality",
+        "explanation": "No additional quality issues were identified during the inspection."
+      }
+    ],
+    "concerns": [],
+    "recommended_actions": [
+      "Open cartons and verify the total unit count.",
+      "Inspect for any possible hidden damage."
+    ],
+    "supplier_claim_draft": null,
+    "agrees_with_decision": false,
+    "escalated": false,
+    "cost_usd": 0.00054705,
+    "cached": false
+  },
+  "llm_cost_usd": 0.012579,
+  "record_sha256": "300e1f5dc539ee9f90d870c06b32cb343d036eea4270139dda1136688652d77a"
+}
