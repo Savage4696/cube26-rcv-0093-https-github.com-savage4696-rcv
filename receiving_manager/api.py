@@ -6,7 +6,7 @@ import json
 from pathlib import Path
 from typing import Optional
 
-from fastapi import Body, FastAPI, File, Form, HTTPException, UploadFile
+from fastapi import Body, FastAPI, File, Form, HTTPException, Request, UploadFile
 from fastapi.responses import FileResponse, Response
 from pydantic import TypeAdapter, ValidationError
 
@@ -51,6 +51,24 @@ catalog_adapter = TypeAdapter(list[CatalogItem])
 NO_PHOTOS = File(default=[])
 
 
+def reload_ai_services(custom_key: str | None = None) -> None:
+    """Reloads or overrides AI provider & reviewer at runtime (e.g. from UI or Vercel header)."""
+    global settings, budget, cache, provider, reviewer
+    import os
+
+    if custom_key and custom_key.strip():
+        os.environ["OPENROUTER_API_KEY"] = custom_key.strip()
+        os.environ["RM_VISION_PROVIDER"] = "openrouter"
+        if "RM_REASONING" not in os.environ:
+            os.environ["RM_REASONING"] = "on"
+
+    settings = load_settings()
+    budget = make_budget(settings)
+    cache = make_cache(settings)
+    provider = get_provider(settings, budget, cache)
+    reviewer = get_reviewer(settings, budget, cache)
+
+
 def _parse(model, raw: str, field: str):
     try:
         if isinstance(model, TypeAdapter):
@@ -66,9 +84,26 @@ def index() -> FileResponse:
 
 
 @app.get("/api/health")
-def health() -> dict:
+def health(request: Request) -> dict:
+    header_key = request.headers.get("x-openrouter-key")
+    if not provider and header_key:
+        reload_ai_services(header_key)
     return {
         "status": "ok",
+        "vision_provider": provider.name if provider else None,
+        "reasoning_model": reviewer.model if reviewer else None,
+        "confidence_threshold": settings.confidence_threshold,
+    }
+
+
+@app.post("/api/config/key")
+def configure_api_key(payload: dict = Body(...)) -> dict:
+    key = payload.get("openrouter_api_key") or payload.get("api_key")
+    if not key or not key.strip():
+        raise HTTPException(400, "API key cannot be empty")
+    reload_ai_services(key.strip())
+    return {
+        "status": "configured",
         "vision_provider": provider.name if provider else None,
         "reasoning_model": reviewer.model if reviewer else None,
         "confidence_threshold": settings.confidence_threshold,
@@ -189,14 +224,20 @@ def scenarios() -> dict:
 
 @app.post("/api/inspections")
 async def create_inspection(
+    request: Request,
     purchase_order: str = Form(...),
     catalog: str = Form("[]"),
     sku: str | None = Form(None),
     observations: str | None = Form(None),
     ai_review: bool = Form(True),
     threshold: float | None = Form(None),
+    openrouter_api_key: str | None = Form(None),
     photos: list[UploadFile] = NO_PHOTOS,
 ) -> EvidenceRecord:
+    key = openrouter_api_key or request.headers.get("x-openrouter-key")
+    if not provider and key:
+        reload_ai_services(key)
+
     po = _parse(PurchaseOrder, purchase_order, "purchase_order")
     cat = _parse(catalog_adapter, catalog, "catalog")
     obs = _parse(Observations, observations, "observations") if observations else None

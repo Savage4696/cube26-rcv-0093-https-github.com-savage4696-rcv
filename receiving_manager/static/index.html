@@ -1209,10 +1209,11 @@ tr:hover td { background: var(--bg-subtle); }
 
   <div class="header-right">
     <div class="chips">
-      <span class="chip" id="chip-vision">Vision: <b>-</b></span>
+      <span class="chip" id="chip-vision" style="cursor:pointer;" title="Click to view API Key settings">Vision: <b>-</b></span>
       <span class="chip" id="chip-reason">Reasoning: <b>-</b></span>
       <span class="chip" id="chip-budget">Credit: <b>-</b></span>
     </div>
+    <button class="sec" id="btn-open-apikey" style="padding:5px 12px; font-size:11.5px; border-radius:999px;"><span>🔑</span> API Key</button>
     <button class="btn-icon" id="theme-toggle" title="Toggle Dark/Light Mode">🌙</button>
   </div>
 </header>
@@ -1593,6 +1594,34 @@ tr:hover td { background: var(--bg-subtle); }
   </div>
 </div>
 
+<!-- API Key Configuration Modal -->
+<div class="lightbox" id="modal-apikey">
+  <div class="lightbox-content" style="max-width:540px;">
+    <span class="lightbox-close" id="modal-apikey-close">&times;</span>
+    <h3 style="margin:0 0 8px; font-family:'Outfit'; display:flex; align-items:center; gap:8px;">
+      <span>🔑</span> OpenRouter API Key Settings
+    </h3>
+    <p class="hint" style="margin-bottom:14px;">
+      Configure your OpenRouter API key for live multimodal vision inspections (<b style="color:var(--brand)">openai/gpt-4o-mini</b>) and reasoning reviews.
+    </p>
+
+    <label class="f" for="input-openrouter-key">OpenRouter API Key (sk-or-v1-...)</label>
+    <input type="password" id="input-openrouter-key" class="search-bar" placeholder="Paste your OpenRouter API key (sk-or-v1-...)" value="">
+
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-top:8px;">
+      <label style="font-size:12px; display:flex; align-items:center; gap:6px; cursor:pointer;">
+        <input type="checkbox" id="show-key-toggle"> Show key
+      </label>
+      <span class="v PASS" id="key-status-badge">Ready to Connect</span>
+    </div>
+
+    <div style="display:flex; gap:10px; margin-top:18px;">
+      <button class="primary" id="btn-save-key" style="margin:0;">Connect &amp; Activate Key</button>
+      <button class="sec" id="btn-clear-key" style="margin:0;">Clear</button>
+    </div>
+  </div>
+</div>
+
 <div class="toast-container" id="toast-wrap"></div>
 
 <script>
@@ -1677,20 +1706,58 @@ window.addEventListener("keydown", (e) => {
   }
 });
 
+const defaultKey = "";
+
+function updateHealthDisplay() {
+  const isConfigured = !!health.vision_provider;
+  $("chip-vision").innerHTML = `Vision: <b style="color:${isConfigured ? 'var(--pass)' : 'var(--unc)'}">${esc(health.vision_provider || "not configured")}</b>`;
+  $("chip-reason").innerHTML = `Reasoning: <b style="color:${health.reasoning_model ? '#a78bfa' : 'var(--muted)'}">${esc(health.reasoning_model || "off")}</b>`;
+  $("vision-sub").textContent = isConfigured ? `${health.vision_provider.split(":").pop()} · active` : "click 'API Key' to configure";
+  if (isConfigured) {
+    $("ai-review").disabled = false;
+    $("reason-sub").textContent = "Reasoning model evaluates verdicts and drafts supplier claims.";
+    if ($("key-status-badge")) {
+      $("key-status-badge").textContent = "Connected & Active";
+      $("key-status-badge").className = "v PASS";
+    }
+  } else {
+    $("reason-sub").textContent = "Configure OPENROUTER_API_KEY to enable reasoning review.";
+    if ($("key-status-badge")) {
+      $("key-status-badge").textContent = "Not Configured";
+      $("key-status-badge").className = "v FAIL";
+    }
+  }
+}
+
 async function init() {
   try {
-    [health, defs] = await Promise.all([
-      fetch("/api/health").then((r) => r.json()),
-      fetch("/api/definitions").then((r) => r.json())
-    ]);
-    $("chip-vision").innerHTML = `Vision: <b>${esc(health.vision_provider || "not configured")}</b>`;
-    $("chip-reason").innerHTML = `Reasoning: <b>${esc(health.reasoning_model || "off")}</b>`;
-    $("vision-sub").textContent = health.vision_provider ? `${health.vision_provider.split(":").pop()} · uses credit` : "not configured";
-    if (!health.reasoning_model) {
-      $("ai-review").checked = false;
-      $("ai-review").disabled = true;
-      $("reason-sub").textContent = "Set OPENROUTER_API_KEY to enable reasoning review.";
+    let activeKey = localStorage.getItem("openrouter_api_key") || defaultKey;
+    if (activeKey) {
+      localStorage.setItem("openrouter_api_key", activeKey);
+      if ($("input-openrouter-key")) $("input-openrouter-key").value = activeKey;
     }
+
+    const headers = activeKey ? { "x-openrouter-key": activeKey } : {};
+    let healthData = await fetch("/api/health", { headers }).then((r) => r.json());
+
+    if (!healthData.vision_provider && activeKey) {
+      try {
+        const conf = await fetch("/api/config/key", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ openrouter_api_key: activeKey })
+        }).then(r => r.json());
+        if (conf.vision_provider) {
+          healthData.vision_provider = conf.vision_provider;
+          healthData.reasoning_model = conf.reasoning_model;
+        }
+      } catch (e) {}
+    }
+
+    health = healthData;
+    defs = await fetch("/api/definitions").then((r) => r.json());
+    updateHealthDisplay();
+
     const data = await (await fetch("/api/scenarios")).json();
     scenarios = data.scenarios; catalog = data.catalog;
     $("catalog").value = pretty(catalog);
@@ -1850,9 +1917,52 @@ function openLightbox(src, title, meta) {
 $("lightbox-close").onclick = () => $("lightbox").classList.remove("active");
 $("lightbox").onclick = (e) => { if (e.target === $("lightbox")) $("lightbox").classList.remove("active"); };
 
+$("btn-open-apikey").onclick = () => {
+  $("modal-apikey").classList.add("active");
+  $("input-openrouter-key").value = localStorage.getItem("openrouter_api_key") || defaultKey;
+};
+$("chip-vision").onclick = () => $("btn-open-apikey").click();
+$("modal-apikey-close").onclick = () => $("modal-apikey").classList.remove("active");
+$("modal-apikey").onclick = (e) => { if (e.target === $("modal-apikey")) $("modal-apikey").classList.remove("active"); };
+
+$("btn-save-key").onclick = async () => {
+  const key = $("input-openrouter-key").value.trim();
+  if (!key) { showToast("Please enter an OpenRouter API key"); return; }
+  localStorage.setItem("openrouter_api_key", key);
+  try {
+    const res = await (await fetch("/api/config/key", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ openrouter_api_key: key })
+    })).json();
+    health.vision_provider = res.vision_provider;
+    health.reasoning_model = res.reasoning_model;
+    updateHealthDisplay();
+    loadBudget();
+    showToast("OpenRouter API key connected & active!");
+    $("modal-apikey").classList.remove("active");
+  } catch (err) {
+    showToast("Error connecting key: " + err.message);
+  }
+};
+
+$("btn-clear-key").onclick = () => {
+  localStorage.removeItem("openrouter_api_key");
+  $("input-openrouter-key").value = "";
+  health.vision_provider = null;
+  health.reasoning_model = null;
+  updateHealthDisplay();
+  showToast("API key cleared");
+};
+
+$("show-key-toggle").onchange = (e) => {
+  $("input-openrouter-key").type = e.target.checked ? "text" : "password";
+};
+
 $("run").onclick = async () => {
   const vision = document.querySelector('input[name=src]:checked').value === "vision";
   const thresh = parseFloat($("thresh-slider").value);
+  const activeKey = localStorage.getItem("openrouter_api_key") || defaultKey;
   const fd = new FormData();
   fd.append("purchase_order", $("po").value);
   fd.append("catalog", $("catalog").value || "[]");
@@ -1860,6 +1970,7 @@ $("run").onclick = async () => {
   if (!vision) fd.append("observations", $("observations").value);
   fd.append("ai_review", $("ai-review").checked ? "true" : "false");
   fd.append("threshold", thresh.toString());
+  if (activeKey) fd.append("openrouter_api_key", activeKey);
   files.forEach((f) => fd.append("photos", f, f.name));
 
   $("run").disabled = true;
@@ -1868,7 +1979,8 @@ $("run").onclick = async () => {
     ($("ai-review").checked ? " reasoning model validating safety rules..." : "");
 
   try {
-    const resp = await fetch("/api/inspections", {method: "POST", body: fd});
+    const headers = activeKey ? { "x-openrouter-key": activeKey } : {};
+    const resp = await fetch("/api/inspections", {method: "POST", headers, body: fd});
     const body = await resp.json();
     if (!resp.ok) throw new Error(typeof body.detail === "string" ? body.detail : pretty(body.detail));
     render(body);
