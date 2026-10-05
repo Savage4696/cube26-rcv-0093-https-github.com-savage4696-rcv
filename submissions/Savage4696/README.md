@@ -52,11 +52,18 @@ submissions/Savage4696/
    ```bash
    receiving-manager scenarios
    ```
-3. **Run All Unit & Integration Tests**:
+3. **Verify Cross-Pod Integrations (Prep, Returns, Recovery)**:
+   ```bash
+   receiving-manager integrate --pod status
+   receiving-manager integrate --pod prep --unit UNIT-0005
+   receiving-manager integrate --pod returns --unit UNIT-0010 --sku SKU-CANDLE-3
+   receiving-manager integrate --pod recovery
+   ```
+4. **Run All Unit & Integration Tests**:
    ```bash
    pytest -v
    ```
-4. **Launch Web Inspection Dashboard**:
+5. **Launch Web Inspection Dashboard**:
    ```bash
    receiving-manager serve --port 8000
    ```

@@ -130,6 +130,78 @@ def cmd_evaluate(args: argparse.Namespace) -> int:
     return 0
 
 
+def cmd_integrate(args: argparse.Namespace) -> int:
+    from receiving_manager.integrations import ReturnAssessmentQuery, cross_pod_service
+
+    pod = (args.pod or "status").lower()
+
+    if pod == "status":
+        info = cross_pod_service.get_ecosystem_status()
+        print("=== CUBE 2026 Cross-Pod Ecosystem Status ===")
+        print(f"Hub: {info['hub']} (Contract v{info['evidence_contract_version']})")
+        print(f"Inbound units indexed: {info['cached_inbound_units']}")
+        print("\nConnected Managers:")
+        for code, details in info["active_pods"].items():
+            print(f"  [{code}] Stage {details['stage']}: {details['name']} ({details['repo']})")
+            print(f"        Role: {details['role']}")
+            print(f"        Status: {details['status']}")
+        return 0
+
+    if pod == "prep":
+        unit = args.unit or "UNIT-0005"
+        wo = cross_pod_service.dispatch_to_prep(unit_id=unit, custom_sku=args.sku)
+        print(f"=== Stage 02: Prep Manager Work Order ({wo.work_order_id}) ===")
+        print(f"Unit: {wo.unit_id} | SKU: {wo.sku} | Priority: {wo.priority.value}")
+        print(f"Inbound Origin: {wo.inbound_record_id} ({wo.inbound_outcome})")
+        print(f"Recommended Rulebook: {wo.recommended_rulebook}")
+        print(f"Required Prep Operations ({len(wo.required_prep)}):")
+        for req in wo.required_prep:
+            print(f"  • {req.value}")
+        print(f"Operator Notes: {wo.operator_notes}")
+        if args.json:
+            print(json.dumps(wo.model_dump(mode="json"), indent=2))
+        return 0
+
+    if pod == "returns":
+        unit = args.unit or "UNIT-0010"
+        query = ReturnAssessmentQuery(
+            unit_id=unit,
+            returned_sku=args.sku or "SKU-CANDLE-3",
+            return_observed_state=args.state or "opened_unused",
+        )
+        res = cross_pod_service.correlate_customer_return(query)
+        print(f"=== Stage 04: Returns Manager Cross-Check ({unit}) ===")
+        print(f"Provenance Status: {res.correlation_status.value}")
+        print(f"Assigned Liability: {res.liability.value}")
+        print(f"Fraud Risk Score: {res.fraud_risk_score:.2f}")
+        print(f"Dock Reference: {res.inbound_record_id or 'NONE'} ({res.inbound_sku or 'N/A'})")
+        print(f"Findings: {res.evidence_comparison_notes}")
+        if args.json:
+            print(json.dumps(res.model_dump(mode="json"), indent=2))
+        return 0
+
+    if pod == "recovery":
+        csv_text = None
+        if args.fee_csv:
+            csv_text = Path(args.fee_csv).read_text(encoding="utf-8")
+        report = cross_pod_service.reconcile_recovery_claims(csv_text)
+        print(f"=== Stage 05: Recovery Manager Dispute Reconciliation ({report.report_id}) ===")
+        print(f"Total Fee Lines Analyzed: {report.total_fee_lines_analyzed}")
+        print(f"Contradicting Charges (FBA Disputes): {report.contradicting_count} (${report.total_fba_dispute_amount:.2f})")
+        print(f"Supporting Charges (Vendor Chargebacks): {report.supporting_count} (${report.total_vendor_chargeback_amount:.2f})")
+        print(f"Silent Charges: {report.silent_count}")
+        print("\nTop Actionable Claims:")
+        for line in [i for i in report.items if i.stance.value != "SILENT"][:8]:
+            print(f"  • [{line.stance.value}] {line.line_id} ({line.unit_id} / {line.sku}): ${line.dispute_amount_usd:.2f} -> {line.claim_target.value}")
+            print(f"    Reason: {line.audit_explanation}")
+        if args.json:
+            print(json.dumps(report.model_dump(mode="json"), indent=2))
+        return 0
+
+    print(f"Unknown pod: {pod}. Use one of: status, prep, returns, recovery")
+    return 1
+
+
 def cmd_serve(args: argparse.Namespace) -> int:
     uvicorn.run("receiving_manager.api:app", host=args.host, port=args.port)
     return 0
@@ -161,6 +233,15 @@ def main(argv: list[str] | None = None) -> int:
     p.add_argument("--limit", type=int, help="Limit number of units evaluated")
     p.add_argument("--json", action="store_true")
     p.set_defaults(func=cmd_evaluate)
+
+    p = sub.add_parser("integrate", help="Cross-Pod ecosystem integrations (Prep, Returns, Recovery)")
+    p.add_argument("--pod", choices=["status", "prep", "returns", "recovery"], default="status", help="Pod to interact with")
+    p.add_argument("--unit", help="Unit ID (e.g. UNIT-0005)")
+    p.add_argument("--sku", help="SKU identifier")
+    p.add_argument("--state", help="Observed return state (e.g. opened_unused, damaged)")
+    p.add_argument("--fee-csv", help="Custom fee report CSV path for Recovery reconciliation")
+    p.add_argument("--json", action="store_true")
+    p.set_defaults(func=cmd_integrate)
 
     p = sub.add_parser("serve", help="Run the web app")
     p.add_argument("--host", default="127.0.0.1")

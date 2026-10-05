@@ -272,3 +272,56 @@ In alignment with the CUBE Buildathon Round 2 Rubric and independent audit findi
    - Evaluates image recognition under varied real-world dock conditions: direct light, dim warehouse lighting, harsh glare, camera blur, and occluded pallet stacks.
    - Ground truth established by two independent human inspectors (`Evaluator 1` and `Evaluator 2`), reporting Cohen's Kappa ($\kappa$) and full per-check confusion matrices in [`EVALUATION.md`](EVALUATION.md) and [`submissions/Savage4696/eval-report.md`](submissions/Savage4696/eval-report.md).
 
+---
+
+## 8. Cross-Pod Integrations: Prep (PRP), Returns (RTM), and Recovery (RCY)
+
+In fulfillment of the CUBE 2026 unified lifecycle vision (*"Five agents, one unit, one record that follows it"*), RCV serves as the foundational **Stage 01 Inbound Hub** and provides native integration adapters connecting to all downstream partner repositories:
+
+```text
+ ┌─────────────────────────────────────────────────────────────────────────────┐
+ │                       CUBE 2026 INTEGRATED ECOSYSTEM                        │
+ └─────────────────────────────────────────────────────────────────────────────┘
+                                        │
+                         [Stage 01: Inbound Receiving (RCV)]
+                         • Savage4696/RCV
+                         • Sealed SHA-256 CUBE Evidence Record
+                                        │
+           ┌────────────────────────────┼────────────────────────────┐
+           ▼                            ▼                            ▼
+ [Stage 02: Prep (PRP)]       [Stage 04: Returns (RTM)]    [Stage 05: Recovery (RCY)]
+ • cube26-prp-0153            • cube-04-returns-manager    • cube26-rcy-0077
+ • Work Order Dispatch        • Provenance & Fraud Cross   • Fee Reconciliation
+ • Auto-inferred prep rules:  • Distinguishes pre-existing • Contradiction disputes:
+   - Polybag + suffocation      supplier dock damage from    - Contradicts: FBA claim
+   - Bubble wrap fragile        customer-inflicted damage    - Supports: Vendor memo
+   - Rebox carton tears       • Catches SKU switch fraud     - Silent: Ineligible
+```
+
+### 1. Stage 02: Prep Manager (PRP) Integration (`receiving_manager/integrations/prep.py`)
+- **Repo**: `maithripagidi3284-coder/cube26-prp-0153`
+- **Contract Compatibility**: Conforms to Prep Manager's work order and compliance verification contracts.
+- **Automated Rule Inference**:
+  - Loose textiles/apparel (`SKU-TOWEL-BLU`, `SKU-LEASH-6FT`) -> Auto-dispatches `POLYBAG` + `SUFFOCATION_WARNING_LABEL`.
+  - Fragile or liquid items (`SKU-BOTTLE-750`, `SKU-CANDLE-3`, `SKU-LAMP-LED`) -> Auto-dispatches `BUBBLE_WRAP` + `COVER_MANUFACTURER_BARCODE`.
+  - Inbound transit carton damage -> Auto-dispatches `REBOX_DAMAGED_CARTON` + `TAPING_AND_SEALING` under `EXPEDITE` priority.
+- **Endpoint**: `POST /api/integrations/prep/dispatch` | **CLI**: `receiving-manager integrate --pod prep --unit UNIT-0005`
+
+### 2. Stage 04: Returns Manager (RTM) Integration (`receiving_manager/integrations/returns.py`)
+- **Repo**: `jeevanreddy29/cube-04-returns-manager`
+- **Contract Compatibility**: Connects to Returns Manager's `ReturnRecordEvidence` schema.
+- **Inbound Provenance & Switch Fraud Detection**:
+  - When customer returns an item, RTM queries RCV's sealed inbound dock records by `unit_id`.
+  - **Switch Fraud**: If customer returns a different SKU than the one physically received at the dock, flags `SWITCH_FRAUD_DETECTED` (fraud risk score: 0.98), assigns liability to `CUSTOMER`, and prevents fraudulent refund.
+  - **Defect Attribution**: If the returned item is damaged and dock records confirm transit crushing occurred on receipt, flags `SUPPLIER_PRE_EXISTING_DEFECT` (liability: `SUPPLIER`), protecting customer CSAT while routing reimbursement to the vendor.
+- **Endpoint**: `POST /api/integrations/returns/correlate` | **CLI**: `receiving-manager integrate --pod returns --unit UNIT-0010`
+
+### 3. Stage 05: Recovery Manager (RCY) Integration (`receiving_manager/integrations/recovery.py`)
+- **Repo**: `pia-21/cube26-rcy-0077`
+- **Contract Compatibility**: Consumes `data/fee_report_sample.csv` (inbound defect fees, lost inbound, weight tiers).
+- **Deterministic 3-Way Reconciliation Engine**:
+  - `CONTRADICTS`: Amazon charges an `inbound_defect_fee` or marks units as `lost_inbound`, but RCV's timestamped, SHA-256 hashed dock photos prove 100% undamaged delivery with valid barcodes. Assembles actionable `AMAZON_FBA_DISPUTE` claim packets.
+  - `SUPPORTS`: Amazon fee or shortage matches an inbound dock `EXCEPTION`. Assembles `SUPPLIER_CHARGEBACK` credit memos with attached photo evidence.
+  - `SILENT`: Charge is outside receiving vision scope (e.g. weight tier, refund issued). Explicitly declined with documented audit reasons.
+- **Endpoint**: `GET|POST /api/integrations/recovery/reconcile` | **CLI**: `receiving-manager integrate --pod recovery`
+

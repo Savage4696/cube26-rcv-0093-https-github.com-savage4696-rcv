@@ -192,6 +192,21 @@ Open **`http://localhost:8000`** in your browser.
      scenarios/photos/01_correct_shipment/P1.png scenarios/photos/01_correct_shipment/P2.png scenarios/photos/01_correct_shipment/P3.png
    ```
 
+5. **Cross-Pod Ecosystem Integrations (PRP · RTM · RCY)**:
+   ```bash
+   # Check connectivity status across all 5 CUBE managers:
+   receiving-manager integrate --pod status
+
+   # Dispatch an inbound unit to Prep Manager (auto-derives polybag, bubble wrap, reboxing):
+   receiving-manager integrate --pod prep --unit UNIT-0005
+
+   # Cross-check a customer return against dock provenance (catches switch fraud & defect origin):
+   receiving-manager integrate --pod returns --unit UNIT-0010 --sku SKU-CANDLE-3
+
+   # Run 3-way dispute reconciliation against Amazon fee reports (FBA claims vs vendor chargebacks):
+   receiving-manager integrate --pod recovery
+   ```
+
 ### REST API Endpoints
 
 | Method | Endpoint | Description |
@@ -207,6 +222,12 @@ Open **`http://localhost:8000`** in your browser.
 | `GET` | `/api/definitions` | Retrieve authoritative check criteria and definitions |
 | `GET` | `/api/budget` | Check current model spend and credit guard status |
 | `GET` | `/api/health` | Health check and active vision provider configuration |
+| `GET` | `/api/integrations/status` | Cross-pod ecosystem connectivity status (PRP, RTM, RCY) |
+| `POST` | `/api/integrations/prep/dispatch` | Generate Prep Manager work order from inbound receipt |
+| `POST` | `/api/integrations/returns/correlate` | Cross-check customer return against inbound dock proof |
+| `GET` | `/api/integrations/returns/correlate/{unit}` | Quick inbound provenance check for Returns Manager |
+| `GET` | `/api/integrations/recovery/reconcile` | Reconcile channel fee reports against dock proof (claims) |
+| `POST` | `/api/integrations/recovery/reconcile` | Reconcile custom fee report CSV against dock records |
 
 ### Running Tests
 Execute the comprehensive test suite (unit tests, rules engine, reasoning guards, API endpoints):

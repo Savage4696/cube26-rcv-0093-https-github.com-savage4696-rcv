@@ -4,10 +4,20 @@ import csv
 import io
 import json
 from pathlib import Path
+from typing import Optional
 
-from fastapi import FastAPI, File, Form, HTTPException, UploadFile
+from fastapi import Body, FastAPI, File, Form, HTTPException, UploadFile
 from fastapi.responses import FileResponse, Response
 from pydantic import TypeAdapter, ValidationError
+
+from .integrations import (
+    CrossPodIntegrationService,
+    PrepWorkOrder,
+    RecoveryReconciliationReport,
+    ReturnAssessmentQuery,
+    ReturnCorrelationResult,
+    cross_pod_service,
+)
 
 from . import definitions
 from .config import load_settings
@@ -310,3 +320,54 @@ def get_photo(inspection_id: str, photo_id: str) -> FileResponse:
     if photo is None or not photo.stored_path or not Path(photo.stored_path).exists():
         raise HTTPException(404, "Photo not found")
     return FileResponse(photo.stored_path, media_type=photo.content_type)
+
+
+# ---------------------------------------------------------------------------
+# Cross-Pod Ecosystem Integrations (PRP · RTM · RCY)
+# ---------------------------------------------------------------------------
+
+@app.get("/api/integrations/status")
+def get_ecosystem_status() -> dict:
+    return cross_pod_service.get_ecosystem_status()
+
+
+@app.post("/api/integrations/prep/dispatch")
+def dispatch_prep(
+    unit_id: str = Form(...),
+    sku: Optional[str] = Form(None),
+    org_id: Optional[str] = Form("org_demo_alpha"),
+) -> PrepWorkOrder:
+    return cross_pod_service.dispatch_to_prep(unit_id=unit_id, custom_sku=sku, custom_org_id=org_id)
+
+
+@app.post("/api/integrations/returns/correlate")
+def correlate_return(query: ReturnAssessmentQuery) -> ReturnCorrelationResult:
+    return cross_pod_service.correlate_customer_return(query)
+
+
+@app.get("/api/integrations/returns/correlate/{unit_id}")
+def correlate_return_quick(
+    unit_id: str,
+    returned_sku: Optional[str] = None,
+    state: str = "damaged",
+) -> ReturnCorrelationResult:
+    rec = cross_pod_service.get_unit_inbound_record(unit_id) or {}
+    sku = returned_sku or rec.get("sku", "SKU-UNKNOWN")
+    query = ReturnAssessmentQuery(
+        unit_id=unit_id,
+        returned_sku=sku,
+        return_observed_state=state,
+    )
+    return cross_pod_service.correlate_customer_return(query)
+
+
+@app.get("/api/integrations/recovery/reconcile")
+def reconcile_recovery_sample() -> RecoveryReconciliationReport:
+    return cross_pod_service.reconcile_recovery_claims()
+
+
+@app.post("/api/integrations/recovery/reconcile")
+def reconcile_recovery_custom(
+    fee_csv: str = Body(..., media_type="text/plain"),
+) -> RecoveryReconciliationReport:
+    return cross_pod_service.reconcile_recovery_claims(fee_csv)

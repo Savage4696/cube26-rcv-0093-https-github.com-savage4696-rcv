@@ -300,6 +300,7 @@ th { font-size: 11px; text-transform: uppercase; color: var(--muted); letter-spa
     <button data-page="inspect" class="active">Inspect</button>
     <button data-page="eval">Held-out vision eval (50)</button>
     <button data-page="bench">Rules regression (24)</button>
+    <button data-page="integrations">Cross-pod (PRP · RTM · RCY)</button>
     <button data-page="suppliers">Supplier quality</button>
     <button data-page="defs">How decisions work</button>
     <button data-page="history">History</button>
@@ -397,6 +398,121 @@ th { font-size: 11px; text-transform: uppercase; color: var(--muted); letter-spa
   </div>
 </section>
 
+<section class="page" id="page-integrations">
+  <div class="card">
+    <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-bottom:12px;">
+      <div>
+        <h2 style="margin:0; font-size:18px; color:var(--ink);">CUBE 2026 Cross-Pod Ecosystem Integration</h2>
+        <p class="hint" style="margin:4px 0 0;">Unified data pipeline connecting Inbound Receiving (Stage 01) with Prep, Returns, and Recovery.</p>
+      </div>
+      <div style="display:flex; gap:8px;">
+        <span class="v PASS" style="cursor:default">Contract v1.1 Active</span>
+        <button class="pill active" id="btn-refresh-integrations">Refresh Status</button>
+      </div>
+    </div>
+
+    <!-- 4 Pod Ecosystem Badges -->
+    <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(240px, 1fr)); gap:14px; margin:16px 0 24px;">
+      <div style="background:#f8fafc; border:1px solid #cbd5e1; border-top:4px solid var(--brand); border-radius:12px; padding:12px 14px;">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+          <b style="font-size:13px;">Stage 01 · Receiving (RCV)</b>
+          <span class="v PASS" style="font-size:9px; padding:2px 6px;">LOCAL HUB</span>
+        </div>
+        <div class="hint" style="font-size:11.5px; margin-bottom:6px;">Savage4696/RCV</div>
+        <div style="font-size:11px; color:#475569;">Inbound dock inspection, PO line verification, sealed SHA-256 evidence records.</div>
+      </div>
+      <div style="background:#f8fafc; border:1px solid #cbd5e1; border-top:4px solid #0284c7; border-radius:12px; padding:12px 14px;">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+          <b style="font-size:13px;">Stage 02 · Prep (PRP)</b>
+          <span class="v PASS" style="font-size:9px; padding:2px 6px;">CONNECTED</span>
+        </div>
+        <div class="hint" style="font-size:11.5px; margin-bottom:6px;">maithripagidi3284-coder/cube26-prp-0153</div>
+        <div style="font-size:11px; color:#475569;">Downstream work-orders: polybagging, suffocation warnings, bubble wrap, reboxing.</div>
+      </div>
+      <div style="background:#f8fafc; border:1px solid #cbd5e1; border-top:4px solid #7c3aed; border-radius:12px; padding:12px 14px;">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+          <b style="font-size:13px;">Stage 04 · Returns (RTM)</b>
+          <span class="v PASS" style="font-size:9px; padding:2px 6px;">CONNECTED</span>
+        </div>
+        <div class="hint" style="font-size:11.5px; margin-bottom:6px;">jeevanreddy29/cube-04-returns-manager</div>
+        <div style="font-size:11px; color:#475569;">Cross-checks customer returns vs dock records to detect switch fraud &amp; defect origin.</div>
+      </div>
+      <div style="background:#f8fafc; border:1px solid #cbd5e1; border-top:4px solid #059669; border-radius:12px; padding:12px 14px;">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+          <b style="font-size:13px;">Stage 05 · Recovery (RCY)</b>
+          <span class="v PASS" style="font-size:9px; padding:2px 6px;">CONNECTED</span>
+        </div>
+        <div class="hint" style="font-size:11.5px; margin-bottom:6px;">pia-21/cube26-rcy-0077</div>
+        <div style="font-size:11px; color:#475569;">Fee contradiction matching: FBA reimbursement disputes &amp; vendor chargeback memos.</div>
+      </div>
+    </div>
+
+    <!-- Pod Selector Sub-Tabs -->
+    <div style="display:flex; gap:8px; border-bottom:1px solid var(--line); padding-bottom:10px; margin-bottom:16px;">
+      <button class="pill active" id="tab-btn-prp">Stage 02 · Prep Manager (PRP) Work Orders</button>
+      <button class="pill" id="tab-btn-rtm">Stage 04 · Returns Manager (RTM) Provenance &amp; Fraud</button>
+      <button class="pill" id="tab-btn-rcy">Stage 05 · Recovery Manager (RCY) Fee Dispute Studio</button>
+    </div>
+
+    <!-- Pod Sub-Panels -->
+    <div id="panel-prp">
+      <div style="display:grid; grid-template-columns:minmax(300px, 380px) 1fr; gap:20px;">
+        <div>
+          <label class="f" for="prp-unit-select">Select Inbound Unit to Dispatch</label>
+          <select id="prp-unit-select" class="search-bar" style="margin-bottom:12px;">
+            <option value="UNIT-0005">UNIT-0005 (Dog Leash · Carton Tears · Apparel/Textile)</option>
+            <option value="UNIT-0003">UNIT-0003 (Puzzle · Crushed Carton · Fragile)</option>
+            <option value="UNIT-0004">UNIT-0004 (Protein Powder · Missing Scoop · Hardline)</option>
+            <option value="UNIT-0007">UNIT-0007 (USB-C Cable · Wrong Colour · Reprep)</option>
+            <option value="UNIT-0008">UNIT-0008 (Water Bottle · Clean Receipt · FNSKU Label)</option>
+          </select>
+          <button class="primary" id="btn-dispatch-prep" style="width:100%;">Generate &amp; Dispatch Prep Work Order</button>
+        </div>
+        <div id="prp-out" style="background:#f8fafc; border:1px solid var(--line); border-radius:12px; padding:16px; min-height:160px;">
+          <p class="hint">Click dispatch to generate a compliant Prep Manager work order packet.</p>
+        </div>
+      </div>
+    </div>
+
+    <div id="panel-rtm" style="display:none;">
+      <div style="display:grid; grid-template-columns:minmax(300px, 380px) 1fr; gap:20px;">
+        <div>
+          <label class="f" for="rtm-unit-input">Unit ID for Return Correlation</label>
+          <input type="text" id="rtm-unit-input" class="search-bar" value="UNIT-0010" placeholder="e.g. UNIT-0010">
+          <label class="f" for="rtm-sku-input">Customer Returned SKU</label>
+          <input type="text" id="rtm-sku-input" class="search-bar" value="SKU-CANDLE-3" placeholder="e.g. SKU-CANDLE-3 (simulate mismatch)">
+          <label class="f" for="rtm-state-select">Observed Return Condition</label>
+          <select id="rtm-state-select" class="search-bar" style="margin-bottom:12px;">
+            <option value="opened_unused">opened_unused</option>
+            <option value="damaged">damaged</option>
+            <option value="signs_of_use">signs_of_use</option>
+            <option value="empty_box">empty_box</option>
+          </select>
+          <button class="primary" id="btn-correlate-rtm" style="width:100%;">Cross-Reference Inbound Provenance</button>
+        </div>
+        <div id="rtm-out" style="background:#f8fafc; border:1px solid var(--line); border-radius:12px; padding:16px; min-height:160px;">
+          <p class="hint">Submit return parameters to verify provenance against dock evidence.</p>
+        </div>
+      </div>
+    </div>
+
+    <div id="panel-rcy" style="display:none;">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px; flex-wrap:wrap; gap:10px;">
+        <div>
+          <b>Fee Reconciliation Engine</b>
+          <span class="hint"> — Matches Amazon fee report charges against RCV dock proofs.</span>
+        </div>
+        <div style="display:flex; gap:8px;">
+          <button class="primary" id="btn-reconcile-rcy">Run 3-Way Reconciliation</button>
+        </div>
+      </div>
+      <div id="rcy-summary-cards" style="display:grid; grid-template-columns:repeat(auto-fit, minmax(180px, 1fr)); gap:12px; margin-bottom:16px;"></div>
+      <div id="rcy-table-out" style="overflow-x:auto;"></div>
+    </div>
+
+  </div>
+</section>
+
 <section class="page" id="page-defs">
   <div class="card">
     <h2>Pipeline</h2>
@@ -455,6 +571,7 @@ document.querySelectorAll("nav button").forEach((b) => b.onclick = () => {
   document.querySelectorAll("nav button").forEach((x) => x.classList.toggle("active", x === b));
   document.querySelectorAll(".page").forEach((p) => p.classList.toggle("active", p.id === "page-" + b.dataset.page));
   if (b.dataset.page === "eval") loadEvaluation();
+  if (b.dataset.page === "integrations") loadIntegrations();
   if (b.dataset.page === "history") loadHistory();
   if (b.dataset.page === "suppliers") loadSupplierStats();
 });
@@ -782,6 +899,154 @@ async function loadHistory() {
   historyItems = await (await fetch("/api/inspections")).json();
   renderHistory(historyItems.slice(0, 50));
 }
+
+function switchPodTab(tab) {
+  ['prp', 'rtm', 'rcy'].forEach(t => {
+    $('panel-' + t).style.display = (t === tab) ? 'block' : 'none';
+    $('tab-btn-' + t).classList.toggle('active', t === tab);
+  });
+}
+
+$('tab-btn-prp').onclick = () => switchPodTab('prp');
+$('tab-btn-rtm').onclick = () => switchPodTab('rtm');
+$('tab-btn-rcy').onclick = () => { switchPodTab('rcy'); if (!$('rcy-table-out').innerHTML) reconcileRecovery(); };
+
+async function loadIntegrations() {
+  try {
+    const res = await (await fetch("/api/integrations/status")).json();
+    showToast("Loaded Cross-Pod Status: " + res.cached_inbound_units + " units indexed");
+  } catch (e) {}
+}
+
+$('btn-refresh-integrations').onclick = () => loadIntegrations();
+
+$('btn-dispatch-prep').onclick = async () => {
+  const unitId = $('prp-unit-select').value;
+  $('prp-out').innerHTML = '<p class="hint">Dispatching to Prep Manager...</p>';
+  try {
+    const fd = new FormData();
+    fd.append('unit_id', unitId);
+    const res = await (await fetch('/api/integrations/prep/dispatch', { method: 'POST', body: fd })).json();
+    $('prp-out').innerHTML = `
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+        <b style="color:var(--brand); font-size:14px;">✓ Dispatched: ${res.work_order_id}</b>
+        <span class="v ${res.priority === 'EXPEDITE' ? 'FAIL' : 'PASS'}">${res.priority}</span>
+      </div>
+      <div style="font-size:12px; margin-bottom:8px;">
+        <b>Unit:</b> <code>${res.unit_id}</code> | <b>SKU:</b> <code>${res.sku}</code> | <b>Rulebook:</b> <code>${res.recommended_rulebook}</code>
+      </div>
+      <div style="margin:8px 0;">
+        <b>Required Prep Operations (${res.required_prep.length}):</b>
+        <div style="display:flex; gap:6px; flex-wrap:wrap; margin-top:4px;">
+          ${res.required_prep.map(p => `<span class="pill active" style="font-size:11px;">${p}</span>`).join('')}
+        </div>
+      </div>
+      <div style="background:#fff; border:1px solid var(--line); border-radius:8px; padding:10px; font-size:12px; margin-top:8px;">
+        <b>Operator Instructions:</b> ${esc(res.operator_notes)}
+      </div>
+    `;
+    showToast(`Work order ${res.work_order_id} generated for Prep Manager`);
+  } catch (err) {
+    $('prp-out').innerHTML = `<p style="color:var(--fail)">Failed: ${err.message}</p>`;
+  }
+};
+
+$('btn-correlate-rtm').onclick = async () => {
+  const unitId = $('rtm-unit-input').value.trim();
+  const sku = $('rtm-sku-input').value.trim();
+  const state = $('rtm-state-select').value;
+  $('rtm-out').innerHTML = '<p class="hint">Cross-referencing dock provenance...</p>';
+  try {
+    const query = {
+      unit_id: unitId,
+      returned_sku: sku,
+      return_observed_state: state,
+      return_parts_missing: []
+    };
+    const res = await (await fetch('/api/integrations/returns/correlate', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(query)
+    })).json();
+
+    const isFraud = res.correlation_status === 'SWITCH_FRAUD_DETECTED';
+    const isSupplier = res.correlation_status === 'SUPPLIER_PRE_EXISTING_DEFECT';
+
+    $('rtm-out').innerHTML = `
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+        <span class="v ${isFraud ? 'FAIL' : (isSupplier ? 'UNCERTAIN' : 'PASS')}">${res.correlation_status}</span>
+        <b>Liability: <span style="color:${isFraud ? 'var(--fail)' : 'var(--ink)'}">${res.liability}</span></b>
+      </div>
+      <div style="margin-bottom:8px; font-size:12px;">
+        <b>Fraud Risk Score:</b> <span class="score" style="color:${res.fraud_risk_score > 0.6 ? 'var(--fail)' : 'var(--pass)'}">${(res.fraud_risk_score * 100).toFixed(0)}%</span>
+        · <b>Dock Origin:</b> <code>${res.inbound_record_id || 'NONE'}</code> (${res.inbound_sku || 'N/A'})
+      </div>
+      <div style="background:#fff; border:1px solid var(--line); border-radius:8px; padding:10px; font-size:12.5px;">
+        <b>Audit Findings:</b> ${esc(res.evidence_comparison_notes)}
+      </div>
+      ${res.inbound_damage_notes ? `<div class="hint" style="margin-top:6px; font-size:11px;">${esc(res.inbound_damage_notes)}</div>` : ''}
+    `;
+    showToast(`Provenance verified: ${res.correlation_status}`);
+  } catch (err) {
+    $('rtm-out').innerHTML = `<p style="color:var(--fail)">Failed: ${err.message}</p>`;
+  }
+};
+
+async function reconcileRecovery() {
+  $('rcy-summary-cards').innerHTML = '<p class="hint">Reconciling channel fee report...</p>';
+  try {
+    const res = await (await fetch('/api/integrations/recovery/reconcile')).json();
+    $('rcy-summary-cards').innerHTML = `
+      <div class="card" style="margin:0; border-left:4px solid var(--fail);">
+        <span class="hint">FBA Fee Disputes (Contradicted)</span>
+        <b style="font-size:22px; color:var(--fail); display:block; margin-top:4px;">$${res.total_fba_dispute_amount.toFixed(2)}</b>
+        <span class="hint">${res.contradicting_count} Amazon charges contradicted by dock proof</span>
+      </div>
+      <div class="card" style="margin:0; border-left:4px solid #b45309;">
+        <span class="hint">Vendor Chargebacks (Supported)</span>
+        <b style="font-size:22px; color:#b45309; display:block; margin-top:4px;">$${res.total_vendor_chargeback_amount.toFixed(2)}</b>
+        <span class="hint">${res.supporting_count} supplier defects verified on arrival</span>
+      </div>
+      <div class="card" style="margin:0; border-left:4px solid #64748b;">
+        <span class="hint">Total Fee Lines Reconciled</span>
+        <b style="font-size:22px; display:block; margin-top:4px;">${res.total_fee_lines_analyzed}</b>
+        <span class="hint">${res.silent_count} silent / weight tier charges</span>
+      </div>
+    `;
+
+    const actionable = res.items.filter(i => i.stance !== 'SILENT');
+    $('rcy-table-out').innerHTML = `
+      <h3 style="font-size:12px; text-transform:uppercase; letter-spacing:0.06em; color:var(--muted); margin:18px 0 8px;">Actionable Recovery Claims</h3>
+      <table>
+        <thead>
+          <tr>
+            <th>Line ID</th><th>Unit ID</th><th>SKU</th><th>Fee Type</th><th>Amount</th><th>Stance</th><th>Claim Target</th><th>Dispute $</th><th>Audit Justification</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${actionable.map(i => `
+            <tr>
+              <td><code>${i.line_id}</code></td>
+              <td><code>${i.unit_id}</code></td>
+              <td><code>${i.sku}</code></td>
+              <td><span class="hint">${i.charge_type}</span></td>
+              <td>$${i.amount_usd.toFixed(2)}</td>
+              <td><span class="dec ${i.stance === 'CONTRADICTS' ? 'EXCEPTION' : 'UNCERTAIN'}">${i.stance}</span></td>
+              <td><b style="font-size:11px;">${i.claim_target}</b></td>
+              <td><b style="color:var(--pass);">$${i.dispute_amount_usd.toFixed(2)}</b></td>
+              <td><small class="hint">${esc(i.audit_explanation)}</small></td>
+            </tr>
+          `).join('')}
+        </tbody>
+      </table>
+    `;
+    showToast(`Recovery reconciled: $${res.total_fba_dispute_amount.toFixed(2)} in FBA disputes identified`);
+  } catch (err) {
+    $('rcy-summary-cards').innerHTML = `<p style="color:var(--fail)">Failed: ${err.message}</p>`;
+  }
+}
+
+$('btn-reconcile-rcy').onclick = () => reconcileRecovery();
 
 init();
 </script>
