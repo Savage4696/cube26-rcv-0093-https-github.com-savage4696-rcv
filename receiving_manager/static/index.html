@@ -1,515 +1,1484 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>RCV · AI Receiving Manager</title>
+<title>RCV · AI Inbound Receiving Intelligence Hub (CUBE 2026)</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@600;700;800;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Outfit:wght@500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 :root {
-  --pass:#16a34a; --pass-bg:#dcfce7;
-  --fail:#dc2626; --fail-bg:#fee2e2;
-  --unc:#d97706;  --unc-bg:#fef3c7;
-  --na:#6b7280;   --na-bg:#f3f4f6;
-  --risk-low:#16a34a; --risk-med:#d97706; --risk-high:#ea580c; --risk-crit:#dc2626;
-  --ink:#0f172a;  --muted:#64748b;  --line:#e2e8f0; --bg:#f8fafc; --card:#ffffff;
-  --brand:#4f46e5; --brand2:#7c3aed; --brand-light:#eef2ff;
+  /* Dark Mode Default (Sleek Cosmic Warehouse Intelligence) */
+  --bg: #070a12;
+  --bg-subtle: #0d121f;
+  --bg-card: rgba(15, 23, 42, 0.72);
+  --bg-card-hover: rgba(26, 36, 62, 0.85);
+  --bg-glass: rgba(11, 15, 25, 0.88);
+  --ink: #f8fafc;
+  --ink-secondary: #cbd5e1;
+  --muted: #94a3b8;
+  --line: rgba(255, 255, 255, 0.08);
+  --line-strong: rgba(255, 255, 255, 0.16);
+  --line-focus: #6366f1;
+  --brand: #6366f1;
+  --brand2: #8b5cf6;
+  --brand-glow: rgba(99, 102, 241, 0.35);
+  --brand-light: rgba(99, 102, 241, 0.15);
+  
+  --pass: #10b981;
+  --pass-bg: rgba(16, 185, 129, 0.14);
+  --pass-border: rgba(16, 185, 129, 0.4);
+  --pass-glow: rgba(16, 185, 129, 0.3);
+  
+  --fail: #ef4444;
+  --fail-bg: rgba(239, 68, 68, 0.14);
+  --fail-border: rgba(239, 68, 68, 0.4);
+  --fail-glow: rgba(239, 68, 68, 0.3);
+  
+  --unc: #f59e0b;
+  --unc-bg: rgba(245, 158, 11, 0.14);
+  --unc-border: rgba(245, 158, 11, 0.4);
+  --unc-glow: rgba(245, 158, 11, 0.3);
+  
+  --na: #64748b;
+  --na-bg: rgba(100, 116, 139, 0.14);
+  --na-border: rgba(100, 116, 139, 0.3);
+  
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.45);
+  --shadow-lg: 0 16px 48px rgba(0, 0, 0, 0.6);
+  --radius-sm: 8px;
+  --radius-md: 14px;
+  --radius-lg: 20px;
 }
+
+[data-theme="light"] {
+  --bg: #f8fafc;
+  --bg-subtle: #f1f5f9;
+  --bg-card: rgba(255, 255, 255, 0.95);
+  --bg-card-hover: #ffffff;
+  --bg-glass: rgba(255, 255, 255, 0.92);
+  --ink: #0f172a;
+  --ink-secondary: #334155;
+  --muted: #64748b;
+  --line: #e2e8f0;
+  --line-strong: #cbd5e1;
+  --line-focus: #4f46e5;
+  --brand: #4f46e5;
+  --brand2: #7c3aed;
+  --brand-glow: rgba(79, 70, 229, 0.25);
+  --brand-light: #eef2ff;
+  
+  --pass: #16a34a;
+  --pass-bg: #dcfce7;
+  --pass-border: #86efac;
+  --pass-glow: rgba(22, 163, 74, 0.2);
+  
+  --fail: #dc2626;
+  --fail-bg: #fee2e2;
+  --fail-border: #fca5a5;
+  --fail-glow: rgba(220, 38, 38, 0.2);
+  
+  --unc: #d97706;
+  --unc-bg: #fef3c7;
+  --unc-border: #fde68a;
+  --unc-glow: rgba(217, 119, 6, 0.2);
+  
+  --na: #6b7280;
+  --na-bg: #f3f4f6;
+  --na-border: #d1d5db;
+  
+  --shadow-sm: 0 2px 8px rgba(15, 23, 42, 0.04);
+  --shadow-md: 0 8px 24px rgba(15, 23, 42, 0.08);
+  --shadow-lg: 0 16px 40px rgba(15, 23, 42, 0.12);
+}
+
 * { box-sizing: border-box; }
 body {
   margin: 0;
   font-family: 'Inter', system-ui, -apple-system, sans-serif;
   background: var(--bg);
   color: var(--ink);
-  font-size: 14px;
-  line-height: 1.5;
+  font-size: 13.5px;
+  line-height: 1.55;
+  transition: background-color 0.25s cubic-bezier(0.16, 1, 0.3, 1), color 0.25s;
+  overflow-x: hidden;
 }
-h1, h2, h3, .logo, .hero .big, .score {
+
+h1, h2, h3, h4, .logo, .hero .big, .kpi-num, .score {
   font-family: 'Outfit', 'Inter', sans-serif;
+  letter-spacing: -0.01em;
+}
+
+code, pre, .code, .hash-code {
+  font-family: 'JetBrains Mono', ui-monospace, Menlo, monospace;
 }
 
 /* Glassmorphic Sticky Header */
 header {
-  background: rgba(15, 23, 42, 0.94);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  color: #fff;
-  padding: 12px 24px;
+  background: var(--bg-glass);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--line);
+  padding: 10px 24px;
   display: flex;
   align-items: center;
-  gap: 18px;
+  gap: 16px;
   flex-wrap: wrap;
   position: sticky;
   top: 0;
   z-index: 100;
-  border-bottom: 1px solid rgba(255,255,255,0.1);
-  box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+  box-shadow: var(--shadow-sm);
 }
+
 .logo {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 12px;
   font-weight: 800;
-  font-size: 20px;
-  letter-spacing: 0.02em;
+  font-size: 19px;
+  letter-spacing: -0.02em;
+  text-decoration: none;
+  color: var(--ink);
+  cursor: pointer;
 }
 .logo .mark {
-  width: 36px; height: 36px;
+  width: 38px;
+  height: 38px;
   border-radius: 10px;
   background: linear-gradient(135deg, var(--brand), var(--brand2));
-  display: grid; place-items: center;
-  font-size: 16px; font-weight: 900;
-  box-shadow: 0 2px 10px rgba(124, 58, 237, 0.4);
+  display: grid;
+  place-items: center;
+  font-size: 15px;
+  font-weight: 900;
+  color: #fff;
+  box-shadow: 0 2px 14px var(--brand-glow);
+  position: relative;
+}
+.logo .mark::after {
+  content: "";
+  position: absolute;
+  top: -2px; right: -2px;
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: var(--pass);
+  box-shadow: 0 0 8px var(--pass);
+}
+.logo .title-wrap {
+  display: flex;
+  flex-direction: column;
 }
 .logo small {
-  display: block; font-weight: 500; font-size: 11px; opacity: 0.75; font-family: 'Inter', sans-serif;
+  font-weight: 500;
+  font-size: 11px;
+  color: var(--muted);
+  font-family: 'Inter', sans-serif;
+  letter-spacing: 0;
 }
-nav { display: flex; gap: 4px; margin-left: 12px; }
-nav button {
-  background: transparent; color: #c7d2fe; border: 0; padding: 8px 14px; border-radius: 8px;
-  font-weight: 600; cursor: pointer; font-size: 13px; transition: all 0.2s;
-}
-nav button.active, nav button:hover { background: rgba(255, 255, 255, 0.12); color: #fff; }
 
-.chips { margin-left: auto; display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+nav {
+  display: flex;
+  gap: 4px;
+  margin-left: 8px;
+  background: rgba(255, 255, 255, 0.04);
+  padding: 4px;
+  border-radius: 12px;
+  border: 1px solid var(--line);
+}
+nav button {
+  background: transparent;
+  color: var(--muted);
+  border: 0;
+  padding: 7px 14px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  font-size: 12.5px;
+  transition: all 0.18s ease;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+nav button:hover {
+  color: var(--ink);
+  background: rgba(255, 255, 255, 0.06);
+}
+nav button.active {
+  background: var(--brand);
+  color: #fff;
+  box-shadow: 0 2px 10px var(--brand-glow);
+}
+
+.header-right {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.chips {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+  flex-wrap: wrap;
+}
 .chip {
-  background: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255, 255, 255, 0.15);
-  border-radius: 999px; padding: 4px 12px; font-size: 11.5px; white-space: nowrap;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 4px 11px;
+  font-size: 11px;
+  color: var(--muted);
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  gap: 6px;
 }
-.chip b { font-weight: 700; color: #a5b4fc; }
+.chip b {
+  font-weight: 700;
+  color: var(--ink);
+}
 .meter {
-  width: 80px; height: 6px; background: rgba(255, 255, 255, 0.2); border-radius: 9px;
-  display: inline-block; vertical-align: middle; margin-left: 6px; overflow: hidden;
+  width: 64px;
+  height: 5px;
+  background: rgba(255, 255, 255, 0.12);
+  border-radius: 9px;
+  display: inline-block;
+  overflow: hidden;
 }
-.meter i { display: block; height: 100%; background: #4ade80; transition: width 0.3s; }
+.meter i {
+  display: block;
+  height: 100%;
+  background: var(--pass);
+  transition: width 0.3s;
+}
+
+/* Theme Toggle Button */
+.btn-icon {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--line);
+  color: var(--ink);
+  width: 34px;
+  height: 34px;
+  border-radius: 9px;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  font-size: 14px;
+  transition: all 0.15s;
+}
+.btn-icon:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: var(--line-strong);
+  transform: translateY(-1px);
+}
+
+/* Live Warehouse KPI Ribbon */
+.kpi-ribbon {
+  background: linear-gradient(180deg, rgba(99, 102, 241, 0.04) 0%, transparent 100%);
+  border-bottom: 1px solid var(--line);
+  padding: 14px 24px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 14px;
+  max-width: 1540px;
+  margin: 0 auto;
+}
+.kpi-card {
+  background: var(--bg-card);
+  backdrop-filter: blur(12px);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+  padding: 12px 16px;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.15s, border-color 0.15s;
+}
+.kpi-card:hover {
+  border-color: var(--line-strong);
+  transform: translateY(-1px);
+}
+.kpi-card::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--brand), transparent);
+}
+.kpi-label {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--muted);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.kpi-num {
+  font-size: 24px;
+  font-weight: 800;
+  color: var(--ink);
+  margin-top: 4px;
+  line-height: 1.1;
+}
+.kpi-sub {
+  font-size: 11px;
+  color: var(--muted);
+  margin-top: 4px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.kpi-sub b {
+  font-weight: 700;
+}
+
+/* Stage Stepper Ribbon (CUBE 2026 Ecosystem) */
+.stage-stepper {
+  max-width: 1540px;
+  margin: 16px auto 0;
+  padding: 0 24px;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  overflow-x: auto;
+}
+.stage-node {
+  background: var(--bg-card);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 6px 14px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 11.5px;
+  font-weight: 600;
+  color: var(--muted);
+  white-space: nowrap;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.stage-node .dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: var(--muted);
+}
+.stage-node.active {
+  background: var(--brand-light);
+  border-color: var(--brand);
+  color: var(--brand);
+  box-shadow: 0 0 12px var(--brand-glow);
+}
+.stage-node.active .dot {
+  background: var(--brand);
+  box-shadow: 0 0 8px var(--brand);
+}
+.stage-node.connected .dot {
+  background: var(--pass);
+}
+.stage-arrow {
+  color: var(--muted);
+  opacity: 0.5;
+  font-size: 12px;
+}
 
 /* Page Layout */
-.page { display: none; padding: 24px; max-width: 1540px; margin: 0 auto; }
-.page.active { display: block; animation: fadeIn 0.2s ease-out; }
-@keyframes fadeIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
+.page { display: none; padding: 20px 24px 60px; max-width: 1540px; margin: 0 auto; }
+.page.active { display: block; animation: pageFadeIn 0.22s cubic-bezier(0.16, 1, 0.3, 1); }
+@keyframes pageFadeIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
 
-.grid { display: grid; grid-template-columns: minmax(380px, 480px) 1fr; gap: 24px; }
-@media(max-width: 1080px) { .grid { grid-template-columns: 1fr; } }
+.grid {
+  display: grid;
+  grid-template-columns: minmax(400px, 490px) 1fr;
+  gap: 24px;
+}
+@media(max-width: 1140px) {
+  .grid { grid-template-columns: 1fr; }
+}
 
+/* Production Cards */
 .card {
-  background: var(--card); border: 1px solid var(--line); border-radius: 16px;
-  padding: 18px 20px; margin-bottom: 20px; box-shadow: 0 2px 8px rgba(15, 23, 42, 0.03);
-  transition: border-color 0.2s;
+  background: var(--bg-card);
+  backdrop-filter: blur(12px);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  padding: 20px;
+  margin-bottom: 20px;
+  box-shadow: var(--shadow-sm);
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+.card:hover {
+  border-color: var(--line-strong);
 }
 .card h2 {
-  font-size: 12px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted);
-  margin: 0 0 14px; display: flex; align-items: center; gap: 8px; font-weight: 700;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--muted);
+  margin: 0 0 14px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 700;
 }
 .card h2 .n {
-  background: var(--ink); color: #fff; width: 22px; height: 22px; border-radius: 50%;
-  display: grid; place-items: center; font-size: 11px; font-weight: 800; font-family: 'Outfit';
+  background: linear-gradient(135deg, var(--brand), var(--brand2));
+  color: #fff;
+  width: 22px; height: 22px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  font-size: 11px;
+  font-weight: 800;
 }
 
-/* Filters & Controls */
+/* Scenario Selector & Filters */
 .scen-filter { display: flex; gap: 6px; margin-bottom: 12px; flex-wrap: wrap; }
 .pill {
-  border: 1px solid var(--line); background: #fff; border-radius: 999px; padding: 4px 12px;
-  font-size: 12px; cursor: pointer; font-weight: 600; color: var(--muted); transition: all 0.15s;
+  border: 1px solid var(--line);
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 999px;
+  padding: 4px 12px;
+  font-size: 11.5px;
+  cursor: pointer;
+  font-weight: 600;
+  color: var(--muted);
+  transition: all 0.15s;
 }
-.pill.active { background: var(--ink); color: #fff; border-color: var(--ink); box-shadow: 0 2px 6px rgba(15, 23, 42, 0.15); }
+.pill:hover {
+  border-color: var(--line-strong);
+  color: var(--ink);
+}
+.pill.active {
+  background: var(--ink);
+  color: var(--bg);
+  border-color: var(--ink);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
 
 .search-bar {
-  width: 100%; padding: 8px 12px; border: 1px solid var(--line); border-radius: 10px;
-  font-size: 12.5px; margin-bottom: 10px; background: #fff; transition: border-color 0.2s;
+  width: 100%;
+  padding: 9px 14px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  font-size: 13px;
+  margin-bottom: 12px;
+  background: var(--bg-subtle);
+  color: var(--ink);
+  transition: all 0.2s;
 }
-.search-bar:focus { outline: none; border-color: var(--brand); box-shadow: 0 0 0 3px #e0e7ff; }
+.search-bar:focus {
+  outline: none;
+  border-color: var(--line-focus);
+  box-shadow: 0 0 0 3px var(--brand-light);
+}
 
-.scen-list { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; max-height: 320px; overflow-y: auto; padding-right: 4px; }
+.scen-list {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  max-height: 340px;
+  overflow-y: auto;
+  padding-right: 4px;
+}
+@media(max-width: 600px) {
+  .scen-list { grid-template-columns: 1fr; }
+}
+
 .scen {
-  border: 1px solid var(--line); border-radius: 12px; padding: 10px 12px; cursor: pointer;
-  background: #fff; transition: all 0.15s ease; position: relative;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+  padding: 10px 12px;
+  cursor: pointer;
+  background: var(--bg-subtle);
+  transition: all 0.18s ease;
+  position: relative;
+  display: flex;
+  flex-direction: column;
 }
-.scen:hover { border-color: var(--brand); box-shadow: 0 4px 12px rgba(79, 70, 229, 0.08); transform: translateY(-1px); }
-.scen.sel { border-color: var(--brand); background: var(--brand-light); box-shadow: 0 0 0 2px var(--brand); }
-.scen .t { font-weight: 700; font-size: 12.5px; line-height: 1.3; color: var(--ink); }
-.scen .d { font-size: 11px; color: var(--muted); margin-top: 4px; line-height: 1.3; }
+.scen:hover {
+  border-color: var(--brand);
+  background: var(--bg-card-hover);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.2);
+}
+.scen.sel {
+  border-color: var(--brand);
+  background: var(--brand-light);
+  box-shadow: 0 0 0 2px var(--brand);
+}
+.scen .t {
+  font-weight: 700;
+  font-size: 12.5px;
+  line-height: 1.3;
+  color: var(--ink);
+}
+.scen .d {
+  font-size: 11px;
+  color: var(--muted);
+  margin-top: 4px;
+  line-height: 1.3;
+  flex: 1;
+}
 
-/* Status Badges */
-.dec { display: inline-block; font-size: 10px; font-weight: 800; letter-spacing: 0.04em; padding: 2px 8px; border-radius: 999px; margin-top: 6px; }
-.dec.ACCEPT, .v.PASS { background: var(--pass-bg); color: var(--pass); }
-.dec.EXCEPTION, .v.FAIL { background: var(--fail-bg); color: var(--fail); }
-.dec.UNCERTAIN, .v.UNCERTAIN { background: var(--unc-bg); color: var(--unc); }
-.v.NOT_APPLICABLE { background: var(--na-bg); color: var(--na); }
-.v { display: inline-block; font-size: 11px; font-weight: 800; padding: 3px 10px; border-radius: 999px; letter-spacing: 0.03em; cursor: help; }
+/* Badges */
+.dec {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 10.5px;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  padding: 2px 8px;
+  border-radius: 999px;
+  margin-top: 6px;
+  width: fit-content;
+  border: 1px solid transparent;
+}
+.dec.ACCEPT, .v.PASS { background: var(--pass-bg); color: var(--pass); border-color: var(--pass-border); }
+.dec.EXCEPTION, .v.FAIL { background: var(--fail-bg); color: var(--fail); border-color: var(--fail-border); }
+.dec.UNCERTAIN, .v.UNCERTAIN { background: var(--unc-bg); color: var(--unc); border-color: var(--unc-border); }
+.v.NOT_APPLICABLE { background: var(--na-bg); color: var(--na); border-color: var(--na-border); }
+.v {
+  display: inline-flex;
+  align-items: center;
+  font-size: 11px;
+  font-weight: 800;
+  padding: 3px 10px;
+  border-radius: 999px;
+  letter-spacing: 0.03em;
+  border: 1px solid transparent;
+}
 
-.risk-tag { display: inline-block; font-size: 10px; font-weight: 800; padding: 2px 7px; border-radius: 6px; margin-left: 6px; text-transform: uppercase; }
-.risk-LOW { background: #dcfce7; color: var(--risk-low); }
-.risk-MEDIUM { background: #fef3c7; color: var(--risk-med); }
-.risk-HIGH { background: #ffedd5; color: var(--risk-high); }
-.risk-CRITICAL { background: #fee2e2; color: var(--risk-crit); }
+.risk-tag {
+  display: inline-block;
+  font-size: 10px;
+  font-weight: 800;
+  padding: 2px 8px;
+  border-radius: 6px;
+  text-transform: uppercase;
+}
+.risk-LOW { background: var(--pass-bg); color: var(--pass); border: 1px solid var(--pass-border); }
+.risk-MEDIUM { background: var(--unc-bg); color: var(--unc); border: 1px solid var(--unc-border); }
+.risk-HIGH { background: rgba(234, 88, 12, 0.16); color: #ea580c; border: 1px solid rgba(234, 88, 12, 0.4); }
+.risk-CRITICAL { background: var(--fail-bg); color: var(--fail); border: 1px solid var(--fail-border); }
 
-.po-sum { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-bottom: 10px; }
-.kv { background: #f8fafc; border: 1px solid var(--line); border-radius: 10px; padding: 8px 10px; }
-.kv span { display: block; font-size: 10px; text-transform: uppercase; color: var(--muted); letter-spacing: 0.05em; font-weight: 700; }
-.kv b { font-size: 13px; word-break: break-all; color: var(--ink); }
+/* PO Grid */
+.po-sum {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+  margin-bottom: 12px;
+}
+@media(max-width: 600px) {
+  .po-sum { grid-template-columns: 1fr 1fr; }
+}
+.kv {
+  background: var(--bg-subtle);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  padding: 8px 10px;
+}
+.kv span {
+  display: block;
+  font-size: 10px;
+  text-transform: uppercase;
+  color: var(--muted);
+  letter-spacing: 0.05em;
+  font-weight: 700;
+}
+.kv b {
+  font-size: 13px;
+  word-break: break-all;
+  color: var(--ink);
+}
 
-details > summary { cursor: pointer; color: var(--brand); font-size: 12.5px; font-weight: 600; margin: 6px 0; }
-label.f { display: block; font-size: 11px; font-weight: 700; color: var(--muted); margin: 10px 0 4px; text-transform: uppercase; letter-spacing: 0.04em; }
-textarea { width: 100%; font-family: ui-monospace, Menlo, monospace; font-size: 11.5px; border: 1px solid var(--line); border-radius: 10px; padding: 10px; min-height: 120px; background: #f8fafc; }
-input[type=text] { width: 100%; padding: 8px 10px; border: 1px solid var(--line); border-radius: 10px; font-size: 13px; }
+details > summary {
+  cursor: pointer;
+  color: var(--brand);
+  font-size: 12.5px;
+  font-weight: 600;
+  margin: 6px 0;
+  user-select: none;
+}
+label.f {
+  display: block;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--muted);
+  margin: 10px 0 4px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+textarea {
+  width: 100%;
+  font-family: 'JetBrains Mono', ui-monospace, Menlo, monospace;
+  font-size: 11px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  padding: 10px;
+  min-height: 110px;
+  background: var(--bg-subtle);
+  color: var(--ink);
+}
+textarea:focus {
+  outline: none;
+  border-color: var(--line-focus);
+}
 
-/* Dropzone & Thumbnails */
+/* Dropzone & Photos */
 .drop {
-  border: 2px dashed #c7d2fe; border-radius: 14px; padding: 20px; text-align: center; color: var(--muted);
-  cursor: pointer; background: #f8faff; transition: all 0.2s;
+  border: 2px dashed rgba(99, 102, 241, 0.4);
+  border-radius: var(--radius-md);
+  padding: 22px;
+  text-align: center;
+  color: var(--muted);
+  cursor: pointer;
+  background: rgba(99, 102, 241, 0.03);
+  transition: all 0.2s;
 }
-.drop:hover, .drop.over { border-color: var(--brand); background: #eef2ff; }
-.thumbs { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 12px; }
-.thumbs figure { margin: 0; text-align: center; font-size: 11px; font-weight: 700; color: var(--muted); cursor: pointer; }
-.thumbs img { width: 96px; height: 68px; object-fit: cover; border-radius: 10px; border: 1px solid var(--line); display: block; transition: transform 0.15s; }
-.thumbs figure:hover img { transform: scale(1.04); border-color: var(--brand); box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+.drop:hover, .drop.over {
+  border-color: var(--brand);
+  background: var(--brand-light);
+  color: var(--ink);
+}
+.thumbs {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 14px;
+}
+.thumbs figure {
+  margin: 0;
+  text-align: center;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--muted);
+  cursor: pointer;
+}
+.thumbs img {
+  width: 96px;
+  height: 68px;
+  object-fit: cover;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--line);
+  display: block;
+  transition: transform 0.15s, border-color 0.15s;
+}
+.thumbs figure:hover img {
+  transform: scale(1.04);
+  border-color: var(--brand);
+  box-shadow: 0 4px 14px var(--brand-glow);
+}
 
-.seg { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; background: #f1f5f9; padding: 4px; border-radius: 12px; }
-.seg label { padding: 10px 8px; border-radius: 10px; text-align: center; cursor: pointer; font-weight: 600; font-size: 12.5px; color: var(--muted); }
+/* Mode Segment Control */
+.seg {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px;
+  background: var(--bg-subtle);
+  padding: 4px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--line);
+}
+.seg label {
+  padding: 10px 8px;
+  border-radius: var(--radius-sm);
+  text-align: center;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 12px;
+  color: var(--muted);
+  transition: all 0.15s;
+}
 .seg input { display: none; }
-.seg label:has(input:checked) { background: #fff; color: var(--ink); box-shadow: 0 2px 4px rgba(0,0,0,0.06); }
-.seg small { display: block; font-weight: 500; font-size: 10.5px; margin-top: 2px; }
+.seg label:has(input:checked) {
+  background: var(--bg-card);
+  color: var(--ink);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  border: 1px solid var(--line);
+}
+.seg small { display: block; font-weight: 500; font-size: 10.5px; margin-top: 2px; opacity: 0.8; }
 
-.toggle { display: flex; align-items: center; gap: 12px; margin-top: 12px; padding: 12px; border: 1px solid var(--line); border-radius: 12px; }
-.toggle input { width: 18px; height: 18px; accent-color: var(--brand2); }
+.toggle {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 12px;
+  padding: 12px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  background: var(--bg-subtle);
+  cursor: pointer;
+}
+.toggle input {
+  width: 18px; height: 18px;
+  accent-color: var(--brand);
+}
 .hint { font-size: 12px; color: var(--muted); }
 
 /* Range Slider */
-.range-wrap { margin-top: 12px; padding: 10px 12px; background: #f8fafc; border: 1px solid var(--line); border-radius: 12px; }
-.range-header { display: flex; justify-content: space-between; font-size: 12px; font-weight: 700; color: var(--muted); margin-bottom: 6px; }
-.range-wrap input[type=range] { width: 100%; accent-color: var(--brand); cursor: pointer; }
-
-button.primary {
-  background: linear-gradient(135deg, var(--brand), var(--brand2)); color: #fff; border: 0;
-  border-radius: 12px; padding: 14px 20px; font-weight: 700; cursor: pointer; font-size: 14.5px;
-  width: 100%; margin-top: 14px; box-shadow: 0 4px 14px rgba(79, 70, 229, 0.3); transition: all 0.2s;
+.range-wrap {
+  margin-top: 12px;
+  padding: 10px 14px;
+  background: var(--bg-subtle);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
 }
-button.primary:hover:not(:disabled) { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(79, 70, 229, 0.4); }
-button.primary:disabled { opacity: 0.6; cursor: wait; }
+.range-header {
+  display: flex;
+  justify-content: space-between;
+  font-size: 11.5px;
+  font-weight: 700;
+  color: var(--muted);
+  margin-bottom: 6px;
+}
+.range-wrap input[type=range] {
+  width: 100%;
+  accent-color: var(--brand);
+  cursor: pointer;
+}
+
+/* Buttons */
+button.primary {
+  background: linear-gradient(135deg, var(--brand), var(--brand2));
+  color: #fff;
+  border: 0;
+  border-radius: var(--radius-md);
+  padding: 14px 20px;
+  font-weight: 700;
+  cursor: pointer;
+  font-size: 14px;
+  width: 100%;
+  margin-top: 14px;
+  box-shadow: 0 4px 16px var(--brand-glow);
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+button.primary:hover:not(:disabled) {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 24px var(--brand-glow);
+}
+button.primary:disabled {
+  opacity: 0.55;
+  cursor: wait;
+}
 
 button.sec {
-  background: #fff; color: var(--ink); border: 1px solid var(--line); border-radius: 8px;
-  padding: 7px 14px; font-weight: 600; cursor: pointer; font-size: 12px; transition: all 0.15s;
+  background: var(--bg-subtle);
+  color: var(--ink);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  padding: 7px 14px;
+  font-weight: 600;
+  cursor: pointer;
+  font-size: 12px;
+  transition: all 0.15s;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
 }
-button.sec:hover { border-color: var(--brand); background: var(--brand-light); color: var(--brand); }
+button.sec:hover {
+  border-color: var(--brand);
+  background: var(--brand-light);
+  color: var(--brand);
+}
 
-.status { margin-top: 10px; font-size: 12px; color: var(--muted); min-height: 18px; }
+.status {
+  margin-top: 10px;
+  font-size: 12px;
+  color: var(--muted);
+  min-height: 18px;
+}
 .status.err { color: var(--fail); font-weight: 600; }
 
-/* Hero Card */
+/* Decision Hero Banner */
 .hero {
-  border-radius: 18px; padding: 22px 26px; color: #fff; display: grid;
-  grid-template-columns: auto 1fr; gap: 8px 24px; align-items: center; margin-bottom: 20px;
-  box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+  border-radius: var(--radius-lg);
+  padding: 24px 28px;
+  color: #fff;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 8px 24px;
+  align-items: center;
+  margin-bottom: 20px;
+  box-shadow: var(--shadow-md);
+  position: relative;
+  overflow: hidden;
 }
-.hero.ACCEPT { background: linear-gradient(135deg, #15803d, #22c55e); }
-.hero.EXCEPTION { background: linear-gradient(135deg, #b91c1c, #ef4444); }
-.hero.UNCERTAIN { background: linear-gradient(135deg, #b45309, #f59e0b); }
-.hero .big { font-size: 38px; font-weight: 900; letter-spacing: 0.04em; grid-row: span 2; }
-.hero .mean { font-weight: 700; font-size: 15px; }
-.hero .why { font-size: 13.5px; opacity: 0.95; }
-.hero .meta { grid-column: 1/-1; font-size: 11.5px; opacity: 0.88; margin-top: 8px; border-top: 1px solid rgba(255,255,255,0.2); padding-top: 8px; }
+.hero.ACCEPT {
+  background: linear-gradient(135deg, #065f46, #047857);
+  box-shadow: 0 8px 30px var(--pass-glow);
+  border: 1px solid var(--pass-border);
+}
+.hero.EXCEPTION {
+  background: linear-gradient(135deg, #991b1b, #dc2626);
+  box-shadow: 0 8px 30px var(--fail-glow);
+  border: 1px solid var(--fail-border);
+}
+.hero.UNCERTAIN {
+  background: linear-gradient(135deg, #92400e, #d97706);
+  box-shadow: 0 8px 30px var(--unc-glow);
+  border: 1px solid var(--unc-border);
+}
+.hero .big {
+  font-size: 42px;
+  font-weight: 900;
+  letter-spacing: 0.02em;
+  grid-row: span 2;
+  line-height: 1;
+}
+.hero .mean {
+  font-weight: 700;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.hero .why {
+  font-size: 13.5px;
+  opacity: 0.95;
+  line-height: 1.4;
+}
+.hero .meta {
+  grid-column: 1/-1;
+  font-size: 11.5px;
+  opacity: 0.85;
+  margin-top: 8px;
+  border-top: 1px solid rgba(255, 255, 255, 0.18);
+  padding-top: 8px;
+}
 
-.tally { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 20px; }
-.tally div { background: #fff; border: 1px solid var(--line); border-radius: 14px; padding: 12px 14px; border-left: 5px solid; }
-.tally b { font-size: 24px; display: block; font-family: 'Outfit'; }
-.tally span { font-size: 11px; color: var(--muted); font-weight: 700; letter-spacing: 0.05em; }
+/* Tally Cards */
+.tally {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  margin-bottom: 20px;
+}
+@media(max-width: 600px) {
+  .tally { grid-template-columns: 1fr 1fr; }
+}
+.tally div {
+  background: var(--bg-card);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+  padding: 12px 14px;
+  border-left: 4px solid;
+}
+.tally b {
+  font-size: 24px;
+  display: block;
+  font-family: 'Outfit';
+}
+.tally span {
+  font-size: 11px;
+  color: var(--muted);
+  font-weight: 700;
+  letter-spacing: 0.05em;
+}
 
-.checks { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 14px; margin-bottom: 20px; }
-.chk { background: #fff; border: 1px solid var(--line); border-left: 5px solid; border-radius: 14px; padding: 14px 16px; box-shadow: 0 2px 6px rgba(0,0,0,0.02); }
+/* 6-Point Check Matrix */
+.checks {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 14px;
+  margin-bottom: 20px;
+}
+.chk {
+  background: var(--bg-card);
+  border: 1px solid var(--line);
+  border-left: 4px solid;
+  border-radius: var(--radius-md);
+  padding: 16px;
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  flex-direction: column;
+}
 .chk.PASS { border-left-color: var(--pass); }
 .chk.FAIL { border-left-color: var(--fail); }
 .chk.UNCERTAIN { border-left-color: var(--unc); }
 .chk.NOT_APPLICABLE { border-left-color: var(--na); opacity: 0.75; }
-.chk .hd { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
-.chk .nm { font-weight: 700; font-size: 14px; text-transform: capitalize; }
-.eo { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin: 12px 0; }
-.eo div { background: #f8fafc; border-radius: 8px; padding: 7px 10px; font-size: 12px; }
-.eo span { display: block; font-size: 10px; color: var(--muted); text-transform: uppercase; font-weight: 700; letter-spacing: 0.05em; }
-.conf { display: flex; align-items: center; gap: 8px; font-size: 11px; color: var(--muted); }
-.bar { position: relative; flex: 1; height: 8px; background: #e2e8f0; border-radius: 9px; }
-.bar i { position: absolute; left: 0; top: 0; bottom: 0; border-radius: 9px; }
-.bar em { position: absolute; top: -3px; bottom: -3px; width: 2px; background: var(--ink); }
-.rsn { font-size: 13px; margin-top: 10px; line-height: 1.4; }
-.ai-x { font-size: 12px; margin-top: 10px; padding: 10px; border-radius: 10px; background: #f5f3ff; color: #4c1d95; border: 1px solid #ddd6fe; }
-.ai-x::before { content: "AI"; font-weight: 800; font-size: 10px; background: var(--brand2); color: #fff; padding: 2px 6px; border-radius: 4px; margin-right: 6px; }
+.chk .hd {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+}
+.chk .nm {
+  font-weight: 700;
+  font-size: 14px;
+  text-transform: capitalize;
+  color: var(--ink);
+}
+.eo {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin: 12px 0;
+}
+.eo div {
+  background: var(--bg-subtle);
+  border-radius: var(--radius-sm);
+  padding: 8px 10px;
+  font-size: 12px;
+}
+.eo span {
+  display: block;
+  font-size: 10px;
+  color: var(--muted);
+  text-transform: uppercase;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+}
+.conf {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 11px;
+  color: var(--muted);
+}
+.bar {
+  position: relative;
+  flex: 1;
+  height: 6px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 9px;
+  overflow: hidden;
+}
+.bar i {
+  position: absolute;
+  left: 0; top: 0; bottom: 0;
+  border-radius: 9px;
+}
+.bar em {
+  position: absolute;
+  top: -3px; bottom: -3px;
+  width: 2px;
+  background: var(--ink);
+}
+.rsn {
+  font-size: 12.5px;
+  margin-top: 10px;
+  line-height: 1.4;
+  color: var(--ink-secondary);
+}
+.ai-x {
+  font-size: 12px;
+  margin-top: 10px;
+  padding: 10px;
+  border-radius: var(--radius-sm);
+  background: var(--brand-light);
+  color: #c7d2fe;
+  border: 1px solid rgba(99, 102, 241, 0.3);
+}
+.ai-x::before {
+  content: "REASONING";
+  font-weight: 800;
+  font-size: 9px;
+  background: var(--brand);
+  color: #fff;
+  padding: 2px 6px;
+  border-radius: 4px;
+  margin-right: 6px;
+}
 
-.evs { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 10px; }
-.ev { display: flex; gap: 8px; align-items: center; font-size: 11.5px; background: #f1f5f9; border-radius: 8px; padding: 4px 8px 4px 4px; max-width: 100%; cursor: pointer; }
-.ev img { width: 38px; height: 26px; object-fit: cover; border-radius: 6px; }
+.evs {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: auto;
+  padding-top: 10px;
+}
+.ev {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  font-size: 11.5px;
+  background: var(--bg-subtle);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  padding: 4px 8px 4px 4px;
+  max-width: 100%;
+  cursor: pointer;
+  transition: border-color 0.15s;
+}
+.ev:hover {
+  border-color: var(--brand);
+}
+.ev img {
+  width: 38px; height: 26px;
+  object-fit: cover;
+  border-radius: 4px;
+}
 .ev a { color: var(--brand); font-weight: 700; text-decoration: none; }
 
 /* AI Audit Card */
-.ai { border: 1px solid #ddd6fe; background: linear-gradient(180deg, #faf5ff, #fff); }
-.ai h2 { color: #6d28d9; }
-.ai .sum { font-size: 14px; line-height: 1.55; }
-.ai ul { margin: 8px 0 0; padding-left: 20px; } .ai li { margin: 4px 0; font-size: 13px; }
-.claim { white-space: pre-wrap; background: #fff; border: 1px solid var(--line); border-radius: 10px; padding: 12px; font-size: 12.5px; font-family: ui-monospace, Menlo, monospace; }
-.esc { background: var(--unc-bg); color: #92400e; border-radius: 10px; padding: 10px 14px; font-size: 13px; font-weight: 600; margin: 10px 0; border: 1px solid #fcd34d; }
+.ai {
+  border: 1px solid rgba(139, 92, 246, 0.3);
+  background: linear-gradient(180deg, rgba(139, 92, 246, 0.08), var(--bg-card));
+}
+.ai h2 { color: #a78bfa; }
+.ai .sum { font-size: 13.5px; line-height: 1.6; }
+.ai ul { margin: 8px 0 0; padding-left: 20px; }
+.ai li { margin: 4px 0; font-size: 12.5px; }
+.claim {
+  white-space: pre-wrap;
+  background: var(--bg-subtle);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  padding: 14px;
+  font-size: 12px;
+  font-family: 'JetBrains Mono', monospace;
+  color: var(--ink-secondary);
+}
+.esc {
+  background: var(--unc-bg);
+  color: var(--unc);
+  border-radius: var(--radius-sm);
+  padding: 10px 14px;
+  font-size: 12.5px;
+  font-weight: 600;
+  margin: 10px 0;
+  border: 1px solid var(--unc-border);
+}
 
-.issue { display: flex; gap: 10px; align-items: baseline; padding: 8px 0; border-bottom: 1px dashed var(--line); font-size: 13px; }
-.code { font-family: ui-monospace, monospace; font-size: 11px; background: #f1f5f9; padding: 2px 7px; border-radius: 6px; font-weight: 700; color: #334155; }
-.warn { color: #92400e; font-size: 12.5px; padding: 4px 0; font-weight: 500; }
-pre { background: #0b1020; color: #cbd5e1; padding: 14px; border-radius: 12px; overflow: auto; max-height: 400px; font-size: 11.5px; }
+.issue {
+  display: flex;
+  gap: 10px;
+  align-items: baseline;
+  padding: 8px 0;
+  border-bottom: 1px dashed var(--line);
+  font-size: 12.5px;
+}
+.code {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  background: var(--bg-subtle);
+  padding: 2px 7px;
+  border-radius: 6px;
+  font-weight: 700;
+  border: 1px solid var(--line);
+}
+.warn { color: var(--unc); font-size: 12.5px; padding: 4px 0; font-weight: 500; }
+pre {
+  background: #060911;
+  color: #94a3b8;
+  padding: 14px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--line);
+  overflow: auto;
+  max-height: 380px;
+  font-size: 11px;
+}
 .empty { text-align: center; padding: 80px 20px; color: var(--muted); }
 .empty .big { font-size: 48px; margin-bottom: 12px; }
 
-/* Supplier Table & History */
-table { width: 100%; border-collapse: collapse; font-size: 13px; }
-th, td { text-align: left; padding: 10px 12px; border-bottom: 1px solid var(--line); vertical-align: middle; }
-th { font-size: 11px; text-transform: uppercase; color: var(--muted); letter-spacing: 0.06em; font-weight: 700; background: #f8fafc; }
-.mini { display: inline-block; width: 14px; height: 14px; border-radius: 4px; margin-right: 3px; }
-.mini.PASS { background: var(--pass); } .mini.FAIL { background: var(--fail); } .mini.UNCERTAIN { background: var(--unc); } .mini.NOT_APPLICABLE { background: #cbd5e1; }
-.score { font-size: 44px; font-weight: 900; }
-.hist { padding: 0; margin: 0; }
-.hist li { list-style: none; padding: 12px 14px; border-bottom: 1px solid var(--line); cursor: pointer; display: flex; gap: 12px; align-items: center; border-radius: 10px; transition: background 0.15s; }
-.hist li:hover { background: #f1f5f9; }
+/* Tables */
+table { width: 100%; border-collapse: collapse; font-size: 12.5px; }
+th, td { text-align: left; padding: 10px 12px; border-bottom: 1px solid var(--line); }
+th { font-size: 11px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); font-weight: 700; }
+tr:hover td { background: var(--bg-subtle); }
+.mini { display: inline-block; width: 12px; height: 12px; border-radius: 3px; margin-right: 4px; vertical-align: middle; }
+.mini.PASS { background: var(--pass); }
+.mini.FAIL { background: var(--fail); }
+.mini.UNCERTAIN { background: var(--unc); }
+.mini.NOT_APPLICABLE { background: var(--na); }
+
+/* History List */
+.hist { list-style: none; padding: 0; margin: 0; }
+.hist li {
+  padding: 12px 14px;
+  border-bottom: 1px solid var(--line);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+  border-radius: var(--radius-sm);
+  transition: all 0.15s;
+}
+.hist li:hover { background: var(--bg-subtle); transform: translateX(2px); }
 
 /* Lightbox Modal */
 .lightbox {
-  display: none; position: fixed; inset: 0; z-index: 1000; background: rgba(15, 23, 42, 0.85);
-  backdrop-filter: blur(8px); place-items: center; padding: 24px;
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.85);
+  backdrop-filter: blur(8px);
+  z-index: 1000;
+  place-items: center;
+  padding: 20px;
 }
-.lightbox.active { display: grid; }
+.lightbox.active { display: grid; animation: pageFadeIn 0.18s ease-out; }
 .lightbox-content {
-  background: #fff; border-radius: 18px; max-width: 900px; width: 100%; padding: 20px;
-  box-shadow: 0 20px 40px rgba(0,0,0,0.3); max-height: 90vh; overflow-y: auto; position: relative;
+  background: var(--bg-card);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  padding: 24px;
+  max-width: 900px;
+  width: 100%;
+  position: relative;
+  box-shadow: var(--shadow-lg);
 }
-.lightbox-content img { width: 100%; max-height: 60vh; object-fit: contain; border-radius: 12px; background: #0f172a; }
-.lightbox-close { position: absolute; top: 16px; right: 20px; font-size: 24px; font-weight: 700; cursor: pointer; color: var(--muted); }
+.lightbox-close {
+  position: absolute;
+  top: 16px; right: 20px;
+  font-size: 24px;
+  cursor: pointer;
+  color: var(--muted);
+  transition: color 0.15s;
+}
+.lightbox-close:hover { color: var(--ink); }
+.lightbox img {
+  width: 100%;
+  max-height: 70vh;
+  object-fit: contain;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--line);
+}
 
-/* Toast Notifications */
-.toast-container { position: fixed; bottom: 24px; right: 24px; z-index: 2000; display: flex; flex-direction: column; gap: 8px; }
-.toast {
-  background: var(--ink); color: #fff; padding: 12px 20px; border-radius: 12px; font-size: 13px; font-weight: 600;
-  box-shadow: 0 10px 25px rgba(0,0,0,0.2); display: flex; align-items: center; gap: 10px; animation: toastIn 0.2s ease-out;
+/* Toast */
+.toast-container {
+  position: fixed;
+  bottom: 24px; right: 24px;
+  z-index: 2000;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 }
-@keyframes toastIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+.toast {
+  background: var(--ink);
+  color: var(--bg);
+  padding: 10px 18px;
+  border-radius: 999px;
+  font-size: 12.5px;
+  font-weight: 600;
+  box-shadow: var(--shadow-md);
+  animation: toastIn 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+@keyframes toastIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Print Styles */
+@media print {
+  header, .kpi-ribbon, .stage-stepper, .grid > div:first-child, button, nav, .chips { display: none !important; }
+  body, .page { background: #fff !important; color: #000 !important; }
+  .grid { grid-template-columns: 1fr !important; }
+  .card { box-shadow: none !important; border: 1px solid #ddd !important; }
+}
 </style>
 </head>
 <body>
 
+<!-- Header -->
 <header>
-  <div class="logo">
+  <div class="logo" id="logo-home">
     <div class="mark">RCV</div>
-    <div>AI Receiving Manager<small>Evidence-backed inbound inspection</small></div>
+    <div class="title-wrap">
+      <div>AI Receiving Manager</div>
+      <small>CUBE 2026 Inbound Intelligence Hub</small>
+    </div>
   </div>
+
   <nav>
-    <button data-page="inspect" class="active">Inspect</button>
-    <button data-page="eval">Held-out vision eval (50)</button>
-    <button data-page="bench">Rules regression (24)</button>
-    <button data-page="integrations">Cross-pod (PRP · PCK · RTM · RCY)</button>
-    <button data-page="suppliers">Supplier quality</button>
-    <button data-page="defs">How decisions work</button>
-    <button data-page="history">History</button>
+    <button data-page="inspect" class="active"><span>⚡</span> Inspect</button>
+    <button data-page="integrations"><span>🔗</span> Cross-pod (PRP · PCK · RTM · RCY)</button>
+    <button data-page="eval"><span>📊</span> Held-Out Eval (50)</button>
+    <button data-page="bench"><span>⚙️</span> Rules Bench (24)</button>
+    <button data-page="suppliers"><span>🏢</span> Suppliers</button>
+    <button data-page="defs"><span>📖</span> Definitions</button>
+    <button data-page="history"><span>🕒</span> History</button>
   </nav>
-  <div class="chips">
-    <span class="chip" id="chip-vision">Vision: -</span>
-    <span class="chip" id="chip-reason">Reasoning: -</span>
-    <span class="chip" id="chip-budget" title="OpenRouter credit. Calls are refused before reserve is reached.">Credit: -</span>
+
+  <div class="header-right">
+    <div class="chips">
+      <span class="chip" id="chip-vision">Vision: <b>-</b></span>
+      <span class="chip" id="chip-reason">Reasoning: <b>-</b></span>
+      <span class="chip" id="chip-budget">Credit: <b>-</b></span>
+    </div>
+    <button class="btn-icon" id="theme-toggle" title="Toggle Dark/Light Mode">🌙</button>
   </div>
 </header>
 
+<!-- Live Warehouse KPI Ribbon -->
+<div class="kpi-ribbon" id="kpi-ribbon">
+  <div class="kpi-card">
+    <div class="kpi-label">Dock Inspections <span style="color:var(--brand)">LIVE</span></div>
+    <div class="kpi-num" id="kpi-total-inspections">100+</div>
+    <div class="kpi-sub"><b>100%</b> SHA-256 sealed</div>
+  </div>
+  <div class="kpi-card">
+    <div class="kpi-label">Acceptance Rate</div>
+    <div class="kpi-num" id="kpi-accept-rate" style="color:var(--pass)">94.2%</div>
+    <div class="kpi-sub"><span style="color:var(--pass)">✓ Clean PO matching</span></div>
+  </div>
+  <div class="kpi-card">
+    <div class="kpi-label">Exceptions Caught</div>
+    <div class="kpi-num" id="kpi-exception-count" style="color:var(--fail)">14</div>
+    <div class="kpi-sub">Damage, SKU switch, shortage</div>
+  </div>
+  <div class="kpi-card">
+    <div class="kpi-label">Disputed FBA Fees</div>
+    <div class="kpi-num" id="kpi-dispute-amt" style="color:var(--unc)">$1,280.50</div>
+    <div class="kpi-sub"><b>Stage 05 Recovery</b> claims</div>
+  </div>
+  <div class="kpi-card">
+    <div class="kpi-label">CUBE Ecosystem</div>
+    <div class="kpi-num" id="kpi-pods-status" style="color:var(--brand)">5 / 5</div>
+    <div class="kpi-sub">RCV · PRP · PCK · RTM · RCY</div>
+  </div>
+</div>
+
+<!-- CUBE 2026 Stage Stepper -->
+<div class="stage-stepper">
+  <div class="stage-node active" data-target="inspect">
+    <span class="dot"></span> <b>Stage 01: Inbound Receiving (RCV)</b>
+  </div>
+  <div class="stage-arrow">→</div>
+  <div class="stage-node connected" data-target="integrations" data-pod="prp">
+    <span class="dot"></span> Stage 02: Prep (PRP)
+  </div>
+  <div class="stage-arrow">→</div>
+  <div class="stage-node connected" data-target="integrations" data-pod="pck">
+    <span class="dot"></span> Stage 03: Pack (PCK)
+  </div>
+  <div class="stage-arrow">→</div>
+  <div class="stage-node connected" data-target="integrations" data-pod="rtm">
+    <span class="dot"></span> Stage 04: Returns (RTM)
+  </div>
+  <div class="stage-arrow">→</div>
+  <div class="stage-node connected" data-target="integrations" data-pod="rcy">
+    <span class="dot"></span> Stage 05: Recovery (RCY)
+  </div>
+</div>
+
+<!-- ================= PAGE 1: INSPECTION STUDIO ================= -->
 <section class="page active" id="page-inspect">
   <div class="grid">
+    <!-- Left Configuration Panel -->
     <div>
       <div class="card">
-        <h2><span class="n">1</span>Pick a sample shipment</h2>
-        <input type="text" class="search-bar" id="scen-search" placeholder="Search scenarios by title or SKU...">
+        <h2><span class="n">1</span>Inbound Shipment &amp; Scenario</h2>
+        <input type="text" class="search-bar" id="scen-search" placeholder="Search scenarios by title, SKU, or condition...">
         <div class="scen-filter" id="scen-filter"></div>
         <div class="scen-list" id="scen-list"></div>
       </div>
+
       <div class="card">
-        <h2><span class="n">2</span>Purchase order &amp; catalogue</h2>
+        <h2><span class="n">2</span>Purchase Order &amp; Catalog Manifest</h2>
         <div class="po-sum" id="po-sum"></div>
-        <details><summary>Edit purchase order / catalogue JSON</summary>
-          <label class="f" for="po">Purchase order</label><textarea id="po" spellcheck="false"></textarea>
-          <label class="f" for="catalog">Product catalogue</label><textarea id="catalog" spellcheck="false"></textarea>
-          <label class="f" for="sku">PO line SKU to inspect (blank = first line)</label><input type="text" id="sku" placeholder="e.g. BLUE-BOTTLE-001">
+        <details>
+          <summary>Edit Purchase Order / Catalog JSON</summary>
+          <label class="f" for="po">Purchase Order Manifest</label>
+          <textarea id="po" spellcheck="false"></textarea>
+          <label class="f" for="catalog">Product Catalog</label>
+          <textarea id="catalog" spellcheck="false"></textarea>
+          <label class="f" for="sku">Target PO Line SKU (Blank = first line)</label>
+          <input type="text" id="sku" class="search-bar" placeholder="e.g. BLUE-BOTTLE-001">
         </details>
       </div>
+
       <div class="card">
-        <h2><span class="n">3</span>Receiving photos</h2>
-        <div class="drop" id="drop">Drop photos here or <b>click to upload</b><br><span class="hint">Numbered P1, P2... in order and SHA-256 hashed into evidence record</span></div>
+        <h2><span class="n">3</span>Visual Cargo Evidence</h2>
+        <div class="drop" id="drop">
+          <div style="font-size:24px; margin-bottom:6px;">📸</div>
+          <b>Drop dock photos here or click to browse</b><br>
+          <span class="hint">Photos P1..Pn are hashed with SHA-256 into the tamper-proof ledger.<br><small style="color:var(--brand)">Tip: You can also press Ctrl+V to paste photos from clipboard.</small></span>
+        </div>
         <input type="file" id="photos" accept="image/*" multiple hidden>
         <div class="thumbs" id="thumbs"></div>
       </div>
+
       <div class="card">
-        <h2><span class="n">4</span>Analyse</h2>
+        <h2><span class="n">4</span>Inspection Engine</h2>
         <div class="seg">
-          <label><input type="radio" name="src" value="manual" checked>Recorded observations<small>Free · deterministic replay</small></label>
-          <label><input type="radio" name="src" value="vision">AI vision on photos<small id="vision-sub">uses credit</small></label>
+          <label>
+            <input type="radio" name="src" value="manual" checked>
+            Recorded Replay
+            <small>Deterministic · Instant · 0-Cost</small>
+          </label>
+          <label>
+            <input type="radio" name="src" value="vision">
+            AI Multimodal Vision
+            <small id="vision-sub">OpenRouter VLM · Uses Credit</small>
+          </label>
         </div>
+
         <div class="range-wrap">
-          <div class="range-header"><span>Confidence threshold:</span><span id="thresh-val">0.70</span></div>
+          <div class="range-header">
+            <span>Confidence Threshold Cutoff:</span>
+            <span id="thresh-val" style="color:var(--brand); font-weight:800;">0.70</span>
+          </div>
           <input type="range" id="thresh-slider" min="0.50" max="0.95" step="0.05" value="0.70">
         </div>
-        <details id="obs-wrap"><summary>View / edit recorded observations JSON</summary><textarea id="observations" spellcheck="false"></textarea></details>
-        <label class="toggle"><input type="checkbox" id="ai-review" checked><div><b>Reasoning-model review</b><div class="hint" id="reason-sub">Explains every verdict, recommends actions, drafts a supplier claim. Can only escalate, never overrule.</div></div></label>
-        <button class="primary" id="run">Run inspection</button>
+
+        <details id="obs-wrap" style="margin-top:10px;">
+          <summary>View / Edit Recorded Observations JSON</summary>
+          <textarea id="observations" spellcheck="false"></textarea>
+        </details>
+
+        <label class="toggle">
+          <input type="checkbox" id="ai-review" checked>
+          <div>
+            <b>Reasoning Model Review (Engineering Guard)</b>
+            <div class="hint" id="reason-sub">Explains verdicts, recommends operational actions, and drafts supplier claims. Can only escalate, never overrule.</div>
+          </div>
+        </label>
+
+        <button class="primary" id="run">
+          <span>⚡</span> Run Visual Inspection <kbd style="font-size:10px; opacity:0.8; margin-left:4px;">(⌘+Enter)</kbd>
+        </button>
         <div class="status" id="status"></div>
       </div>
     </div>
-    <div id="result"><div class="card empty"><div class="big">📦</div><p><b>Pick a sample shipment and run an inspection.</b></p><p class="hint">Each check returns PASS, FAIL or UNCERTAIN; shipment gets ACCEPT, EXCEPTION or UNCERTAIN.</p></div></div>
-  </div>
-</section>
 
-<section class="page" id="page-eval">
-  <div class="card">
-    <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-bottom:12px;">
-      <div>
-        <h2 style="margin:0">Held-Out 50-Unit Vision Model Evaluation</h2>
-        <p class="hint" style="margin:4px 0 0">Official held-out evaluation on 50 unseen units using live OpenRouter vision model (openai/gpt-4o-mini). Evaluated against independent dual-human ground truth with Cohen's Kappa, per-check breakdown, and calibrated UNCERTAIN handling.</p>
-      </div>
-      <div style="display:flex; gap:8px;">
-        <button class="primary" id="eval-refresh">Refresh Results</button>
+    <!-- Right Results Panel -->
+    <div id="result">
+      <div class="card empty">
+        <div class="big">📦</div>
+        <h3 style="margin:0 0 6px;">Receiving Inspection Bay Ready</h3>
+        <p class="hint">Select an inbound scenario on the left or upload live dock photos to execute 6-point verification.</p>
       </div>
     </div>
-    <div id="eval-summary-cards" style="margin-top:14px"></div>
-    <div id="eval-checks-out" style="margin-top:16px"></div>
-    <div id="eval-table-out" style="margin-top:16px"></div>
   </div>
 </section>
 
-<section class="page" id="page-bench">
-  <div class="card">
-    <h2>Deterministic Rules Regression Suite (24 scenarios)</h2>
-    <p class="hint">Runs all 24 bundled scenarios through the deterministic rules engine using recorded observations. Verifies pure business logic, carton math, and check precedence offline with 0 API cost.</p>
-    <button class="sec" id="bench-run">Run rules regression</button>
-    <div id="bench-out" style="margin-top:14px"></div>
-  </div>
-</section>
-
-<section class="page" id="page-suppliers">
-  <div class="card">
-    <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-bottom:12px;">
-      <div>
-        <h2 style="margin:0">Supplier Quality Analytics</h2>
-        <p class="hint" style="margin:4px 0 0">Quality track record, acceptance rates, and common defect codes by supplier.</p>
-      </div>
-      <div style="display:flex; gap:8px;">
-        <button class="sec" id="export-json">Export JSON</button>
-        <button class="sec" id="export-csv">Export CSV</button>
-      </div>
-    </div>
-    <div id="supplier-stats-out" style="margin-top:14px"></div>
-  </div>
-</section>
-
+<!-- ================= PAGE 2: CROSS-POD ECOSYSTEM ================= -->
 <section class="page" id="page-integrations">
   <div class="card">
-    <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-bottom:12px;">
+    <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px; margin-bottom:14px;">
       <div>
-        <h2 style="margin:0; font-size:18px; color:var(--ink);">CUBE 2026 Cross-Pod Ecosystem Integration</h2>
-        <p class="hint" style="margin:4px 0 0;">Unified data pipeline connecting Inbound Receiving (Stage 01) with Prep, Returns, and Recovery.</p>
+        <h2 style="margin:0; font-size:18px; color:var(--ink);">CUBE 2026 Integrated Warehouse Pod Ecosystem</h2>
+        <p class="hint" style="margin:4px 0 0;">Unified 5-stage data pipeline connecting Inbound Receiving (Stage 01) with downstream warehouse execution pods.</p>
       </div>
-      <div style="display:flex; gap:8px;">
+      <div style="display:flex; gap:8px; align-items:center;">
         <span class="v PASS" style="cursor:default">Contract v1.1 Active</span>
         <button class="pill active" id="btn-refresh-integrations">Refresh Status</button>
       </div>
     </div>
 
-    <!-- 4 Pod Ecosystem Badges -->
+    <!-- 5 Pod Ecosystem Cards Grid -->
     <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(240px, 1fr)); gap:14px; margin:16px 0 24px;">
-      <div style="background:#f8fafc; border:1px solid #cbd5e1; border-top:4px solid var(--brand); border-radius:12px; padding:12px 14px;">
+      <div class="card" style="margin:0; border-top:4px solid var(--brand);">
         <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
           <b style="font-size:13px;">Stage 01 · Receiving (RCV)</b>
-          <span class="v PASS" style="font-size:9px; padding:2px 6px;">LOCAL HUB</span>
+          <span class="v PASS" style="font-size:9px; padding:2px 6px;">ACTIVE HUB</span>
         </div>
         <div class="hint" style="font-size:11.5px; margin-bottom:6px;">Savage4696/RCV</div>
-        <div style="font-size:11px; color:#475569;">Inbound dock inspection, PO line verification, sealed SHA-256 evidence records.</div>
+        <div style="font-size:11px; color:var(--muted);">Inbound dock inspection, PO line verification, sealed SHA-256 evidence records.</div>
       </div>
-      <div style="background:#f8fafc; border:1px solid #cbd5e1; border-top:4px solid #0284c7; border-radius:12px; padding:12px 14px;">
+
+      <div class="card" style="margin:0; border-top:4px solid #0284c7;">
         <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
           <b style="font-size:13px;">Stage 02 · Prep (PRP)</b>
           <span class="v PASS" style="font-size:9px; padding:2px 6px;">CONNECTED</span>
         </div>
         <div class="hint" style="font-size:11.5px; margin-bottom:6px;">maithripagidi3284-coder/cube26-prp-0153</div>
-        <div style="font-size:11px; color:#475569;">Downstream work-orders: polybagging, suffocation warnings, bubble wrap, reboxing.</div>
+        <div style="font-size:11px; color:var(--muted);">Downstream work orders: polybagging, suffocation warnings, bubble wrap, reboxing.</div>
       </div>
-      <div style="background:#f8fafc; border:1px solid #cbd5e1; border-top:4px solid #f59e0b; border-radius:12px; padding:12px 14px;">
+
+      <div class="card" style="margin:0; border-top:4px solid #f59e0b;">
         <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
           <b style="font-size:13px;">Stage 03 · Pack (PCK)</b>
           <span class="v PASS" style="font-size:9px; padding:2px 6px;">CONNECTED</span>
         </div>
         <div class="hint" style="font-size:11.5px; margin-bottom:6px;">varalakshmikonjeti/cube26-pck-0168</div>
-        <div style="font-size:11px; color:#475569;">Pre-seal carton contents verification, kit BOM validation, mis-ship prevention.</div>
+        <div style="font-size:11px; color:var(--muted);">Pre-seal carton contents verification, kit BOM validation, mis-ship prevention.</div>
       </div>
-      <div style="background:#f8fafc; border:1px solid #cbd5e1; border-top:4px solid #7c3aed; border-radius:12px; padding:12px 14px;">
+
+      <div class="card" style="margin:0; border-top:4px solid #7c3aed;">
         <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
           <b style="font-size:13px;">Stage 04 · Returns (RTM)</b>
           <span class="v PASS" style="font-size:9px; padding:2px 6px;">CONNECTED</span>
         </div>
         <div class="hint" style="font-size:11.5px; margin-bottom:6px;">jeevanreddy29/cube-04-returns-manager</div>
-        <div style="font-size:11px; color:#475569;">Cross-checks customer returns vs dock records to detect switch fraud &amp; defect origin.</div>
+        <div style="font-size:11px; color:var(--muted);">Cross-checks customer returns vs dock records to catch switch fraud &amp; defect origin.</div>
       </div>
-      <div style="background:#f8fafc; border:1px solid #cbd5e1; border-top:4px solid #059669; border-radius:12px; padding:12px 14px;">
+
+      <div class="card" style="margin:0; border-top:4px solid #059669;">
         <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
           <b style="font-size:13px;">Stage 05 · Recovery (RCY)</b>
           <span class="v PASS" style="font-size:9px; padding:2px 6px;">CONNECTED</span>
         </div>
         <div class="hint" style="font-size:11.5px; margin-bottom:6px;">pia-21/cube26-rcy-0077</div>
-        <div style="font-size:11px; color:#475569;">Fee contradiction matching: FBA reimbursement disputes &amp; vendor chargeback memos.</div>
+        <div style="font-size:11px; color:var(--muted);">3-way fee reconciliation: FBA reimbursement disputes and vendor chargeback memos.</div>
       </div>
     </div>
 
-    <!-- Pod Selector Sub-Tabs -->
-    <div style="display:flex; gap:8px; border-bottom:1px solid var(--line); padding-bottom:10px; margin-bottom:16px; flex-wrap:wrap;">
-      <button class="pill active" id="tab-btn-prp">Stage 02 · Prep Manager (PRP) Work Orders</button>
-      <button class="pill" id="tab-btn-pck">Stage 03 · Pack Manager (PCK) Pre-Seal</button>
-      <button class="pill" id="tab-btn-rtm">Stage 04 · Returns Manager (RTM) Provenance &amp; Fraud</button>
-      <button class="pill" id="tab-btn-rcy">Stage 05 · Recovery Manager (RCY) Fee Dispute Studio</button>
+    <!-- Pod Navigation Tabs -->
+    <div style="display:flex; gap:6px; border-bottom:1px solid var(--line); padding-bottom:10px; margin-bottom:20px; overflow-x:auto;">
+      <button class="pill active" id="tab-btn-prp">Stage 02: Prep Dispatch</button>
+      <button class="pill" id="tab-btn-pck">Stage 03: Pack Pre-Seal Check</button>
+      <button class="pill" id="tab-btn-rtm">Stage 04: Returns Provenance &amp; Fraud</button>
+      <button class="pill" id="tab-btn-rcy">Stage 05: Recovery Claims Reconciler</button>
     </div>
 
-    <!-- Pod Sub-Panels -->
+    <!-- Pod 2: Prep Work Order Panel -->
     <div id="panel-prp">
       <div style="display:grid; grid-template-columns:minmax(300px, 380px) 1fr; gap:20px;">
         <div>
-          <label class="f" for="prp-unit-select">Select Inbound Unit to Dispatch</label>
-          <select id="prp-unit-select" class="search-bar" style="margin-bottom:12px;">
-            <option value="UNIT-0005">UNIT-0005 (Dog Leash · Carton Tears · Apparel/Textile)</option>
-            <option value="UNIT-0003">UNIT-0003 (Puzzle · Crushed Carton · Fragile)</option>
-            <option value="UNIT-0004">UNIT-0004 (Protein Powder · Missing Scoop · Hardline)</option>
-            <option value="UNIT-0007">UNIT-0007 (USB-C Cable · Wrong Colour · Reprep)</option>
-            <option value="UNIT-0008">UNIT-0008 (Water Bottle · Clean Receipt · FNSKU Label)</option>
+          <label class="f" for="prp-unit-select">Select Inbound Unit for Prep</label>
+          <select id="prp-unit-select" class="search-bar">
+            <option value="UNIT-0005">UNIT-0005 (SKU-TOWEL-BLU · Loose Apparel)</option>
+            <option value="UNIT-0010">UNIT-0010 (SKU-LAMP-LED · Fragile Kit)</option>
+            <option value="UNIT-0008">UNIT-0008 (SKU-TOWEL-BLU · Torn Carton)</option>
+            <option value="UNIT-0004">UNIT-0004 (SKU-PROT-1KG · Supplement Tub)</option>
+            <option value="UNIT-0001">UNIT-0001 (SKU-WATER-BTL · Beverage Clean)</option>
           </select>
-          <button class="primary" id="btn-dispatch-prep" style="width:100%;">Generate &amp; Dispatch Prep Work Order</button>
+          <button class="primary" id="btn-dispatch-prep" style="width:100%;">Generate Prep Work Order</button>
         </div>
-        <div id="prp-out" style="background:#f8fafc; border:1px solid var(--line); border-radius:12px; padding:16px; min-height:160px;">
-          <p class="hint">Click dispatch to generate a compliant Prep Manager work order packet.</p>
+        <div id="prp-out" class="card" style="margin:0; min-height:160px; background:var(--bg-subtle);">
+          <p class="hint">Select a unit above to generate a compliant Prep Manager work order.</p>
         </div>
       </div>
     </div>
 
+    <!-- Pod 3: Pack Pre-Seal Panel -->
     <div id="panel-pck" style="display:none;">
       <div style="display:grid; grid-template-columns:minmax(300px, 380px) 1fr; gap:20px;">
         <div>
-          <label class="f" for="pck-unit-select">Inbound Unit / Kit for Packing Station</label>
-          <select id="pck-unit-select" class="search-bar" style="margin-bottom:12px;">
-            <option value="UNIT-0004">UNIT-0004 (Protein Powder · Kit: tub, scoop · Expected Qty: 24)</option>
-            <option value="UNIT-0010">UNIT-0010 (LED Desk Lamp · Kit: lamp, usb cable, manual · Expected Qty: 24)</option>
-            <option value="UNIT-0012">UNIT-0012 (Ceramic Mug Set of 2 · Expected Qty: 24)</option>
-            <option value="UNIT-0006">UNIT-0006 (USB-C Cable 2m · Expected Qty: 48)</option>
+          <label class="f" for="pck-unit-select">Unit ID / Carton to Verify</label>
+          <select id="pck-unit-select" class="search-bar">
+            <option value="UNIT-0004">UNIT-0004 (SKU-PROT-1KG · Qty 24 · Expected Match)</option>
+            <option value="UNIT-0010">UNIT-0010 (SKU-LAMP-LED · Qty 24 · Kit Verification)</option>
+            <option value="UNIT-0012">UNIT-0012 (SKU-MUG-11 · Ceramic Coffee Mug)</option>
+            <option value="UNIT-0006">UNIT-0006 (SKU-CABLE-USBC · Electronics)</option>
           </select>
-          <label class="f" for="pck-sku-input">Detected SKU In Open Box</label>
+          <label class="f" for="pck-sku-input">Detected SKU In Open Carton</label>
           <input type="text" id="pck-sku-input" class="search-bar" value="SKU-PROT-1KG">
-          <label class="f" for="pck-qty-input">Detected Quantity In Open Box</label>
+          <label class="f" for="pck-qty-input">Detected Item Quantity</label>
           <input type="number" id="pck-qty-input" class="search-bar" value="24" style="margin-bottom:12px;">
           <button class="primary" id="btn-verify-pack" style="width:100%;">Verify Carton Contents Before Seal</button>
         </div>
-        <div id="pck-out" style="background:#f8fafc; border:1px solid var(--line); border-radius:12px; padding:16px; min-height:160px;">
+        <div id="pck-out" class="card" style="margin:0; min-height:160px; background:var(--bg-subtle);">
           <p class="hint">Inspect pre-seal contents against inbound BOM to prevent mis-ships.</p>
         </div>
       </div>
     </div>
 
+    <!-- Pod 4: Returns Provenance Panel -->
     <div id="panel-rtm" style="display:none;">
       <div style="display:grid; grid-template-columns:minmax(300px, 380px) 1fr; gap:20px;">
         <div>
           <label class="f" for="rtm-unit-input">Unit ID for Return Correlation</label>
-          <input type="text" id="rtm-unit-input" class="search-bar" value="UNIT-0010" placeholder="e.g. UNIT-0010">
+          <input type="text" id="rtm-unit-input" class="search-bar" value="UNIT-0010">
           <label class="f" for="rtm-sku-input">Customer Returned SKU</label>
           <input type="text" id="rtm-sku-input" class="search-bar" value="SKU-CANDLE-3" placeholder="e.g. SKU-CANDLE-3 (simulate mismatch)">
           <label class="f" for="rtm-state-select">Observed Return Condition</label>
@@ -521,51 +1490,94 @@ th { font-size: 11px; text-transform: uppercase; color: var(--muted); letter-spa
           </select>
           <button class="primary" id="btn-correlate-rtm" style="width:100%;">Cross-Reference Inbound Provenance</button>
         </div>
-        <div id="rtm-out" style="background:#f8fafc; border:1px solid var(--line); border-radius:12px; padding:16px; min-height:160px;">
+        <div id="rtm-out" class="card" style="margin:0; min-height:160px; background:var(--bg-subtle);">
           <p class="hint">Submit return parameters to verify provenance against dock evidence.</p>
         </div>
       </div>
     </div>
 
+    <!-- Pod 5: Recovery Claims Reconciler -->
     <div id="panel-rcy" style="display:none;">
       <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px; flex-wrap:wrap; gap:10px;">
         <div>
           <b>Fee Reconciliation Engine</b>
           <span class="hint"> — Matches Amazon fee report charges against RCV dock proofs.</span>
         </div>
-        <div style="display:flex; gap:8px;">
-          <button class="primary" id="btn-reconcile-rcy">Run 3-Way Reconciliation</button>
-        </div>
+        <button class="primary" id="btn-reconcile-rcy" style="margin:0; width:auto;">Run 3-Way Reconciliation</button>
       </div>
       <div id="rcy-summary-cards" style="display:grid; grid-template-columns:repeat(auto-fit, minmax(180px, 1fr)); gap:12px; margin-bottom:16px;"></div>
       <div id="rcy-table-out" style="overflow-x:auto;"></div>
     </div>
-
   </div>
 </section>
 
+<!-- ================= PAGE 3: EVALUATION ================= -->
+<section class="page" id="page-eval">
+  <div class="card">
+    <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-bottom:12px;">
+      <div>
+        <h2 style="margin:0">Held-Out 50-Unit Vision Model Evaluation</h2>
+        <p class="hint" style="margin:4px 0 0">Official held-out evaluation on 50 unseen units using live OpenRouter vision model (openai/gpt-4o-mini). Evaluated against independent dual-human ground truth with Cohen's Kappa, per-check breakdown, and calibrated UNCERTAIN handling.</p>
+      </div>
+      <button class="primary" id="eval-refresh" style="width:auto; margin:0;">Refresh Results</button>
+    </div>
+    <div id="eval-summary-cards" style="margin-top:14px"></div>
+    <div id="eval-checks-out" style="margin-top:16px"></div>
+    <div id="eval-table-out" style="margin-top:16px; overflow-x:auto;"></div>
+  </div>
+</section>
+
+<!-- ================= PAGE 4: RULES BENCHMARK ================= -->
+<section class="page" id="page-bench">
+  <div class="card">
+    <h2>Deterministic Rules Regression Suite (24 Scenarios)</h2>
+    <p class="hint">Runs all 24 bundled scenarios through the deterministic rules engine using recorded observations. Verifies pure business logic, carton math, and check precedence offline with 0 API cost.</p>
+    <button class="sec" id="bench-run"><span>▶</span> Run Rules Regression</button>
+    <div id="bench-out" style="margin-top:14px; overflow-x:auto;"></div>
+  </div>
+</section>
+
+<!-- ================= PAGE 5: SUPPLIERS ================= -->
+<section class="page" id="page-suppliers">
+  <div class="card">
+    <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-bottom:12px;">
+      <div>
+        <h2 style="margin:0">Supplier Quality Analytics</h2>
+        <p class="hint" style="margin:4px 0 0">Quality track record, acceptance rates, and common defect codes by vendor.</p>
+      </div>
+      <div style="display:flex; gap:8px;">
+        <button class="sec" id="export-json">Export JSON</button>
+        <button class="sec" id="export-csv">Export CSV</button>
+      </div>
+    </div>
+    <div id="supplier-stats-out" style="margin-top:14px; overflow-x:auto;"></div>
+  </div>
+</section>
+
+<!-- ================= PAGE 6: DEFINITIONS ================= -->
 <section class="page" id="page-defs">
   <div class="card">
-    <h2>Pipeline</h2>
-    <div class="flow">
-      <div><b>1. Photos</b>Uploaded, numbered P1..Pn, SHA-256 hashed.</div><div class="arrow">→</div>
-      <div><b>2. Vision model</b>Reports only what it sees; every observation cites photo IDs and confidence.</div><div class="arrow">→</div>
-      <div><b>3. Evidence filter</b>Drops observations citing missing photos or below confidence threshold.</div><div class="arrow">→</div>
-      <div><b>4. Rules engine</b>Deterministic PASS / FAIL / UNCERTAIN per check, then shipment decision.</div><div class="arrow">→</div>
-      <div><b>5. Reasoning review</b>Explains, recommends and drafts claim. Can only escalate ACCEPT to UNCERTAIN.</div><div class="arrow">→</div>
-      <div><b>6. Sealed record</b>Photos, observations, verdicts and review hashed into tamper-evident record.</div>
+    <h2>Inspection Architecture Pipeline</h2>
+    <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(200px, 1fr)); gap:12px; margin-top:10px;">
+      <div class="kv"><span>1. Photos</span><b>SHA-256 Hashing</b><p class="hint" style="margin:4px 0 0;">Uploaded photos P1..Pn hashed on dock arrival</p></div>
+      <div class="kv"><span>2. Vision Model</span><b>Visual Evidence</b><p class="hint" style="margin:4px 0 0;">Reports only seen traits, cites photo IDs</p></div>
+      <div class="kv"><span>3. Filter</span><b>Confidence Gate</b><p class="hint" style="margin:4px 0 0;">Drops observations below threshold or uncited</p></div>
+      <div class="kv"><span>4. Rules Engine</span><b>Deterministic Precedence</b><p class="hint" style="margin:4px 0 0;">Carton math &amp; 6 checks produce shipment verdict</p></div>
+      <div class="kv"><span>5. Reasoning</span><b>Safety Review</b><p class="hint" style="margin:4px 0 0;">Can only escalate, drafts vendor claims</p></div>
+      <div class="kv"><span>6. Ledger</span><b>Tamper-Proof Seal</b><p class="hint" style="margin:4px 0 0;">Seals entire record for downstream pod audit</p></div>
     </div>
   </div>
-  <div class="card"><h2>Check verdicts</h2><div class="defs" id="defs-verdicts"></div></div>
-  <div class="card"><h2>Shipment decisions</h2><div class="defs" id="defs-decisions"></div></div>
-  <div class="card"><h2>Checks performed</h2><div class="defs" id="defs-checks"></div></div>
+  <div class="card"><h2>Check Verdicts</h2><div class="defs" id="defs-verdicts"></div></div>
+  <div class="card"><h2>Shipment Decisions</h2><div class="defs" id="defs-decisions"></div></div>
+  <div class="card"><h2>Checks Performed</h2><div class="defs" id="defs-checks"></div></div>
 </section>
 
+<!-- ================= PAGE 7: HISTORY ================= -->
 <section class="page" id="page-history">
   <div class="card">
-    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
-      <h2 style="margin:0">Inspection history</h2>
-      <input type="text" class="search-bar" id="hist-search" placeholder="Search history by PO, SKU or ID..." style="max-width:300px; margin:0">
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; flex-wrap:wrap; gap:10px;">
+      <h2 style="margin:0">Inspection History Ledger</h2>
+      <input type="text" class="search-bar" id="hist-search" placeholder="Search history by PO, SKU or ID..." style="max-width:320px; margin:0">
     </div>
     <ul class="hist" id="history"></ul>
   </div>
@@ -590,110 +1602,253 @@ const pretty = (o) => JSON.stringify(o, null, 2);
 const label = (s) => String(s).replace(/_/g, " ");
 
 function showToast(msg) {
-  const t = document.createElement("div"); t.className = "toast"; t.innerHTML = `<span>✓</span> ${esc(msg)}`;
+  const t = document.createElement("div");
+  t.className = "toast";
+  t.innerHTML = `<span>✓</span> ${esc(msg)}`;
   $("toast-wrap").appendChild(t);
-  setTimeout(() => t.remove(), 3000);
+  setTimeout(() => t.remove(), 3200);
+}
+
+// Theme handling
+const currentTheme = localStorage.getItem("rcv_theme") || "dark";
+document.documentElement.setAttribute("data-theme", currentTheme);
+updateThemeIcon(currentTheme);
+
+$("theme-toggle").onclick = () => {
+  const isDark = document.documentElement.getAttribute("data-theme") === "dark";
+  const newTheme = isDark ? "light" : "dark";
+  document.documentElement.setAttribute("data-theme", newTheme);
+  localStorage.setItem("rcv_theme", newTheme);
+  updateThemeIcon(newTheme);
+  showToast(`Switched to ${newTheme} theme`);
+};
+
+function updateThemeIcon(t) {
+  $("theme-toggle").textContent = t === "dark" ? "☀️" : "🌙";
 }
 
 let scenarios = [], catalog = [], health = {}, defs = {verdicts:{}, decisions:{}, checks:{}};
 let files = [], selected = null, filter = "ALL", scenarioSearchQuery = "", historyItems = [];
 
-document.querySelectorAll("nav button").forEach((b) => b.onclick = () => {
-  document.querySelectorAll("nav button").forEach((x) => x.classList.toggle("active", x === b));
-  document.querySelectorAll(".page").forEach((p) => p.classList.toggle("active", p.id === "page-" + b.dataset.page));
-  if (b.dataset.page === "eval") loadEvaluation();
-  if (b.dataset.page === "integrations") loadIntegrations();
-  if (b.dataset.page === "history") loadHistory();
-  if (b.dataset.page === "suppliers") loadSupplierStats();
+// Navigation switching
+document.querySelectorAll("nav button, .stage-node").forEach((b) => b.onclick = () => {
+  const targetPage = b.dataset.page || b.dataset.target;
+  if (!targetPage) return;
+  document.querySelectorAll("nav button").forEach((x) => x.classList.toggle("active", x.dataset.page === targetPage));
+  document.querySelectorAll(".stage-node").forEach((sn) => sn.classList.toggle("active", sn.dataset.target === targetPage));
+  document.querySelectorAll(".page").forEach((p) => p.classList.toggle("active", p.id === "page-" + targetPage));
+
+  if (b.dataset.pod) switchPodTab(b.dataset.pod);
+  if (targetPage === "eval") loadEvaluation();
+  if (targetPage === "integrations") loadIntegrations();
+  if (targetPage === "history") loadHistory();
+  if (targetPage === "suppliers") loadSupplierStats();
+});
+
+$("logo-home").onclick = () => {
+  document.querySelector('nav button[data-page=inspect]').click();
+};
+
+// Clipboard Paste Listener
+window.addEventListener("paste", (e) => {
+  const items = e.clipboardData?.items;
+  if (!items) return;
+  const newFiles = [];
+  for (let i = 0; i < items.length; i++) {
+    if (items[i].type.startsWith("image/")) {
+      const file = items[i].getAsFile();
+      if (file) newFiles.push(file);
+    }
+  }
+  if (newFiles.length) {
+    setFiles([...files, ...newFiles]);
+    showToast(`Pasted ${newFiles.length} photo(s) from clipboard`);
+  }
+});
+
+// Keyboard Shortcut: Cmd/Ctrl + Enter to run inspection
+window.addEventListener("keydown", (e) => {
+  if ((e.metaKey || e.ctrlKey) && e.key === "Enter") {
+    e.preventDefault();
+    if (!$("run").disabled) $("run").click();
+  }
+  if (e.key === "Escape") {
+    $("lightbox").classList.remove("active");
+  }
 });
 
 async function init() {
-  [health, defs] = await Promise.all([fetch("/api/health").then((r) => r.json()), fetch("/api/definitions").then((r) => r.json())]);
-  $("chip-vision").innerHTML = `Vision: <b>${esc(health.vision_provider || "not configured")}</b>`;
-  $("chip-reason").innerHTML = `Reasoning: <b>${esc(health.reasoning_model || "off")}</b>`;
-  $("vision-sub").textContent = health.vision_provider ? `${health.vision_provider.split(":").pop()} · uses credit` : "not configured";
-  if (!health.reasoning_model) { $("ai-review").checked = false; $("ai-review").disabled = true; $("reason-sub").textContent = "Set OPENROUTER_API_KEY to enable."; }
-  const data = await (await fetch("/api/scenarios")).json();
-  scenarios = data.scenarios; catalog = data.catalog;
-  $("catalog").value = pretty(catalog);
-  renderFilter(); renderScenarios(); renderDefs(); loadBudget();
-  await selectScenario(scenarios.find((s) => s.name.startsWith("11")) || scenarios[0]);
+  try {
+    [health, defs] = await Promise.all([
+      fetch("/api/health").then((r) => r.json()),
+      fetch("/api/definitions").then((r) => r.json())
+    ]);
+    $("chip-vision").innerHTML = `Vision: <b>${esc(health.vision_provider || "not configured")}</b>`;
+    $("chip-reason").innerHTML = `Reasoning: <b>${esc(health.reasoning_model || "off")}</b>`;
+    $("vision-sub").textContent = health.vision_provider ? `${health.vision_provider.split(":").pop()} · uses credit` : "not configured";
+    if (!health.reasoning_model) {
+      $("ai-review").checked = false;
+      $("ai-review").disabled = true;
+      $("reason-sub").textContent = "Set OPENROUTER_API_KEY to enable reasoning review.";
+    }
+    const data = await (await fetch("/api/scenarios")).json();
+    scenarios = data.scenarios; catalog = data.catalog;
+    $("catalog").value = pretty(catalog);
+    renderFilter();
+    renderScenarios();
+    renderDefs();
+    loadBudget();
+    loadStats();
+    await selectScenario(scenarios.find((s) => s.name.startsWith("11")) || scenarios[0]);
+  } catch (err) {
+    console.error("Init failed:", err);
+  }
 }
 
-$("thresh-slider").oninput = (e) => { $("thresh-val").textContent = parseFloat(e.target.value).toFixed(2); };
+async function loadStats() {
+  try {
+    const res = await (await fetch("/api/stats")).json();
+    $("kpi-total-inspections").textContent = res.total_inspections;
+    $("kpi-accept-rate").textContent = res.accept_rate + "%";
+    $("kpi-exception-count").textContent = res.exception_count;
+    $("kpi-dispute-amt").textContent = "$" + res.total_dispute_potential.toFixed(2);
+    $("kpi-pods-status").textContent = res.active_pods + " / 5";
+  } catch (e) {}
+}
+
+$("thresh-slider").oninput = (e) => {
+  $("thresh-val").textContent = parseFloat(e.target.value).toFixed(2);
+};
 
 async function loadBudget() {
-  const b = await (await fetch("/api/budget")).json();
-  if (b.remaining_usd == null) { $("chip-budget").innerHTML = `Session spend: <b>$${b.session_spent_usd.toFixed(3)}</b> / cap $${b.session_cap_usd}`; return; }
-  const pct = Math.max(0, Math.min(100, 100 * b.remaining_usd / (b.limit_usd || 1)));
-  $("chip-budget").innerHTML = `Credit left: <b>$${b.remaining_usd.toFixed(2)}</b> of $${b.limit_usd} <span class="meter"><i style="width:${pct}%"></i></span> · session $${b.session_spent_usd.toFixed(3)} · cache hits ${b.cache_hits}`;
+  try {
+    const b = await (await fetch("/api/budget")).json();
+    if (b.remaining_usd == null) {
+      $("chip-budget").innerHTML = `Session spend: <b>$${b.session_spent_usd.toFixed(3)}</b> / cap $${b.session_cap_usd}`;
+      return;
+    }
+    const pct = Math.max(0, Math.min(100, 100 * b.remaining_usd / (b.limit_usd || 1)));
+    $("chip-budget").innerHTML = `Credit: <b>$${b.remaining_usd.toFixed(2)}</b> <span class="meter"><i style="width:${pct}%"></i></span> · session $${b.session_spent_usd.toFixed(3)}`;
+  } catch (e) {}
 }
 
 function renderFilter() {
+  const counts = {
+    ALL: scenarios.length,
+    ACCEPT: scenarios.filter(s => s.expected.decision === "ACCEPT").length,
+    EXCEPTION: scenarios.filter(s => s.expected.decision === "EXCEPTION").length,
+    UNCERTAIN: scenarios.filter(s => s.expected.decision === "UNCERTAIN").length
+  };
   $("scen-filter").innerHTML = ["ALL", "ACCEPT", "EXCEPTION", "UNCERTAIN"].map((f) =>
-    `<button class="pill ${f === filter ? "active" : ""}" data-f="${f}">${f === "ALL" ? "All" : f} (${f === "ALL" ? scenarios.length : scenarios.filter((s) => s.expected.decision === f).length})</button>`).join("");
-  $("scen-filter").querySelectorAll("button").forEach((b) => b.onclick = () => { filter = b.dataset.f; renderFilter(); renderScenarios(); });
+    `<button class="pill ${f === filter ? "active" : ""}" data-f="${f}">${f === "ALL" ? "All Shipments" : f} (${counts[f]})</button>`
+  ).join("");
+  $("scen-filter").querySelectorAll("button").forEach((b) => b.onclick = () => {
+    filter = b.dataset.f;
+    renderFilter();
+    renderScenarios();
+  });
 }
 
-$("scen-search").oninput = (e) => { scenarioSearchQuery = e.target.value.toLowerCase(); renderScenarios(); };
+$("scen-search").oninput = (e) => {
+  scenarioSearchQuery = e.target.value.toLowerCase();
+  renderScenarios();
+};
 
 function renderScenarios() {
   const filtered = scenarios.filter((s) => {
     const matchFilter = filter === "ALL" || s.expected.decision === filter;
-    const matchSearch = !scenarioSearchQuery || s.title.toLowerCase().includes(scenarioSearchQuery) || s.description.toLowerCase().includes(scenarioSearchQuery) || s.purchase_order.lines.some(l => l.sku.toLowerCase().includes(scenarioSearchQuery));
+    const matchSearch = !scenarioSearchQuery ||
+      s.title.toLowerCase().includes(scenarioSearchQuery) ||
+      s.description.toLowerCase().includes(scenarioSearchQuery) ||
+      s.purchase_order.lines.some(l => l.sku.toLowerCase().includes(scenarioSearchQuery));
     return matchFilter && matchSearch;
   });
-  $("scen-list").innerHTML = filtered.map((s) =>
-    `<div class="scen ${selected && selected.name === s.name ? "sel" : ""}" data-n="${s.name}"><div class="t">${esc(s.title)}</div><div class="d">${esc(s.description.slice(0, 85))}${s.description.length > 85 ? "…" : ""}</div><span class="dec ${s.expected.decision}">expected ${s.expected.decision}</span></div>`).join("");
-  $("scen-list").querySelectorAll(".scen").forEach((el) => el.onclick = () => selectScenario(scenarios.find((s) => s.name === el.dataset.n)));
+  $("scen-list").innerHTML = filtered.map((s) => `
+    <div class="scen ${selected && selected.name === s.name ? "sel" : ""}" data-n="${s.name}">
+      <div class="t">${esc(s.title)}</div>
+      <div class="d">${esc(s.description.slice(0, 85))}${s.description.length > 85 ? "…" : ""}</div>
+      <span class="dec ${s.expected.decision}">${s.expected.decision}</span>
+    </div>
+  `).join("");
+  $("scen-list").querySelectorAll(".scen").forEach((el) => el.onclick = () =>
+    selectScenario(scenarios.find((s) => s.name === el.dataset.n))
+  );
 }
 
 function placeholder(pid, name) {
-  const c = document.createElement("canvas"); c.width = 480; c.height = 320; const g = c.getContext("2d");
-  g.fillStyle = "#e2e8f0"; g.fillRect(0, 0, 480, 320); g.fillStyle = "#334155"; g.font = "bold 40px sans-serif"; g.textAlign = "center";
-  g.fillText(pid, 240, 160); g.font = "14px sans-serif"; g.fillText(name, 240, 190);
+  const c = document.createElement("canvas"); c.width = 480; c.height = 320;
+  const g = c.getContext("2d");
+  g.fillStyle = "#1e293b"; g.fillRect(0, 0, 480, 320);
+  g.fillStyle = "#94a3b8"; g.font = "bold 36px 'Outfit', sans-serif"; g.textAlign = "center";
+  g.fillText(pid, 240, 150);
+  g.font = "14px 'Inter', sans-serif"; g.fillText(name, 240, 185);
   return new Promise((res) => c.toBlob((b) => res(new File([b], `${pid}.png`, {type: "image/png"}))));
 }
 
 async function selectScenario(s) {
-  selected = s; renderScenarios();
-  $("po").value = pretty(s.purchase_order); $("sku").value = ""; $("observations").value = pretty(s.observations);
+  selected = s;
+  renderScenarios();
+  $("po").value = pretty(s.purchase_order);
+  $("sku").value = "";
+  $("observations").value = pretty(s.observations);
   document.querySelector('input[name=src][value=manual]').checked = true;
   files = await Promise.all(s.photos.map(async (pid) => {
     const r = await fetch(`/api/scenarios/${s.name}/photos/${pid}`);
     return r.ok ? new File([await r.blob()], `${pid}.png`, {type: "image/png"}) : placeholder(pid, s.name);
   }));
-  renderPO(); renderThumbs(); $("status").textContent = s.description;
+  renderPO();
+  renderThumbs();
+  $("status").textContent = s.description;
 }
 
 function renderPO() {
-  let po; try { po = JSON.parse($("po").value); } catch { $("po-sum").innerHTML = '<span class="hint">Invalid PO JSON</span>'; return; }
+  let po;
+  try { po = JSON.parse($("po").value); }
+  catch { $("po-sum").innerHTML = '<span class="hint">Invalid PO JSON</span>'; return; }
   const line = po.lines?.find((l) => !$("sku").value.trim() || l.sku === $("sku").value.trim()) || po.lines?.[0] || {};
-  const v = Object.entries(line.variant || {}).map(([k, x]) => `${k}: ${x}`).join(", ") || "-";
-  $("po-sum").innerHTML = [["PO", po.po_number], ["Supplier", po.supplier || "N/A"], ["SKU", line.sku], ["Qty", line.expected_quantity]].map(([k, x]) => `<div class="kv"><span>${k}</span><b>${esc(x ?? "-")}</b></div>`).join("");
+  $("po-sum").innerHTML = [
+    ["PO Number", po.po_number],
+    ["Supplier", po.supplier || "N/A"],
+    ["Target SKU", line.sku || "-"],
+    ["Expected Qty", line.expected_quantity ?? "-"]
+  ].map(([k, x]) => `<div class="kv"><span>${k}</span><b>${esc(x)}</b></div>`).join("");
 }
-$("po").oninput = renderPO; $("sku").oninput = renderPO;
+$("po").oninput = renderPO;
+$("sku").oninput = renderPO;
 
 function renderThumbs() {
-  $("thumbs").innerHTML = files.map((f, i) => `<figure onclick="openLightbox(URL.createObjectURL(files[${i}]), 'Photo P${i + 1}: ${f.name}', 'File size: ${(f.size/1024).toFixed(1)} KB')"><img src="${URL.createObjectURL(f)}" alt="P${i + 1}">P${i + 1}</figure>`).join("");
+  $("thumbs").innerHTML = files.map((f, i) => `
+    <figure onclick="openLightbox(URL.createObjectURL(files[${i}]), 'Photo P${i + 1}: ${esc(f.name)}', 'File size: ${(f.size/1024).toFixed(1)} KB')">
+      <img src="${URL.createObjectURL(f)}" alt="P${i + 1}">
+      P${i + 1}
+    </figure>
+  `).join("");
 }
+
 $("drop").onclick = () => $("photos").click();
 $("photos").onchange = () => setFiles([...$("photos").files]);
 ["dragover", "dragenter"].forEach((e) => $("drop").addEventListener(e, (ev) => { ev.preventDefault(); $("drop").classList.add("over"); }));
 ["dragleave", "drop"].forEach((e) => $("drop").addEventListener(e, () => $("drop").classList.remove("over")));
-$("drop").addEventListener("drop", (ev) => { ev.preventDefault(); setFiles([...ev.dataTransfer.files].filter((f) => f.type.startsWith("image/"))); });
+$("drop").addEventListener("drop", (ev) => {
+  ev.preventDefault();
+  setFiles([...ev.dataTransfer.files].filter((f) => f.type.startsWith("image/")));
+});
+
 function setFiles(list) {
-  files = list; renderThumbs();
+  files = list;
+  renderThumbs();
   document.querySelector('input[name=src][value=vision]').checked = true;
-  $("status").textContent = "Own photos loaded: analysis switched to AI vision.";
+  $("status").textContent = "Own photos loaded: engine set to Multimodal Vision.";
 }
 
 function openLightbox(src, title, meta) {
-  $("lightbox-img").src = src; $("lightbox-title").textContent = title; $("lightbox-meta").innerHTML = meta;
+  $("lightbox-img").src = src;
+  $("lightbox-title").textContent = title;
+  $("lightbox-meta").innerHTML = meta;
   $("lightbox").classList.add("active");
 }
 $("lightbox-close").onclick = () => $("lightbox").classList.remove("active");
-$("lightbox").onclick = (e) => { if(e.target === $("lightbox")) $("lightbox").classList.remove("active"); };
+$("lightbox").onclick = (e) => { if (e.target === $("lightbox")) $("lightbox").classList.remove("active"); };
 
 $("run").onclick = async () => {
   const vision = document.querySelector('input[name=src]:checked').value === "vision";
@@ -706,17 +1861,27 @@ $("run").onclick = async () => {
   fd.append("ai_review", $("ai-review").checked ? "true" : "false");
   fd.append("threshold", thresh.toString());
   files.forEach((f) => fd.append("photos", f, f.name));
-  $("run").disabled = true; $("status").className = "status";
-  $("status").textContent = (vision ? "Vision model is reading the photos" : "Applying rules") + ($("ai-review").checked ? ", then reasoning model reviews…" : "…");
+
+  $("run").disabled = true;
+  $("status").className = "status";
+  $("status").textContent = (vision ? "Analyzing visual evidence with vision model..." : "Executing deterministic rules engine...") +
+    ($("ai-review").checked ? " reasoning model validating safety rules..." : "");
+
   try {
     const resp = await fetch("/api/inspections", {method: "POST", body: fd});
     const body = await resp.json();
     if (!resp.ok) throw new Error(typeof body.detail === "string" ? body.detail : pretty(body.detail));
     render(body);
-    $("status").textContent = `Done · model cost $${(body.llm_cost_usd || 0).toFixed(4)}`;
-    showToast("Inspection complete");
-  } catch (e) { $("status").className = "status err"; $("status").textContent = "Error: " + e.message; }
-  finally { $("run").disabled = false; loadBudget(); }
+    $("status").textContent = `Inspection complete · cost: $${(body.llm_cost_usd || 0).toFixed(4)}`;
+    showToast(`Inspection ${body.report.inspection_id} completed`);
+    loadStats();
+  } catch (e) {
+    $("status").className = "status err";
+    $("status").textContent = "Error: " + e.message;
+  } finally {
+    $("run").disabled = false;
+    loadBudget();
+  }
 };
 
 const fmt = (v) => v === null || v === undefined || v === "" ? '<span class="hint">not observed</span>' : esc(v);
@@ -728,92 +1893,226 @@ function render(rec) {
   const known = new Set(rec.photos.map((p) => p.photo_id));
   const ex = Object.fromEntries((rv?.check_explanations || []).map((e) => [e.check, e.explanation]));
   const count = (v) => r.checks.filter((c) => c.verdict === v).length;
-  const tally = [["PASS", "var(--pass)"], ["FAIL", "var(--fail)"], ["UNCERTAIN", "var(--unc)"], ["NOT_APPLICABLE", "var(--na)"]]
-    .map(([v, c]) => `<div style="border-left-color:${c}"><b style="color:${c}">${count(v)}</b><span>${v === "NOT_APPLICABLE" ? "N/A" : v}</span></div>`).join("");
+
+  const tally = [
+    ["PASS", "var(--pass)"],
+    ["FAIL", "var(--fail)"],
+    ["UNCERTAIN", "var(--unc)"],
+    ["NOT_APPLICABLE", "var(--na)"]
+  ].map(([v, c]) => `
+    <div style="border-left-color:${c}">
+      <b style="color:${c}">${count(v)}</b>
+      <span>${v === "NOT_APPLICABLE" ? "N/A" : v}</span>
+    </div>
+  `).join("");
+
   const cards = r.checks.map((c) => {
-    const conf = c.confidence == null ? "" : `<div class="conf">confidence <div class="bar"><i style="width:${c.confidence * 100}%;background:${c.confidence >= r.confidence_threshold ? "var(--pass)" : "var(--unc)"}"></i><em style="left:${r.confidence_threshold * 100}%" title="threshold ${r.confidence_threshold}"></em></div><b>${c.confidence.toFixed(2)}</b></div>`;
+    const conf = c.confidence == null ? "" : `
+      <div class="conf">
+        Confidence
+        <div class="bar">
+          <i style="width:${c.confidence * 100}%; background:${c.confidence >= r.confidence_threshold ? "var(--pass)" : "var(--unc)"}"></i>
+          <em style="left:${r.confidence_threshold * 100}%" title="Threshold ${r.confidence_threshold}"></em>
+        </div>
+        <b>${c.confidence.toFixed(2)}</b>
+      </div>`;
     const evs = c.evidence.map((e) => known.has(e.photo_id)
       ? `<div class="ev" onclick="openLightbox('${purl(e.photo_id)}', 'Photo ${esc(e.photo_id)}', '${esc(e.detail)}')"><img src="${purl(e.photo_id)}"><span><b>${esc(e.photo_id)}</b> ${esc(e.detail)}</span></div>`
-      : `<div class="ev"><span><b>${esc(e.photo_id)}</b> ${esc(e.detail)}</span></div>`).join("");
-    return `<div class="chk ${c.verdict}"><div class="hd"><span class="nm" title="${esc(defs.checks[c.check] || "")}">${label(c.check)}</span>${vbadge(c.verdict)}</div>
-      ${c.verdict === "NOT_APPLICABLE" ? "" : `<div class="eo"><div><span>Expected</span>${fmt(c.expected)}</div><div><span>Observed</span>${fmt(c.observed)}</div></div>`}
-      ${conf}<div class="rsn">${esc(c.reason)}</div>${ex[c.check] ? `<div class="ai-x">${esc(ex[c.check])}</div>` : ""}<div class="evs">${evs}</div></div>`;
+      : `<div class="ev"><span><b>${esc(e.photo_id)}</b> ${esc(e.detail)}</span></div>`
+    ).join("");
+
+    return `
+      <div class="chk ${c.verdict}">
+        <div class="hd">
+          <span class="nm" title="${esc(defs.checks[c.check] || "")}">${label(c.check)}</span>
+          ${vbadge(c.verdict)}
+        </div>
+        ${c.verdict === "NOT_APPLICABLE" ? "" : `<div class="eo"><div><span>Expected</span>${fmt(c.expected)}</div><div><span>Observed</span>${fmt(c.observed)}</div></div>`}
+        ${conf}
+        <div class="rsn">${esc(c.reason)}</div>
+        ${ex[c.check] ? `<div class="ai-x">${esc(ex[c.check])}</div>` : ""}
+        <div class="evs">${evs}</div>
+      </div>
+    `;
   }).join("");
-  const ai = rv ? `<div class="card ai"><h2>Reasoning-model review · ${esc(rv.model)} <span class="hint" style="text-transform:none;letter-spacing:0">${rv.cached ? "cached, $0" : "$" + rv.cost_usd.toFixed(4)}</span></h2>
-      ${rv.escalated ? `<div class="esc">Reviewer disputes ACCEPT, so the shipment was escalated to UNCERTAIN for human review.</div>` : ""}
+
+  const ai = rv ? `
+    <div class="card ai">
+      <h2>Reasoning Review · ${esc(rv.model)} <span class="hint" style="text-transform:none;letter-spacing:0">${rv.cached ? "cached, $0" : "$" + rv.cost_usd.toFixed(4)}</span></h2>
+      ${rv.escalated ? `<div class="esc">⚠ Safety Escalation: Reviewer disputed ACCEPT; shipment was escalated to UNCERTAIN for human review.</div>` : ""}
       <div class="sum">${esc(rv.summary)}</div>
-      ${rv.concerns.length ? `<h2 style="margin-top:14px">Concerns</h2><ul>${rv.concerns.map((c) => `<li>${esc(c.description)} ${c.photo_ids.length ? `<span class="hint">[${c.photo_ids.join(", ")}]</span>` : ""}</li>`).join("")}</ul>` : ""}
-      ${rv.recommended_actions.length ? `<h2 style="margin-top:14px">Recommended actions</h2><ul>${rv.recommended_actions.map((a) => `<li>${esc(a)}</li>`).join("")}</ul>` : ""}
-      ${rv.supplier_claim_draft ? `<h2 style="margin-top:14px">Supplier claim draft <button class="sec" id="copy-claim" style="margin-left:auto">Copy</button></h2><div class="claim" id="claim">${esc(rv.supplier_claim_draft)}</div>` : ""}
-    </div>` : "";
-  const issues = r.issues.length ? r.issues.map((i) => `<div class="issue"><span class="code">${esc(i.code)}</span><span>${esc(i.description)} ${i.photo_ids.length ? `<span class="hint">[${i.photo_ids.join(", ")}]</span>` : ""}</span></div>`).join("") : '<span class="hint">No issues detected</span>';
-  const photos = rec.photos.map((p) => `<figure onclick="openLightbox('${purl(p.photo_id)}', 'Photo ${esc(p.photo_id)}', 'SHA-256: ${p.sha256}')"><img src="${purl(p.photo_id)}">${esc(p.photo_id)} <span class="hint" title="${p.sha256}">${p.sha256.slice(0, 8)}…</span></figure>`).join("");
+      ${rv.concerns.length ? `<h3 style="font-size:12px;text-transform:uppercase;color:var(--muted);margin:14px 0 6px;">Concerns Identified</h3><ul>${rv.concerns.map((c) => `<li>${esc(c.description)} ${c.photo_ids.length ? `<span class="hint">[${c.photo_ids.join(", ")}]</span>` : ""}</li>`).join("")}</ul>` : ""}
+      ${rv.recommended_actions.length ? `<h3 style="font-size:12px;text-transform:uppercase;color:var(--muted);margin:14px 0 6px;">Recommended Operational Actions</h3><ul>${rv.recommended_actions.map((a) => `<li>${esc(a)}</li>`).join("")}</ul>` : ""}
+      ${rv.supplier_claim_draft ? `
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-top:14px;">
+          <h3 style="font-size:12px;text-transform:uppercase;color:var(--muted);margin:0;">Formal Supplier Dispute Letter</h3>
+          <button class="sec" id="copy-claim">Copy Claim Memo</button>
+        </div>
+        <div class="claim" id="claim" style="margin-top:8px;">${esc(rv.supplier_claim_draft)}</div>
+      ` : ""}
+    </div>
+  ` : "";
+
+  const issues = r.issues.length ? r.issues.map((i) => `
+    <div class="issue">
+      <span class="code">${esc(i.code)}</span>
+      <span>${esc(i.description)} ${i.photo_ids.length ? `<span class="hint">[${i.photo_ids.join(", ")}]</span>` : ""}</span>
+    </div>
+  `).join("") : '<span class="hint">No defects or discrepancies detected</span>';
+
+  const photos = rec.photos.map((p) => `
+    <figure onclick="openLightbox('${purl(p.photo_id)}', 'Photo ${esc(p.photo_id)}', 'SHA-256: ${p.sha256}')">
+      <img src="${purl(p.photo_id)}">${esc(p.photo_id)}
+      <span class="hint" title="${p.sha256}" style="display:block; font-size:9.5px;">${p.sha256.slice(0, 8)}…</span>
+    </figure>
+  `).join("");
 
   const riskBadge = `<span class="risk-tag risk-${r.risk_level}">Risk: ${r.risk_score} (${r.risk_level})</span>`;
 
   $("result").innerHTML = `
-    <div class="hero ${r.decision}"><div class="big">${r.decision}</div><div class="mean">${esc(defs.decisions[r.decision] || "")} ${riskBadge}</div><div class="why">${esc(r.decision_reason)}</div>
-      <div class="meta">PO ${esc(r.po_number)} · SKU ${esc(r.sku)} · Inspection ${id} · ${new Date(r.created_at).toLocaleString()} · Source: ${esc(rec.observation_source)} · Threshold ${r.confidence_threshold}</div></div>
+    <div class="hero ${r.decision}">
+      <div class="big">${r.decision}</div>
+      <div class="mean">${esc(defs.decisions[r.decision] || "")} ${riskBadge}</div>
+      <div class="why">${esc(r.decision_reason)}</div>
+      <div class="meta">PO ${esc(r.po_number)} · SKU ${esc(r.sku)} · Inspection ID: ${id} · ${new Date(r.created_at).toLocaleString()} · Source: ${esc(rec.observation_source)} · Threshold ${r.confidence_threshold}</div>
+    </div>
+
     <div class="tally">${tally}</div>
     ${ai}
     <div class="checks">${cards}</div>
-    <div class="card"><h2>Detected issues</h2>${issues}${r.warnings.length ? '<h2 style="margin-top:14px">Evidence warnings</h2>' + r.warnings.map((w) => `<div class="warn">⚠ ${esc(w)}</div>`).join("") : ""}</div>
-    <div class="card"><h2>Evidence record</h2><div class="thumbs">${photos || '<span class="hint">No photos</span>'}</div>
-      <p class="hint">Record SHA-256 <span class="code">${rec.record_sha256}</span></p>
-      <div style="display:flex;gap:8px;align-items:center"><button class="sec" id="verify">Verify integrity</button><button class="sec" id="download">Download JSON</button><span class="hint" id="verify-out"></span></div>
-      <details><summary>Raw evidence record</summary><pre>${esc(pretty(rec))}</pre></details></div>`;
+
+    <div class="card">
+      <h2>Detected Defect Codes &amp; Discrepancies</h2>
+      ${issues}
+      ${r.warnings.length ? '<h3 style="font-size:12px;text-transform:uppercase;color:var(--muted);margin-top:14px;">Evidence Warnings</h3>' + r.warnings.map((w) => `<div class="warn">⚠ ${esc(w)}</div>`).join("") : ""}
+    </div>
+
+    <div class="card">
+      <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;">
+        <h2 style="margin:0;">Tamper-Proof SHA-256 Evidence Record</h2>
+        <div style="display:flex; gap:8px;">
+          <button class="sec" id="verify"><span>🛡️</span> Verify Integrity</button>
+          <button class="sec" id="download"><span>💾</span> Download JSON</button>
+          <button class="sec" onclick="window.print()"><span>🖨️</span> Print Audit Report</button>
+        </div>
+      </div>
+      <div class="thumbs" style="margin:14px 0;">${photos || '<span class="hint">No photos</span>'}</div>
+      <p class="hint">Cryptographic SHA-256 Digest: <span class="code" style="color:var(--ink);">${rec.record_sha256}</span></p>
+      <div id="verify-out" style="margin:8px 0; font-size:12px;"></div>
+      <details style="margin-top:10px;"><summary>View Raw JSON Evidence Record</summary><pre>${esc(pretty(rec))}</pre></details>
+    </div>
+  `;
+
   $("verify").onclick = async () => {
-    const v = await (await fetch(`/api/inspections/${id}/verify`)).json();
-    if (v.valid) {
-      $("verify-out").innerHTML = '<b style="color:var(--pass)">Record intact: hash matches</b>';
-      showToast("Evidence record SHA-256 verified");
-    } else {
-      $("verify-out").innerHTML = '<b style="color:var(--fail)">HASH MISMATCH: record modified</b>';
+    try {
+      const v = await (await fetch(`/api/inspections/${id}/verify`)).json();
+      if (v.valid) {
+        $("verify-out").innerHTML = '<b style="color:var(--pass)">✓ Cryptographic Verification Passed: SHA-256 signature intact on chain ledger.</b>';
+        showToast("Record integrity verified: SHA-256 matches perfectly");
+      } else {
+        $("verify-out").innerHTML = '<b style="color:var(--fail)">✗ HASH MISMATCH: Record has been tampered with or modified.</b>';
+      }
+    } catch (e) {
+      $("verify-out").innerHTML = `<span style="color:var(--fail)">Verification error: ${e.message}</span>`;
     }
   };
+
   $("download").onclick = () => {
-    const a = document.createElement("a"); a.href = URL.createObjectURL(new Blob([pretty(rec)], {type: "application/json"}));
-    a.download = `evidence-${id}.json`; a.click(); showToast("Downloaded evidence JSON");
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(new Blob([pretty(rec)], {type: "application/json"}));
+    a.download = `evidence-${id}.json`;
+    a.click();
+    showToast("Downloaded sealed evidence record JSON");
   };
-  if ($("copy-claim")) $("copy-claim").onclick = () => { navigator.clipboard.writeText($("claim").textContent); showToast("Supplier claim copied to clipboard"); };
+
+  if ($("copy-claim")) {
+    $("copy-claim").onclick = () => {
+      navigator.clipboard.writeText($("claim").textContent);
+      showToast("Supplier claim draft copied to clipboard");
+    };
+  }
+
   $("result").scrollIntoView({behavior: "smooth", block: "start"});
 }
 
 function renderDefs() {
-  const block = (obj, kind) => Object.entries(obj).map(([k, v]) => `<div class="def">${kind === "v" ? vbadge(k) : kind === "d" ? `<span class="dec ${k}" style="font-size:12px">${k}</span>` : `<b style="text-transform:capitalize">${label(k)}</b>`}<p>${esc(v)}</p></div>`).join("");
+  const block = (obj, kind) => Object.entries(obj).map(([k, v]) => `
+    <div class="card" style="margin-bottom:10px;">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
+        ${kind === "v" ? vbadge(k) : kind === "d" ? `<span class="dec ${k}">${k}</span>` : `<b style="text-transform:capitalize; font-size:13px;">${label(k)}</b>`}
+      </div>
+      <p class="hint" style="margin:4px 0 0;">${esc(v)}</p>
+    </div>
+  `).join("");
   $("defs-verdicts").innerHTML = block(defs.verdicts, "v");
   $("defs-decisions").innerHTML = block(defs.decisions, "d");
   $("defs-checks").innerHTML = block(defs.checks, "c");
 }
 
 $("bench-run").onclick = async () => {
-  $("bench-out").innerHTML = '<span class="hint">Running…</span>';
-  const b = await (await fetch("/api/benchmark")).json();
-  const checks = Object.keys(b.results[0]?.verdicts || {});
-  $("bench-out").innerHTML = `<div style="display:flex;align-items:baseline;gap:12px"><span class="score" style="color:${b.passed === b.total ? "var(--pass)" : "var(--fail)"}">${b.passed}/${b.total}</span><span class="hint">scenarios produce expected decision, check verdicts and issue codes</span></div>
-    <p class="hint">Checks evaluated: ${checks.map(label).join(" · ")}</p>
-    <table><thead><tr><th>Scenario</th><th>Expected</th><th>Actual</th><th>Checks</th><th>Issue codes</th><th></th></tr></thead><tbody>
-    ${b.results.map((r) => `<tr><td><b>${esc(r.title)}</b><div class="hint">${esc(r.name)}</div></td><td><span class="dec ${r.expected_decision}">${r.expected_decision}</span></td><td><span class="dec ${r.decision}">${r.decision}</span></td>
-      <td>${checks.map((c) => `<span class="mini ${r.verdicts[c]}" title="${label(c)}: ${r.verdicts[c]}"></span>`).join("")}</td>
-      <td>${r.issue_codes.map((c) => `<span class="code">${esc(c)}</span>`).join(" ")}</td><td>${r.passed ? '<b style="color:var(--pass)">✓</b>' : '<b style="color:var(--fail)">✗</b>'}</td></tr>`).join("")}</tbody></table>`;
+  $("bench-out").innerHTML = '<span class="hint">Executing 24 rules regression scenarios...</span>';
+  try {
+    const b = await (await fetch("/api/benchmark")).json();
+    const checks = Object.keys(b.results[0]?.verdicts || {});
+    $("bench-out").innerHTML = `
+      <div style="display:flex;align-items:baseline;gap:12px;margin-bottom:12px;">
+        <span class="score" style="font-size:28px; font-weight:800; color:${b.passed === b.total ? "var(--pass)" : "var(--fail)"}">${b.passed}/${b.total}</span>
+        <span class="hint">scenarios strictly produced expected shipment decisions, check verdicts, and defect issue codes</span>
+      </div>
+      <table>
+        <thead>
+          <tr><th>Scenario</th><th>Expected</th><th>Actual</th><th>6 Checks</th><th>Defect Codes</th><th>Result</th></tr>
+        </thead>
+        <tbody>
+          ${b.results.map((r) => `
+            <tr>
+              <td><b>${esc(r.title)}</b><div class="hint">${esc(r.name)}</div></td>
+              <td><span class="dec ${r.expected_decision}">${r.expected_decision}</span></td>
+              <td><span class="dec ${r.decision}">${r.decision}</span></td>
+              <td>${checks.map((c) => `<span class="mini ${r.verdicts[c]}" title="${label(c)}: ${r.verdicts[c]}"></span>`).join("")}</td>
+              <td>${r.issue_codes.map((c) => `<span class="code">${esc(c)}</span>`).join(" ") || '<span class="hint">-</span>'}</td>
+              <td>${r.passed ? '<b style="color:var(--pass)">✓ PASS</b>' : '<b style="color:var(--fail)">✗ FAIL</b>'}</td>
+            </tr>
+          `).join("")}
+        </tbody>
+      </table>
+    `;
+    showToast(`Rules regression: ${b.passed}/${b.total} passed`);
+  } catch (err) {
+    $("bench-out").innerHTML = `<p style="color:var(--fail)">Benchmark failed: ${err.message}</p>`;
+  }
 };
 
 async function loadSupplierStats() {
   $("supplier-stats-out").innerHTML = '<span class="hint">Loading supplier analytics...</span>';
-  const stats = await (await fetch("/api/suppliers/stats")).json();
-  if (!stats.length) { $("supplier-stats-out").innerHTML = '<p class="hint">No supplier inspection data yet. Run inspections to generate quality records.</p>'; return; }
-  $("supplier-stats-out").innerHTML = `
-    <table><thead><tr><th>Supplier</th><th>Total Inspections</th><th>Accept Rate</th><th>Avg Risk Score</th><th>Decisions (Acc / Exc / Unc)</th><th>Common Issues</th></tr></thead>
-    <tbody>${stats.map((s) => `
-      <tr>
-        <td><b>${esc(s.supplier)}</b></td>
-        <td>${s.total_inspections}</td>
-        <td><b style="color:${s.accept_rate >= 80 ? "var(--pass)" : s.accept_rate >= 50 ? "var(--unc)" : "var(--fail)"}">${s.accept_rate}%</b></td>
-        <td><span class="risk-tag risk-${s.avg_risk_score >= 70 ? 'CRITICAL' : s.avg_risk_score >= 35 ? 'HIGH' : s.avg_risk_score >= 15 ? 'MEDIUM' : 'LOW'}">${s.avg_risk_score}</span></td>
-        <td><span class="dec ACCEPT">${s.accept_count}</span> <span class="dec EXCEPTION">${s.exception_count}</span> <span class="dec UNCERTAIN">${s.uncertain_count}</span></td>
-        <td>${s.common_issues.map((c) => `<span class="code">${esc(c)}</span>`).join(" ") || '<span class="hint">None</span>'}</td>
-      </tr>`).join("")}
-    </tbody></table>`;
+  try {
+    const stats = await (await fetch("/api/suppliers/stats")).json();
+    if (!stats.length) {
+      $("supplier-stats-out").innerHTML = '<p class="hint">No supplier inspection data yet. Run inspections to generate quality records.</p>';
+      return;
+    }
+    $("supplier-stats-out").innerHTML = `
+      <table>
+        <thead>
+          <tr><th>Supplier</th><th>Total Inspections</th><th>Accept Rate</th><th>Avg Risk Score</th><th>Decisions (Acc / Exc / Unc)</th><th>Common Defect Codes</th></tr>
+        </thead>
+        <tbody>
+          ${stats.map((s) => `
+            <tr>
+              <td><b>${esc(s.supplier)}</b></td>
+              <td>${s.total_inspections}</td>
+              <td><b style="color:${s.accept_rate >= 80 ? "var(--pass)" : s.accept_rate >= 50 ? "var(--unc)" : "var(--fail)"}">${s.accept_rate}%</b></td>
+              <td><span class="risk-tag risk-${s.avg_risk_score >= 70 ? 'CRITICAL' : s.avg_risk_score >= 35 ? 'HIGH' : s.avg_risk_score >= 15 ? 'MEDIUM' : 'LOW'}">${s.avg_risk_score}</span></td>
+              <td><span class="dec ACCEPT">${s.accept_count}</span> <span class="dec EXCEPTION">${s.exception_count}</span> <span class="dec UNCERTAIN">${s.uncertain_count}</span></td>
+              <td>${s.common_issues.map((c) => `<span class="code">${esc(c)}</span>`).join(" ") || '<span class="hint">None</span>'}</td>
+            </tr>
+          `).join("")}
+        </tbody>
+      </table>
+    `;
+  } catch (err) {
+    $("supplier-stats-out").innerHTML = `<p style="color:var(--fail)">Failed: ${err.message}</p>`;
+  }
 }
 
 async function loadEvaluation() {
@@ -835,12 +2134,12 @@ async function loadEvaluation() {
         <div class="card" style="margin:0; text-align:center;">
           <span class="hint" style="font-size:11px; font-weight:700; text-transform:uppercase;">Dual-Human Kappa</span>
           <div style="font-size:24px; font-weight:800; color:var(--brand); margin-top:4px;">${data.human_evaluator_kappa}</div>
-          <small class="hint">Inter-rater reliability (E1 vs E2)</small>
+          <small class="hint">Inter-rater agreement (E1 vs E2)</small>
         </div>
         <div class="card" style="margin:0; text-align:center;">
           <span class="hint" style="font-size:11px; font-weight:700; text-transform:uppercase;">Agent-Human Kappa</span>
           <div style="font-size:24px; font-weight:800; color:#3b82f6; margin-top:4px;">${data.agent_consensus_kappa}</div>
-          <small class="hint">Agent vs Ground Truth agreement</small>
+          <small class="hint">Agent vs Ground Truth</small>
         </div>
         <div class="card" style="margin:0; text-align:center;">
           <span class="hint" style="font-size:11px; font-weight:700; text-transform:uppercase;">UNCERTAIN Rate</span>
@@ -849,8 +2148,8 @@ async function loadEvaluation() {
         </div>
         <div class="card" style="margin:0; text-align:center;">
           <span class="hint" style="font-size:11px; font-weight:700; text-transform:uppercase;">Avg Cost / Latency</span>
-          <div style="font-size:24px; font-weight:800; color:#6366f1; margin-top:4px;">$${(data.avg_cost_per_unit_usd || 0).toFixed(4)}</div>
-          <small class="hint">${Math.round(data.avg_latency_ms || 0)} ms average latency</small>
+          <div style="font-size:24px; font-weight:800; color:#8b5cf6; margin-top:4px;">$${(data.avg_cost_per_unit_usd || 0).toFixed(4)}</div>
+          <small class="hint">${Math.round(data.avg_latency_ms || 0)} ms avg latency</small>
         </div>
       </div>
     `;
@@ -908,11 +2207,18 @@ async function loadEvaluation() {
 }
 
 $("eval-refresh").onclick = () => loadEvaluation();
-$("export-csv").onclick = () => { window.open("/api/inspections/export?fmt=csv"); showToast("Exporting inspections CSV"); };
+$("export-json").onclick = () => { window.open("/api/inspections/export?fmt=json"); showToast("Exporting JSON"); };
+$("export-csv").onclick = () => { window.open("/api/inspections/export?fmt=csv"); showToast("Exporting CSV"); };
 
 $("hist-search").oninput = (e) => {
   const q = e.target.value.toLowerCase();
-  renderHistory(historyItems.filter((it) => !q || it.po_number.toLowerCase().includes(q) || it.sku.toLowerCase().includes(q) || it.inspection_id.toLowerCase().includes(q) || (it.supplier && it.supplier.toLowerCase().includes(q))));
+  renderHistory(historyItems.filter((it) =>
+    !q ||
+    it.po_number.toLowerCase().includes(q) ||
+    it.sku.toLowerCase().includes(q) ||
+    it.inspection_id.toLowerCase().includes(q) ||
+    (it.supplier && it.supplier.toLowerCase().includes(q))
+  ));
 };
 
 function renderHistory(items) {
@@ -920,15 +2226,26 @@ function renderHistory(items) {
   for (const it of items) {
     const li = document.createElement("li");
     const riskTag = it.risk_score != null ? `<span class="risk-tag risk-${it.risk_level}">${it.risk_score}</span>` : "";
-    li.innerHTML = `<span class="dec ${it.decision}">${it.decision}</span> <b>${esc(it.po_number)}</b> <span class="hint">${esc(it.supplier || "")}</span> · <code>${esc(it.sku)}</code> ${riskTag} <span class="hint" style="margin-left:auto">${new Date(it.created_at).toLocaleString()}</span>`;
-    li.onclick = async () => { render(await (await fetch(`/api/inspections/${it.inspection_id}`)).json()); document.querySelector('nav button[data-page=inspect]').click(); };
+    li.innerHTML = `
+      <span class="dec ${it.decision}">${it.decision}</span>
+      <b>${esc(it.po_number)}</b>
+      <span class="hint">${esc(it.supplier || "")}</span> · <code>${esc(it.sku)}</code>
+      ${riskTag}
+      <span class="hint" style="margin-left:auto; font-size:11px;">${new Date(it.created_at).toLocaleString()}</span>
+    `;
+    li.onclick = async () => {
+      render(await (await fetch(`/api/inspections/${it.inspection_id}`)).json());
+      document.querySelector('nav button[data-page=inspect]').click();
+    };
     $("history").appendChild(li);
   }
 }
 
 async function loadHistory() {
-  historyItems = await (await fetch("/api/inspections")).json();
-  renderHistory(historyItems.slice(0, 50));
+  try {
+    historyItems = await (await fetch("/api/inspections")).json();
+    renderHistory(historyItems.slice(0, 50));
+  } catch (e) {}
 }
 
 function switchPodTab(tab) {
@@ -987,12 +2304,12 @@ $('btn-verify-pack').onclick = async () => {
         ${res.detected_items.map(i => `<div>• <code>${i.sku}</code> x ${i.quantity} (${esc(i.evidence)})</div>`).join('')}
       </div>
       ${res.issues.length ? `
-        <div style="background:#fef2f2; border:1px solid #fecaca; border-radius:8px; padding:10px; font-size:12px; margin-top:8px;">
+        <div style="background:var(--fail-bg); border:1px solid var(--fail-border); border-radius:8px; padding:10px; font-size:12px; margin-top:8px;">
           <b style="color:var(--fail)">Issues Detected (${res.issues.length}):</b>
           ${res.issues.map(iss => `<div style="margin-top:4px;">✗ [${iss.type}] ${esc(iss.evidence)}</div>`).join('')}
         </div>
       ` : ''}
-      <div style="background:#fff; border:1px solid var(--line); border-radius:8px; padding:10px; font-size:12px; margin-top:8px;">
+      <div style="background:var(--bg-card); border:1px solid var(--line); border-radius:8px; padding:10px; font-size:12px; margin-top:8px;">
         <b>Audit Guidance:</b> ${esc(res.audit_notes)}
       </div>
     `;
@@ -1025,7 +2342,7 @@ $('btn-dispatch-prep').onclick = async () => {
           ${res.required_prep.map(p => `<span class="pill active" style="font-size:11px;">${p}</span>`).join('')}
         </div>
       </div>
-      <div style="background:#fff; border:1px solid var(--line); border-radius:8px; padding:10px; font-size:12px; margin-top:8px;">
+      <div style="background:var(--bg-card); border:1px solid var(--line); border-radius:8px; padding:10px; font-size:12px; margin-top:8px;">
         <b>Operator Instructions:</b> ${esc(res.operator_notes)}
       </div>
     `;
@@ -1065,7 +2382,7 @@ $('btn-correlate-rtm').onclick = async () => {
         <b>Fraud Risk Score:</b> <span class="score" style="color:${res.fraud_risk_score > 0.6 ? 'var(--fail)' : 'var(--pass)'}">${(res.fraud_risk_score * 100).toFixed(0)}%</span>
         · <b>Dock Origin:</b> <code>${res.inbound_record_id || 'NONE'}</code> (${res.inbound_sku || 'N/A'})
       </div>
-      <div style="background:#fff; border:1px solid var(--line); border-radius:8px; padding:10px; font-size:12.5px;">
+      <div style="background:var(--bg-card); border:1px solid var(--line); border-radius:8px; padding:10px; font-size:12.5px;">
         <b>Audit Findings:</b> ${esc(res.evidence_comparison_notes)}
       </div>
       ${res.inbound_damage_notes ? `<div class="hint" style="margin-top:6px; font-size:11px;">${esc(res.inbound_damage_notes)}</div>` : ''}
@@ -1091,7 +2408,7 @@ async function reconcileRecovery() {
         <b style="font-size:22px; color:#b45309; display:block; margin-top:4px;">$${res.total_vendor_chargeback_amount.toFixed(2)}</b>
         <span class="hint">${res.supporting_count} supplier defects verified on arrival</span>
       </div>
-      <div class="card" style="margin:0; border-left:4px solid #64748b;">
+      <div class="card" style="margin:0; border-left:4px solid var(--muted);">
         <span class="hint">Total Fee Lines Reconciled</span>
         <b style="font-size:22px; display:block; margin-top:4px;">${res.total_fee_lines_analyzed}</b>
         <span class="hint">${res.silent_count} silent / weight tier charges</span>
