@@ -11,6 +11,15 @@ from receiving_manager.integrations.prep import (
     create_prep_dispatch,
     derive_prep_requirements,
 )
+from receiving_manager.integrations.pack import (
+    PackDetectedItem,
+    PackOrderItem,
+    PackVerdict,
+    PackVerificationIssue,
+    PackVerificationResult,
+    create_pack_manifest_from_inbound,
+    verify_outbound_pack,
+)
 from receiving_manager.integrations.returns import (
     LiabilityAssignment,
     ReturnAssessmentQuery,
@@ -38,6 +47,13 @@ __all__ = [
     "PrepWorkOrder",
     "create_prep_dispatch",
     "derive_prep_requirements",
+    "PackVerdict",
+    "PackOrderItem",
+    "PackDetectedItem",
+    "PackVerificationIssue",
+    "PackVerificationResult",
+    "create_pack_manifest_from_inbound",
+    "verify_outbound_pack",
     "LiabilityAssignment",
     "ReturnAssessmentQuery",
     "ReturnCorrelationResult",

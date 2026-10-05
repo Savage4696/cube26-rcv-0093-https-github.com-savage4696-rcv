@@ -279,23 +279,23 @@ In alignment with the CUBE Buildathon Round 2 Rubric and independent audit findi
 In fulfillment of the CUBE 2026 unified lifecycle vision (*"Five agents, one unit, one record that follows it"*), RCV serves as the foundational **Stage 01 Inbound Hub** and provides native integration adapters connecting to all downstream partner repositories:
 
 ```text
- ┌─────────────────────────────────────────────────────────────────────────────┐
- │                       CUBE 2026 INTEGRATED ECOSYSTEM                        │
- └─────────────────────────────────────────────────────────────────────────────┘
-                                        │
-                         [Stage 01: Inbound Receiving (RCV)]
-                         • Savage4696/RCV
-                         • Sealed SHA-256 CUBE Evidence Record
-                                        │
-           ┌────────────────────────────┼────────────────────────────┐
-           ▼                            ▼                            ▼
- [Stage 02: Prep (PRP)]       [Stage 04: Returns (RTM)]    [Stage 05: Recovery (RCY)]
- • cube26-prp-0153            • cube-04-returns-manager    • cube26-rcy-0077
- • Work Order Dispatch        • Provenance & Fraud Cross   • Fee Reconciliation
- • Auto-inferred prep rules:  • Distinguishes pre-existing • Contradiction disputes:
-   - Polybag + suffocation      supplier dock damage from    - Contradicts: FBA claim
-   - Bubble wrap fragile        customer-inflicted damage    - Supports: Vendor memo
-   - Rebox carton tears       • Catches SKU switch fraud     - Silent: Ineligible
+ ┌─────────────────────────────────────────────────────────────────────────────────────────────┐
+ │                                CUBE 2026 INTEGRATED ECOSYSTEM                               │
+ └─────────────────────────────────────────────────────────────────────────────────────────────┘
+                                                │
+                                [Stage 01: Inbound Receiving (RCV)]
+                                • Savage4696/RCV
+                                • Sealed SHA-256 CUBE Evidence Record
+                                                │
+         ┌───────────────────────┬──────────────┴──────────────┬───────────────────────┐
+         ▼                       ▼                             ▼                       ▼
+ [Stage 02: Prep (PRP)]  [Stage 03: Pack (PCK)]        [Stage 04: Returns (RTM)] [Stage 05: Recovery (RCY)]
+ • cube26-prp-0153       • cube26-pck-0168             • cube-04-returns-manager • cube26-rcy-0077
+ • Work Order Dispatch   • Pre-Seal Outbound Check     • Provenance & Fraud Cross• Fee Reconciliation
+ • Auto-inferred rules:  • Kit BOM verification        • Distinguishes supplier  • Contradiction disputes:
+   - Polybag + suffocate • Missing/wrong item catch      dock damage from          - Contradicts: FBA claim
+   - Bubble wrap fragile • Verdict: SEAL vs STOP_AND_FIX customer damage           - Supports: Vendor memo
+   - Rebox carton tears  • Pack session audit trail    • Catches SKU switches     - Silent: Ineligible
 ```
 
 ### 1. Stage 02: Prep Manager (PRP) Integration (`receiving_manager/integrations/prep.py`)
@@ -307,7 +307,22 @@ In fulfillment of the CUBE 2026 unified lifecycle vision (*"Five agents, one uni
   - Inbound transit carton damage -> Auto-dispatches `REBOX_DAMAGED_CARTON` + `TAPING_AND_SEALING` under `EXPEDITE` priority.
 - **Endpoint**: `POST /api/integrations/prep/dispatch` | **CLI**: `receiving-manager integrate --pod prep --unit UNIT-0005`
 
-### 2. Stage 04: Returns Manager (RTM) Integration (`receiving_manager/integrations/returns.py`)
+### 2. Stage 03: Pack Manager (PCK) Integration (`receiving_manager/integrations/pack.py`)
+- **Repo**: `varalakshmikonjeti/cube26-pck-0168-varalakshmikonjeti`
+- **Contract Compatibility**: Implements pre-seal outbound packaging verification and carton content checks conforming to Pack Manager's decision schema (`SEAL` vs `STOP_AND_FIX`).
+- **Master BOM & Discrepancy Detection**:
+  - Inbound dock receiving logs populate the expected Master Packaging BOM for picked outbound orders.
+  - Pre-seal verification inspects open cartons before taping to detect:
+    - `missing_item`: Expected item not detected in pack station view.
+    - `wrong_item`: Uncataloged or mismatched SKU placed into carton.
+    - `quantity_mismatch`: Count exceeds or falls short of order requirements.
+  - When verified, returns `verdict: "SEAL"` with sealed SHA-256 session audit records; on discrepancy, returns `verdict: "STOP_AND_FIX"` with actionable corrective instructions to pack station operators.
+- **Endpoints**:
+  - `GET /api/integrations/pack/manifest/{unit_id}`: Outbound packaging BOM.
+  - `POST /api/integrations/pack/verify`: Pre-seal verification (`SEAL` vs `STOP_AND_FIX`).
+- **CLI**: `receiving-manager integrate --pod pack --unit UNIT-0004`
+
+### 3. Stage 04: Returns Manager (RTM) Integration (`receiving_manager/integrations/returns.py`)
 - **Repo**: `jeevanreddy29/cube-04-returns-manager`
 - **Contract Compatibility**: Connects to Returns Manager's `ReturnRecordEvidence` schema.
 - **Inbound Provenance & Switch Fraud Detection**:
@@ -316,7 +331,7 @@ In fulfillment of the CUBE 2026 unified lifecycle vision (*"Five agents, one uni
   - **Defect Attribution**: If the returned item is damaged and dock records confirm transit crushing occurred on receipt, flags `SUPPLIER_PRE_EXISTING_DEFECT` (liability: `SUPPLIER`), protecting customer CSAT while routing reimbursement to the vendor.
 - **Endpoint**: `POST /api/integrations/returns/correlate` | **CLI**: `receiving-manager integrate --pod returns --unit UNIT-0010`
 
-### 3. Stage 05: Recovery Manager (RCY) Integration (`receiving_manager/integrations/recovery.py`)
+### 4. Stage 05: Recovery Manager (RCY) Integration (`receiving_manager/integrations/recovery.py`)
 - **Repo**: `pia-21/cube26-rcy-0077`
 - **Contract Compatibility**: Consumes `data/fee_report_sample.csv` (inbound defect fees, lost inbound, weight tiers).
 - **Deterministic 3-Way Reconciliation Engine**:

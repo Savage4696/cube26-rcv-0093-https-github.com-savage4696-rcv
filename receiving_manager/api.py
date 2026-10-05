@@ -12,6 +12,9 @@ from pydantic import TypeAdapter, ValidationError
 
 from .integrations import (
     CrossPodIntegrationService,
+    PackDetectedItem,
+    PackOrderItem,
+    PackVerificationResult,
     PrepWorkOrder,
     RecoveryReconciliationReport,
     ReturnAssessmentQuery,
@@ -338,6 +341,22 @@ def dispatch_prep(
     org_id: Optional[str] = Form("org_demo_alpha"),
 ) -> PrepWorkOrder:
     return cross_pod_service.dispatch_to_prep(unit_id=unit_id, custom_sku=sku, custom_org_id=org_id)
+
+
+@app.get("/api/integrations/pack/manifest/{unit_id}")
+def get_pack_manifest(unit_id: str) -> list[PackOrderItem]:
+    return cross_pod_service.get_pack_manifest(unit_id)
+
+
+@app.post("/api/integrations/pack/verify")
+def verify_pack_endpoint(
+    unit_id: str = Form(...),
+    detected_sku: str = Form(...),
+    detected_qty: int = Form(...),
+    evidence: str = Form("Verified pre-seal overhead photo"),
+) -> PackVerificationResult:
+    detected = [PackDetectedItem(sku=detected_sku, quantity=detected_qty, evidence=evidence)]
+    return cross_pod_service.verify_outbound_pack_for_unit(unit_id=unit_id, detected_items=detected)
 
 
 @app.post("/api/integrations/returns/correlate")

@@ -300,7 +300,7 @@ th { font-size: 11px; text-transform: uppercase; color: var(--muted); letter-spa
     <button data-page="inspect" class="active">Inspect</button>
     <button data-page="eval">Held-out vision eval (50)</button>
     <button data-page="bench">Rules regression (24)</button>
-    <button data-page="integrations">Cross-pod (PRP · RTM · RCY)</button>
+    <button data-page="integrations">Cross-pod (PRP · PCK · RTM · RCY)</button>
     <button data-page="suppliers">Supplier quality</button>
     <button data-page="defs">How decisions work</button>
     <button data-page="history">History</button>
@@ -429,6 +429,14 @@ th { font-size: 11px; text-transform: uppercase; color: var(--muted); letter-spa
         <div class="hint" style="font-size:11.5px; margin-bottom:6px;">maithripagidi3284-coder/cube26-prp-0153</div>
         <div style="font-size:11px; color:#475569;">Downstream work-orders: polybagging, suffocation warnings, bubble wrap, reboxing.</div>
       </div>
+      <div style="background:#f8fafc; border:1px solid #cbd5e1; border-top:4px solid #f59e0b; border-radius:12px; padding:12px 14px;">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+          <b style="font-size:13px;">Stage 03 · Pack (PCK)</b>
+          <span class="v PASS" style="font-size:9px; padding:2px 6px;">CONNECTED</span>
+        </div>
+        <div class="hint" style="font-size:11.5px; margin-bottom:6px;">varalakshmikonjeti/cube26-pck-0168</div>
+        <div style="font-size:11px; color:#475569;">Pre-seal carton contents verification, kit BOM validation, mis-ship prevention.</div>
+      </div>
       <div style="background:#f8fafc; border:1px solid #cbd5e1; border-top:4px solid #7c3aed; border-radius:12px; padding:12px 14px;">
         <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
           <b style="font-size:13px;">Stage 04 · Returns (RTM)</b>
@@ -448,8 +456,9 @@ th { font-size: 11px; text-transform: uppercase; color: var(--muted); letter-spa
     </div>
 
     <!-- Pod Selector Sub-Tabs -->
-    <div style="display:flex; gap:8px; border-bottom:1px solid var(--line); padding-bottom:10px; margin-bottom:16px;">
+    <div style="display:flex; gap:8px; border-bottom:1px solid var(--line); padding-bottom:10px; margin-bottom:16px; flex-wrap:wrap;">
       <button class="pill active" id="tab-btn-prp">Stage 02 · Prep Manager (PRP) Work Orders</button>
+      <button class="pill" id="tab-btn-pck">Stage 03 · Pack Manager (PCK) Pre-Seal</button>
       <button class="pill" id="tab-btn-rtm">Stage 04 · Returns Manager (RTM) Provenance &amp; Fraud</button>
       <button class="pill" id="tab-btn-rcy">Stage 05 · Recovery Manager (RCY) Fee Dispute Studio</button>
     </div>
@@ -470,6 +479,28 @@ th { font-size: 11px; text-transform: uppercase; color: var(--muted); letter-spa
         </div>
         <div id="prp-out" style="background:#f8fafc; border:1px solid var(--line); border-radius:12px; padding:16px; min-height:160px;">
           <p class="hint">Click dispatch to generate a compliant Prep Manager work order packet.</p>
+        </div>
+      </div>
+    </div>
+
+    <div id="panel-pck" style="display:none;">
+      <div style="display:grid; grid-template-columns:minmax(300px, 380px) 1fr; gap:20px;">
+        <div>
+          <label class="f" for="pck-unit-select">Inbound Unit / Kit for Packing Station</label>
+          <select id="pck-unit-select" class="search-bar" style="margin-bottom:12px;">
+            <option value="UNIT-0004">UNIT-0004 (Protein Powder · Kit: tub, scoop · Expected Qty: 24)</option>
+            <option value="UNIT-0010">UNIT-0010 (LED Desk Lamp · Kit: lamp, usb cable, manual · Expected Qty: 24)</option>
+            <option value="UNIT-0012">UNIT-0012 (Ceramic Mug Set of 2 · Expected Qty: 24)</option>
+            <option value="UNIT-0006">UNIT-0006 (USB-C Cable 2m · Expected Qty: 48)</option>
+          </select>
+          <label class="f" for="pck-sku-input">Detected SKU In Open Box</label>
+          <input type="text" id="pck-sku-input" class="search-bar" value="SKU-PROT-1KG">
+          <label class="f" for="pck-qty-input">Detected Quantity In Open Box</label>
+          <input type="number" id="pck-qty-input" class="search-bar" value="24" style="margin-bottom:12px;">
+          <button class="primary" id="btn-verify-pack" style="width:100%;">Verify Carton Contents Before Seal</button>
+        </div>
+        <div id="pck-out" style="background:#f8fafc; border:1px solid var(--line); border-radius:12px; padding:16px; min-height:160px;">
+          <p class="hint">Inspect pre-seal contents against inbound BOM to prevent mis-ships.</p>
         </div>
       </div>
     </div>
@@ -901,13 +932,14 @@ async function loadHistory() {
 }
 
 function switchPodTab(tab) {
-  ['prp', 'rtm', 'rcy'].forEach(t => {
+  ['prp', 'pck', 'rtm', 'rcy'].forEach(t => {
     $('panel-' + t).style.display = (t === tab) ? 'block' : 'none';
     $('tab-btn-' + t).classList.toggle('active', t === tab);
   });
 }
 
 $('tab-btn-prp').onclick = () => switchPodTab('prp');
+$('tab-btn-pck').onclick = () => switchPodTab('pck');
 $('tab-btn-rtm').onclick = () => switchPodTab('rtm');
 $('tab-btn-rcy').onclick = () => { switchPodTab('rcy'); if (!$('rcy-table-out').innerHTML) reconcileRecovery(); };
 
@@ -917,6 +949,58 @@ async function loadIntegrations() {
     showToast("Loaded Cross-Pod Status: " + res.cached_inbound_units + " units indexed");
   } catch (e) {}
 }
+
+$('pck-unit-select').onchange = (e) => {
+  const u = e.target.value;
+  if (u === 'UNIT-0004') { $('pck-sku-input').value = 'SKU-PROT-1KG'; $('pck-qty-input').value = 24; }
+  if (u === 'UNIT-0010') { $('pck-sku-input').value = 'SKU-LAMP-LED'; $('pck-qty-input').value = 24; }
+  if (u === 'UNIT-0012') { $('pck-sku-input').value = 'SKU-MUG-11'; $('pck-qty-input').value = 24; }
+  if (u === 'UNIT-0006') { $('pck-sku-input').value = 'SKU-CABLE-USBC'; $('pck-qty-input').value = 48; }
+};
+
+$('btn-verify-pack').onclick = async () => {
+  const unitId = $('pck-unit-select').value;
+  const sku = $('pck-sku-input').value.trim();
+  const qty = parseInt($('pck-qty-input').value, 10) || 1;
+  $('pck-out').innerHTML = '<p class="hint">Verifying pre-seal carton contents...</p>';
+  try {
+    const fd = new FormData();
+    fd.append('unit_id', unitId);
+    fd.append('detected_sku', sku);
+    fd.append('detected_qty', qty);
+    fd.append('evidence', 'Pre-seal packing inspection camera');
+
+    const res = await (await fetch('/api/integrations/pack/verify', { method: 'POST', body: fd })).json();
+    const isSeal = res.verdict === 'seal';
+
+    $('pck-out').innerHTML = `
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+        <span class="v ${isSeal ? 'PASS' : 'FAIL'}">${res.verdict.toUpperCase()}</span>
+        <b style="font-size:12px;">Dock Ref: <code>${res.inbound_record_id || 'NONE'}</code></b>
+      </div>
+      <div style="margin-bottom:8px; font-size:12px;">
+        <b>Expected Items:</b>
+        ${res.expected_items.map(i => `<div>• <code>${i.sku}</code> x ${i.quantity} ${i.expected_components.length ? '(' + i.expected_components.join(', ') + ')' : ''}</div>`).join('')}
+      </div>
+      <div style="margin-bottom:8px; font-size:12px;">
+        <b>Detected In Box:</b>
+        ${res.detected_items.map(i => `<div>• <code>${i.sku}</code> x ${i.quantity} (${esc(i.evidence)})</div>`).join('')}
+      </div>
+      ${res.issues.length ? `
+        <div style="background:#fef2f2; border:1px solid #fecaca; border-radius:8px; padding:10px; font-size:12px; margin-top:8px;">
+          <b style="color:var(--fail)">Issues Detected (${res.issues.length}):</b>
+          ${res.issues.map(iss => `<div style="margin-top:4px;">✗ [${iss.type}] ${esc(iss.evidence)}</div>`).join('')}
+        </div>
+      ` : ''}
+      <div style="background:#fff; border:1px solid var(--line); border-radius:8px; padding:10px; font-size:12px; margin-top:8px;">
+        <b>Audit Guidance:</b> ${esc(res.audit_notes)}
+      </div>
+    `;
+    showToast(`Pack verification complete: ${res.verdict.toUpperCase()}`);
+  } catch (err) {
+    $('pck-out').innerHTML = `<p style="color:var(--fail)">Failed: ${err.message}</p>`;
+  }
+};
 
 $('btn-refresh-integrations').onclick = () => loadIntegrations();
 

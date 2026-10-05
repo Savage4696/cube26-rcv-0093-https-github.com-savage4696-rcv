@@ -162,6 +162,35 @@ def cmd_integrate(args: argparse.Namespace) -> int:
             print(json.dumps(wo.model_dump(mode="json"), indent=2))
         return 0
 
+    if pod == "pack":
+        unit = args.unit or "UNIT-0004"
+        manifest = cross_pod_service.get_pack_manifest(unit)
+        sku = args.sku or (manifest[0].sku if manifest else "SKU-UNKNOWN")
+        qty = int(args.qty) if getattr(args, "qty", None) else (manifest[0].quantity if manifest else 1)
+
+        from receiving_manager.integrations.pack import PackDetectedItem
+        detected = [PackDetectedItem(sku=sku, quantity=qty, evidence="Pre-seal packing camera frame")]
+        res = cross_pod_service.verify_outbound_pack_for_unit(unit, detected)
+
+        print(f"=== Stage 03: Pack Manager Pre-Seal Verification ({unit}) ===")
+        print(f"Carton Seal Verdict: {res.verdict.value.upper()}")
+        print(f"Dock Reference: {res.inbound_record_id or 'NONE'}")
+        print("Expected Pack Items:")
+        for exp in res.expected_items:
+            comp_str = f" (Components: {', '.join(exp.expected_components)})" if exp.expected_components else ""
+            print(f"  • {exp.sku} x {exp.quantity}{comp_str}")
+        print("Detected In Carton:")
+        for det in res.detected_items:
+            print(f"  • {det.sku} x {det.quantity} ({det.evidence})")
+        if res.issues:
+            print(f"Issues Detected ({len(res.issues)}):")
+            for iss in res.issues:
+                print(f"  ✗ [{iss.type}] {iss.evidence}")
+        print(f"Audit Notes: {res.audit_notes}")
+        if args.json:
+            print(json.dumps(res.model_dump(mode="json"), indent=2))
+        return 0
+
     if pod == "returns":
         unit = args.unit or "UNIT-0010"
         query = ReturnAssessmentQuery(
@@ -234,10 +263,11 @@ def main(argv: list[str] | None = None) -> int:
     p.add_argument("--json", action="store_true")
     p.set_defaults(func=cmd_evaluate)
 
-    p = sub.add_parser("integrate", help="Cross-Pod ecosystem integrations (Prep, Returns, Recovery)")
-    p.add_argument("--pod", choices=["status", "prep", "returns", "recovery"], default="status", help="Pod to interact with")
-    p.add_argument("--unit", help="Unit ID (e.g. UNIT-0005)")
+    p = sub.add_parser("integrate", help="Cross-Pod ecosystem integrations (Prep, Pack, Returns, Recovery)")
+    p.add_argument("--pod", choices=["status", "prep", "pack", "returns", "recovery"], default="status", help="Pod to interact with")
+    p.add_argument("--unit", help="Unit ID (e.g. UNIT-0004)")
     p.add_argument("--sku", help="SKU identifier")
+    p.add_argument("--qty", type=int, help="Packed quantity detected")
     p.add_argument("--state", help="Observed return state (e.g. opened_unused, damaged)")
     p.add_argument("--fee-csv", help="Custom fee report CSV path for Recovery reconciliation")
     p.add_argument("--json", action="store_true")

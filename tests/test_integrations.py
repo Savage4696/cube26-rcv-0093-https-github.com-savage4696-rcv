@@ -180,3 +180,61 @@ def test_api_integrations_endpoints():
     recdata = res.json()
     assert recdata["total_fee_lines_analyzed"] > 0
     assert recdata["contradicting_count"] > 0
+
+    # 5. Pack manifest & pre-seal verification
+    res = client.get("/api/integrations/pack/manifest/UNIT-0004")
+    assert res.status_code == 200
+    mdata = res.json()
+    assert len(mdata) >= 1
+    assert mdata[0]["sku"] == "SKU-PROT-1KG"
+
+    # Test pre-seal verification endpoint
+    res = client.post(
+        "/api/integrations/pack/verify",
+        data={"unit_id": "UNIT-0004", "detected_sku": "SKU-PROT-1KG", "detected_qty": 24},
+    )
+    assert res.status_code == 200
+    pck_res = res.json()
+    assert pck_res["verdict"] == "seal"
+    assert len(pck_res["issues"]) == 0
+
+
+def test_pack_integration_pre_seal_rules():
+    from receiving_manager.integrations import (
+        PackDetectedItem,
+        PackOrderItem,
+        PackVerdict,
+        verify_outbound_pack,
+    )
+
+    expected = [
+        PackOrderItem(sku="SKU-LAMP-LED", quantity=2, expected_components=["lamp", "usb cable", "manual"]),
+        PackOrderItem(sku="SKU-CABLE-USBC", quantity=1),
+    ]
+
+    # Case 1: Exact match -> SEAL
+    detected_good = [
+        PackDetectedItem(sku="SKU-LAMP-LED", quantity=2, evidence="photo_overhead_1"),
+        PackDetectedItem(sku="SKU-CABLE-USBC", quantity=1, evidence="photo_overhead_1"),
+    ]
+    res_good = verify_outbound_pack(expected, detected_good)
+    assert res_good.verdict == PackVerdict.SEAL
+    assert len(res_good.issues) == 0
+
+    # Case 2: Missing item -> STOP_AND_FIX
+    detected_missing = [
+        PackDetectedItem(sku="SKU-LAMP-LED", quantity=2, evidence="photo_overhead_1"),
+    ]
+    res_missing = verify_outbound_pack(expected, detected_missing)
+    assert res_missing.verdict == PackVerdict.STOP_AND_FIX
+    assert any(i.type == "missing_item" and i.sku == "SKU-CABLE-USBC" for i in res_missing.issues)
+
+    # Case 3: Wrong item / unexpected extra item -> STOP_AND_FIX
+    detected_wrong = [
+        PackDetectedItem(sku="SKU-LAMP-LED", quantity=2, evidence="photo_overhead_1"),
+        PackDetectedItem(sku="SKU-CABLE-USBC", quantity=1, evidence="photo_overhead_1"),
+        PackDetectedItem(sku="SKU-EXTRA-MUG", quantity=1, evidence="photo_overhead_1"),
+    ]
+    res_wrong = verify_outbound_pack(expected, detected_wrong)
+    assert res_wrong.verdict == PackVerdict.STOP_AND_FIX
+    assert any(i.type == "wrong_item" and i.sku == "SKU-EXTRA-MUG" for i in res_wrong.issues)

@@ -15,6 +15,13 @@ from receiving_manager.integrations.prep import (
     PrepWorkOrder,
     create_prep_dispatch,
 )
+from receiving_manager.integrations.pack import (
+    PackDetectedItem,
+    PackOrderItem,
+    PackVerificationResult,
+    create_pack_manifest_from_inbound,
+    verify_outbound_pack,
+)
 from receiving_manager.integrations.returns import (
     ReturnAssessmentQuery,
     ReturnCorrelationResult,
@@ -89,6 +96,27 @@ class CrossPodIntegrationService:
             photo_hashes=photo_refs,
         )
 
+    def get_pack_manifest(self, unit_id: str) -> list[PackOrderItem]:
+        """Provides outbound packaging BOM derived from inbound dock receipt."""
+        rec = self.get_unit_inbound_record(unit_id) or {"sku": "SKU-UNKNOWN", "product_title": "General Goods"}
+        return create_pack_manifest_from_inbound(rec)
+
+    def verify_outbound_pack_for_unit(
+        self,
+        unit_id: str,
+        detected_items: list[PackDetectedItem],
+    ) -> PackVerificationResult:
+        """Verifies packed outbound carton against inbound BOM before sealing."""
+        rec = self.get_unit_inbound_record(unit_id) or {}
+        expected = self.get_pack_manifest(unit_id)
+        record_id = rec.get("record_id", f"RCV-{unit_id}")
+        return verify_outbound_pack(
+            expected_items=expected,
+            detected_items=detected_items,
+            unit_id=unit_id,
+            inbound_record_id=record_id,
+        )
+
     def correlate_customer_return(
         self,
         query: ReturnAssessmentQuery,
@@ -131,6 +159,13 @@ class CrossPodIntegrationService:
                     "repo": "maithripagidi3284-coder/cube26-prp-0153",
                     "status": "INTEGRATED_HANDOFF",
                     "role": "Downstream compliance: polybagging, suffocation warnings, FNSKU re-labeling, re-boxing",
+                },
+                "PCK": {
+                    "stage": "03",
+                    "name": "Pack Manager",
+                    "repo": "varalakshmikonjeti/cube26-pck-0168-varalakshmikonjeti",
+                    "status": "INTEGRATED_PACK_VERIFY",
+                    "role": "Outbound carton verification, pre-seal inspection, kit BOM validation, mis-ship prevention",
                 },
                 "RTM": {
                     "stage": "04",
